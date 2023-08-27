@@ -21,6 +21,7 @@ from openapi_server import util
 from openapi_server.views import user
 from openapi_server.views import cfa
 from openapi_server.views import cfa_image
+from views import offer
 
 
 def cfa_cfa_token_get(cfa_token):  # noqa: E501
@@ -177,7 +178,15 @@ def offer_create_post():  # noqa: E501
     """
     if connexion.request.is_json:
         create_offer_dto = CreateOfferDTO.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        user_id = 1
+
+        try:
+            offer.create(user_id, create_offer_dto)
+            return "Offer create success", 201
+        except Exception as e:
+            return str(e), 400
+
+    return 'invalid data in request', 400
 
 
 def offer_list_cfa_image_id_get(cfa_image_id):  # noqa: E501
