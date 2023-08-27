@@ -15,6 +15,7 @@ from openapi_server.models.inline_response2005 import InlineResponse2005  # noqa
 from openapi_server.models.inline_response2006 import InlineResponse2006  # noqa: E501
 from openapi_server import util
 from views import user
+from views import cfa_image
 
 
 def cfa_cfa_token_get(cfa_token):  # noqa: E501
@@ -56,7 +57,13 @@ def cfa_image_create_post():  # noqa: E501
     if connexion.request.is_json:
         create_cfa_image = CreateCfaImageDTO.from_dict(connexion.request.get_json())  # noqa: E501
 
-    return 'do some magic!'
+        try:
+            cfa_image.create_cfa_image(1, create_cfa_image)
+            return None, 200
+        except Exception as e:
+            return str(e), 401
+
+    return "Request has no data", 401
 
 
 def cfa_image_list_get():  # noqa: E501
