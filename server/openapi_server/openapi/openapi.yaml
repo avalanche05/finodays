@@ -1,0 +1,550 @@
+openapi: 3.0.0
+info:
+  title: CFA API
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /cfa-image/create:
+    post:
+      operationId: cfa_image_create_post
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_2'
+        content:
+          application/json:
+            schema:
+              properties:
+                title:
+                  type: string
+                count:
+                  type: integer
+                description:
+                  type: string
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+      - BearerAuth: []
+      summary: Создать новый CFA Image (Требуется Bearer-токен)
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /cfa-image/list:
+    get:
+      operationId: cfa_image_list_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/inline_response_200_2'
+                type: array
+          description: Успешный ответ
+      summary: Получить список изображений CFA
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /cfa-image/price/{cfa-image-id}:
+    get:
+      operationId: cfa_image_price_cfa_image_id_get
+      parameters:
+      - explode: false
+        in: path
+        name: cfa-image-id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+          description: Успешный ответ
+        "404":
+          description: Изображение CFA не найдено
+      summary: Получить цену изображения CFA на основе рыночных предложений
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /cfa/history/{cfa-token}:
+    get:
+      operationId: cfa_history_cfa_token_get
+      parameters:
+      - explode: false
+        in: path
+        name: cfa-token
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/inline_response_200_5'
+                type: array
+          description: Успешный ответ
+        "404":
+          description: CFA не найден
+      summary: Получить историю сделок для CFA по его токену
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /cfa/list/{cfa-image-id}:
+    get:
+      operationId: cfa_list_cfa_image_id_get
+      parameters:
+      - explode: false
+        in: path
+        name: cfa-image-id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/inline_response_200_4'
+                type: array
+          description: Успешный ответ
+        "404":
+          description: Изображение CFA не найдено
+      summary: Получить список CFAs для изображения CFA
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /cfa/{cfa-token}:
+    get:
+      operationId: cfa_cfa_token_get
+      parameters:
+      - explode: false
+        in: path
+        name: cfa-token
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_4'
+          description: Успешный ответ
+        "404":
+          description: CFA не найден
+      summary: Получить информацию о CFA по его токену
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /cfa/{user-id}:
+    get:
+      operationId: cfa_user_id_get
+      parameters:
+      - explode: false
+        in: path
+        name: user-id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/inline_response_200'
+                type: array
+          description: Успешный ответ
+        "404":
+          description: Пользователь не найден
+      summary: Получить список CFA для пользователя
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /login:
+    post:
+      operationId: login_post
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_1'
+        content:
+          application/json:
+            schema:
+              properties:
+                login:
+                  type: string
+                password:
+                  type: string
+              type: object
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+          description: Успешный ответ
+        "401":
+          description: Неверные учетные данные
+      summary: Войти как пользователь
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /offer/buy/{offer-id}:
+    post:
+      operationId: offer_buy_offer_id_post
+      parameters:
+      - explode: false
+        in: path
+        name: offer-id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_4'
+        content:
+          application/json:
+            schema:
+              properties:
+                count:
+                  type: integer
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+        "404":
+          description: Предложение не найдено
+        "409":
+          description: Недостаточно товара для покупки
+      security:
+      - BearerAuth: []
+      summary: Купить предложение (Требуется Bearer-токен)
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /offer/create:
+    post:
+      operationId: offer_create_post
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object_3'
+        content:
+          application/json:
+            schema:
+              properties:
+                cfa_image_id:
+                  type: integer
+                count:
+                  type: integer
+                price:
+                  type: integer
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+      - BearerAuth: []
+      summary: Создать новое предложение (Требуется Bearer-токен)
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /offer/list/{cfa-image-id}:
+    get:
+      operationId: offer_list_cfa_image_id_get
+      parameters:
+      - explode: false
+        in: path
+        name: cfa-image-id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/inline_response_200_6'
+                type: array
+          description: Успешный ответ
+        "404":
+          description: Изображение CFA не найдено
+      summary: Получить список предложений для изображения CFA
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /register:
+    post:
+      operationId: register_post
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          application/json:
+            schema:
+              properties:
+                login:
+                  type: string
+                username:
+                  type: string
+                name:
+                  type: string
+                password:
+                  type: string
+              type: object
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+          description: Успешный ответ
+        "400":
+          description: Некорректный запрос
+      summary: Зарегистрировать нового пользователя
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /trade/list:
+    get:
+      operationId: trade_list_get
+      parameters:
+      - explode: true
+        in: query
+        name: cfa-token
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/inline_response_200_5'
+                type: array
+          description: Успешный ответ
+      summary: Получить список сделок
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /trade/{trade-id}:
+    get:
+      operationId: trade_trade_id_get
+      parameters:
+      - explode: false
+        in: path
+        name: trade-id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_5'
+          description: Успешный ответ
+        "404":
+          description: Сделка не найдена
+      summary: Получить информацию о сделке по ее ID
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+components:
+  requestBodies:
+    inline_object_1:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_1'
+      required: true
+    inline_object:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+      required: true
+    inline_object_4:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_4'
+      required: true
+    inline_object_3:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_3'
+      required: true
+    inline_object_2:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_2'
+      required: true
+  schemas:
+    User:
+      properties:
+        id:
+          type: integer
+        login:
+          type: string
+        username:
+          type: string
+        name:
+          type: string
+        balance:
+          type: integer
+      type: object
+    CfaImage:
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        count:
+          type: integer
+        description:
+          type: string
+      type: object
+    Cfa:
+      properties:
+        token:
+          type: string
+        cfa_image_id:
+          type: integer
+        user_id:
+          type: integer
+      type: object
+    inline_response_200:
+      example:
+        count: 6
+        cfa_image_id: 0
+      properties:
+        cfa_image_id:
+          type: integer
+        count:
+          type: integer
+    inline_object:
+      properties:
+        login:
+          type: string
+        username:
+          type: string
+        name:
+          type: string
+        password:
+          type: string
+      type: object
+    inline_response_200_1:
+      example:
+        bearer_token: bearer_token
+        user_id: 0
+      properties:
+        user_id:
+          type: integer
+        bearer_token:
+          type: string
+    inline_object_1:
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+      type: object
+    inline_response_200_2:
+      example:
+        count: 6
+        description: description
+        id: 0
+        title: title
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        count:
+          type: integer
+        description:
+          type: string
+    inline_response_200_3:
+      example:
+        price: 0
+      properties:
+        price:
+          type: integer
+    inline_object_2:
+      properties:
+        title:
+          type: string
+        count:
+          type: integer
+        description:
+          type: string
+      type: object
+    inline_response_200_4:
+      example:
+        user_id: 6
+        cfa_image_id: 0
+        token: token
+      properties:
+        token:
+          type: string
+        cfa_image_id:
+          type: integer
+        user_id:
+          type: integer
+    inline_response_200_5:
+      example:
+        date: date
+        cfa_token: cfa_token
+        price: 6
+        id: 0
+        buyer_id: 1
+        seller_id: 5
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+        cfa_token:
+          type: string
+        price:
+          type: integer
+        buyer_id:
+          type: integer
+        seller_id:
+          type: integer
+    inline_object_3:
+      properties:
+        cfa_image_id:
+          type: integer
+        count:
+          type: integer
+        price:
+          type: integer
+      type: object
+    inline_response_200_6:
+      example:
+        price: 5
+        count: 1
+        id: 0
+        cfa_image_id: 6
+        seller_id: 5
+      properties:
+        id:
+          type: integer
+        cfa_image_id:
+          type: integer
+        count:
+          type: integer
+        price:
+          type: integer
+        seller_id:
+          type: integer
+    inline_object_4:
+      properties:
+        count:
+          type: integer
+      type: object
+  securitySchemes:
+    BearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+      x-bearerInfoFunc: openapi_server.controllers.security_controller_.info_from_BearerAuth
