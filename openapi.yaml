@@ -56,12 +56,14 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  cfa_image_id:
-                    type: integer
-                  count:
-                    type: integer
+                type: array
+                items:
+                  type: object
+                  properties:
+                    cfa_image_id:
+                      type: integer
+                    count:
+                      type: integer
         404:
           description: Пользователь не найден
   /register:
@@ -166,9 +168,9 @@ paths:
                     type: integer
         404:
           description: Изображение CFA не найдено
-  /cfa/create:
+  /cfa-image/create:
     post:
-      summary: Создать новый CFA (Требуется Bearer-токен)
+      summary: Создать новый CFA Image (Требуется Bearer-токен)
       security:
         - BearerAuth: []
       requestBody:
@@ -178,12 +180,12 @@ paths:
             schema:
               type: object
               properties:
-                token:
+                title:
                   type: string
-                cfa_image_id:
+                count:
                   type: integer
-                user_id:
-                  type: integer
+                description:
+                  type: string
       responses:
         200:
           description: Успешный ответ
@@ -274,9 +276,9 @@ paths:
                       type: integer
         404:
           description: CFA не найден
-  /trade/list/{cfa-token}:
+  /trade/list:
     get:
-      summary: Получить список сделок (опционально фильтр по токену CFA)
+      summary: Получить список сделок
       parameters:
         - name: cfa-token
           in: query
@@ -352,8 +354,6 @@ paths:
                 count:
                   type: integer
                 price:
-                  type: integer
-                seller_id:
                   type: integer
       responses:
         200:
