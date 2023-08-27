@@ -10,5 +10,6 @@ class Token(SqlAlchemyBase, SerializerMixin):
 
     value = sqlalchemy.Column(sqlalchemy.String,
                               primary_key=True)
-    user_id = sqlalchemy.Column(sqlalchemy.Integer)
+    user_id = sqlalchemy.Column(sqlalchemy.Integer,
+                                sqlalchemy.ForeignKey("user.id"))
     is_alive = sqlalchemy.Column(sqlalchemy.Boolean)

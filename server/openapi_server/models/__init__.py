@@ -6,7 +6,7 @@ from __future__ import absolute_import
 from openapi_server.models.cfa import Cfa
 from openapi_server.models.cfa_image import CfaImage
 from openapi_server.models.register_user_dto import RegisterUserDTO
-from openapi_server.models.inline_object1 import InlineObject1
+from openapi_server.models.inline_object1 import LoginUserDTO
 from openapi_server.models.inline_object2 import InlineObject2
 from openapi_server.models.inline_object3 import InlineObject3
 from openapi_server.models.inline_object4 import InlineObject4

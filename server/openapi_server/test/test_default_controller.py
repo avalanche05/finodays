@@ -7,7 +7,7 @@ from flask import json
 from six import BytesIO
 
 from openapi_server.models.register_user_dto import RegisterUserDTO  # noqa: E501
-from openapi_server.models.inline_object1 import InlineObject1  # noqa: E501
+from openapi_server.models.inline_object1 import LoginUserDTO  # noqa: E501
 from openapi_server.models.inline_object2 import InlineObject2  # noqa: E501
 from openapi_server.models.inline_object3 import InlineObject3  # noqa: E501
 from openapi_server.models.inline_object4 import InlineObject4  # noqa: E501

@@ -1,4 +1,4 @@
-from models import RegisterUserDTO
+from models import RegisterUserDTO, LoginUserDTO
 from data import db_session
 from data.user import User
 from data.token import Token
@@ -23,6 +23,7 @@ def register(register_user_dto: RegisterUserDTO):
     new_user.balance = 0
 
     db_sess.add(new_user)
+    db_sess.commit()
 
     token = Token()
     token.value = generator.generate_bearer_token()
@@ -34,3 +35,7 @@ def register(register_user_dto: RegisterUserDTO):
 
     response = RegisterResponse200(new_user.id, token.value)
     return response
+
+
+def login(login_user_dto: LoginUserDTO):
+    db_sess = db_session.create_session()

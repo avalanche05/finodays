@@ -2,7 +2,7 @@ import connexion
 import six
 
 from openapi_server.models.register_user_dto import RegisterUserDTO  # noqa: E501
-from openapi_server.models.inline_object1 import InlineObject1  # noqa: E501
+from openapi_server.models.inline_object1 import LoginUserDTO  # noqa: E501
 from openapi_server.models.inline_object2 import InlineObject2  # noqa: E501
 from openapi_server.models.inline_object3 import InlineObject3  # noqa: E501
 from openapi_server.models.inline_object4 import InlineObject4  # noqa: E501
@@ -108,7 +108,7 @@ def cfa_user_id_get(user_id):  # noqa: E501
     return 'do some magic!'
 
 
-def login_post(inline_object1):  # noqa: E501
+def login_post():  # noqa: E501
     """Войти как пользователь
 
      # noqa: E501
@@ -119,7 +119,8 @@ def login_post(inline_object1):  # noqa: E501
     :rtype: RegisterResponse200
     """
     if connexion.request.is_json:
-        inline_object1 = InlineObject1.from_dict(connexion.request.get_json())  # noqa: E501
+        login_user_dto = LoginUserDTO.from_dict(connexion.request.get_json())  # noqa: E501
+
     return 'do some magic!'
 
 
@@ -172,9 +173,6 @@ def register_post():  # noqa: E501
     """Зарегистрировать нового пользователя
 
      # noqa: E501
-
-    :param inline_object: 
-    :type inline_object: dict | bytes
 
     :rtype: RegisterResponse200
     """
