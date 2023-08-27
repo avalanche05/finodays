@@ -1,7 +1,10 @@
+from typing import List
+
 import openapi_server.models as models
 import data.__all_models as db_models
 from data import db_session
 from openapi_server.views import cfa
+from openapi_server.models.cfa_image import CfaImage
 
 
 def create_cfa_image(user_id: int, create_cfo_image_dto: models.CreateCfaImageDTO):
@@ -18,3 +21,31 @@ def create_cfa_image(user_id: int, create_cfo_image_dto: models.CreateCfaImageDT
     for _ in range(create_cfo_image_dto.count):
         cfa.create_cfa(user_id, cfa_image.id)
     return True
+
+
+def get_cfa_images_list() -> List[CfaImage]:
+    db_sess = db_session.create_session()
+    cfa_images = db_sess.query(db_models.cfa_image.CfaImage).all()
+
+    result = []
+    for cfa_image in cfa_images:
+        result.append(
+            CfaImage(
+                id=cfa_image.id,
+                title=cfa_image.title,
+                count=cfa_image.count,
+                description=cfa_image.description,
+                user_id=cfa_image.user_id
+            )
+        )
+
+    return result
+
+
+def get_lower_price(cfa_image_id: int):
+    db_sess = db_session.create_session()
+
+    cheapest_order = db_sess.query(db_models.offer.Offer).filter(
+        db_models.offer.Offer.cfa_image_id == cfa_image_id).order_by(db_models.offer.Offer.price).first()
+
+    return cheapest_order.price

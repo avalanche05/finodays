@@ -1,8 +1,7 @@
 from data import db_session
-from models import CfaDTO
+from openapi_server.models import CfaDTO
 from utils import generator
 import data.__all_models as db_models
-import models
 
 
 def create_cfa(user_id: int, cfa_image_id: int):

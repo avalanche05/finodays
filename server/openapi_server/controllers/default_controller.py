@@ -77,7 +77,9 @@ def cfa_image_list_get():  # noqa: E501
 
     :rtype: List[CfaImageDTO]
     """
-    return 'do some magic!'
+
+    cfa_images = cfa_image.get_cfa_images_list()
+    return cfa_images, 200
 
 
 def cfa_image_price_cfa_image_id_get(cfa_image_id):  # noqa: E501
@@ -90,7 +92,13 @@ def cfa_image_price_cfa_image_id_get(cfa_image_id):  # noqa: E501
 
     :rtype: CfaPriceDTO
     """
-    return 'do some magic!'
+
+    try:
+        price = cfa_image.get_lower_price(cfa_image_id)
+    except Exception as e:
+        return str(e), 404
+
+    return CfaPriceDTO(price=price)
 
 
 def cfa_list_cfa_image_id_get(cfa_image_id):  # noqa: E501
