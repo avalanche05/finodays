@@ -19,7 +19,7 @@ const SignUp = () => {
                 messageApi.success('Вы успешно зарегистрировались');
 
                 setTimeout(() => {
-                    window.location.href = '/dashboard';
+                    window.location.href = '/dashboard/profile';
                 }, 100);
             })
             .catch(() => {

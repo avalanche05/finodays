@@ -3,9 +3,11 @@ import { createBrowserRouter } from 'react-router-dom';
 import SignUp from '../pages/SignUp';
 import Login from '../pages/Login';
 import ProtectedRoute from './ProtectedRoute';
-import Dashboard from '../pages/Dashboard';
 import AuthService from '../api/AuthService';
 import UnauthorizedOnlyRoute from './UnauthorizedOnlyRoute';
+import DashboardLayout from '../components/DashboardLayout';
+import MyCfas from '../pages/MyCfas';
+import Profile from '../pages/Profile';
 
 export const router = createBrowserRouter([
     {
@@ -28,15 +30,26 @@ export const router = createBrowserRouter([
         path: '/dashboard',
         element: (
             <ProtectedRoute isSignedIn={AuthService.isAuthorized()}>
-                <Dashboard />
+                <DashboardLayout />
             </ProtectedRoute>
         ),
+        children: [
+            {
+                path: '/dashboard/profile',
+                element: <Profile />,
+            },
+            {
+                path: '/dashboard/my-cfas',
+                element: <MyCfas />,
+            },
+        ],
     },
+
     {
         path: '*',
         element: (
             <ProtectedRoute isSignedIn={false}>
-                <Dashboard />
+                <DashboardLayout />
             </ProtectedRoute>
         ),
     },
