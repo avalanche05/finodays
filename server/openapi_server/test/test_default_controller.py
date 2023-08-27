@@ -7,17 +7,17 @@ from flask import json
 from six import BytesIO
 
 from openapi_server.models.register_user_dto import RegisterUserDTO  # noqa: E501
-from openapi_server.models.inline_object1 import LoginUserDTO  # noqa: E501
+from openapi_server.models.login_user_dto import LoginUserDTO  # noqa: E501
 from openapi_server.models.inline_object2 import CreateCfaImageDTO  # noqa: E501
 from openapi_server.models.inline_object3 import InlineObject3  # noqa: E501
 from openapi_server.models.inline_object4 import InlineObject4  # noqa: E501
 from openapi_server.models.inline_response200 import InlineResponse200  # noqa: E501
-from openapi_server.models.register_response200 import LoginResponse200  # noqa: E501
-from openapi_server.models.inline_response2002 import InlineResponse2002  # noqa: E501
-from openapi_server.models.inline_response2003 import InlineResponse2003  # noqa: E501
-from openapi_server.models.inline_response2004 import InlineResponse2004  # noqa: E501
-from openapi_server.models.inline_response2005 import InlineResponse2005  # noqa: E501
-from openapi_server.models.inline_response2006 import InlineResponse2006  # noqa: E501
+from openapi_server.models.login_response200 import LoginResponse200  # noqa: E501
+from openapi_server.models.cfa_image_dto import CfaImageDTO  # noqa: E501
+from openapi_server.models.cfa_price_dto import CfaPriceDTO  # noqa: E501
+from openapi_server.models.cfa_dto import CfaDTO  # noqa: E501
+from openapi_server.models.trade_dto import TradeDTO  # noqa: E501
+from openapi_server.models.offer_dto import OfferDTO  # noqa: E501
 from openapi_server.test import BaseTestCase
 
 
