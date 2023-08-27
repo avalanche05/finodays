@@ -9,7 +9,7 @@ paths:
     post:
       operationId: cfa_image_create_post
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_2'
+        $ref: '#/components/requestBodies/create_cfa_image_dto'
         content:
           application/json:
             schema:
@@ -40,7 +40,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/inline_response_200_2'
+                  $ref: '#/components/schemas/cfa_image_dto'
                 type: array
           description: Успешный ответ
       summary: Получить список изображений CFA
@@ -61,7 +61,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_3'
+                $ref: '#/components/schemas/cfa_price_dto'
           description: Успешный ответ
         "404":
           description: Изображение CFA не найдено
@@ -84,7 +84,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/inline_response_200_5'
+                  $ref: '#/components/schemas/trade_dto'
                 type: array
           description: Успешный ответ
         "404":
@@ -108,7 +108,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/inline_response_200_4'
+                  $ref: '#/components/schemas/cfa_dto'
                 type: array
           description: Успешный ответ
         "404":
@@ -131,7 +131,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_4'
+                $ref: '#/components/schemas/cfa_dto'
           description: Успешный ответ
         "404":
           description: CFA не найден
@@ -154,7 +154,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/inline_response_200'
+                  $ref: '#/components/schemas/user_cfa_dto'
                 type: array
           description: Успешный ответ
         "404":
@@ -165,7 +165,7 @@ paths:
     post:
       operationId: login_post
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
+        $ref: '#/components/requestBodies/login_user_dto'
         content:
           application/json:
             schema:
@@ -181,7 +181,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_1'
+                $ref: '#/components/schemas/login_response_200'
           description: Успешный ответ
         "401":
           description: Неверные учетные данные
@@ -199,7 +199,7 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_4'
+        $ref: '#/components/requestBodies/accept_offer_dto'
         content:
           application/json:
             schema:
@@ -225,7 +225,7 @@ paths:
     post:
       operationId: offer_create_post
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_3'
+        $ref: '#/components/requestBodies/create_offer_dto'
         content:
           application/json:
             schema:
@@ -264,7 +264,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/inline_response_200_6'
+                  $ref: '#/components/schemas/offer_dto'
                 type: array
           description: Успешный ответ
         "404":
@@ -275,7 +275,7 @@ paths:
     post:
       operationId: register_post
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
+        $ref: '#/components/requestBodies/register_user_dto'
         content:
           application/json:
             schema:
@@ -295,7 +295,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_1'
+                $ref: '#/components/schemas/login_response_200'
           description: Успешный ответ
         "400":
           description: Некорректный запрос
@@ -318,7 +318,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/inline_response_200_5'
+                  $ref: '#/components/schemas/trade_dto'
                 type: array
           description: Успешный ответ
       summary: Получить список сделок
@@ -339,43 +339,60 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_5'
+                $ref: '#/components/schemas/trade_dto'
           description: Успешный ответ
         "404":
           description: Сделка не найдена
       summary: Получить информацию о сделке по ее ID
       x-openapi-router-controller: openapi_server.controllers.default_controller
+  /profile:
+    get:
+      operationId: profile_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_response_200'
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+      - BearerAuth: []
+      summary: Получить информацию о своём профиле
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+
 components:
   requestBodies:
-    inline_object_1:
+    login_user_dto:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/inline_object_1'
+            $ref: '#/components/schemas/login_user_dto'
       required: true
-    inline_object:
+    register_user_dto:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/inline_object'
+            $ref: '#/components/schemas/register_user_dto'
       required: true
-    inline_object_4:
+    accept_offer_dto:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/inline_object_4'
+            $ref: '#/components/schemas/accept_offer_dto'
       required: true
-    inline_object_3:
+    create_offer_dto:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/inline_object_3'
+            $ref: '#/components/schemas/create_offer_dto'
       required: true
-    inline_object_2:
+    create_cfa_image_dto:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/inline_object_2'
+            $ref: '#/components/schemas/create_cfa_image_dto'
       required: true
   schemas:
     User:
@@ -413,7 +430,7 @@ components:
         user_id:
           type: integer
       type: object
-    inline_response_200:
+    user_cfa_dto:
       example:
         count: 6
         cfa_image_id: 0
@@ -422,7 +439,7 @@ components:
           type: integer
         count:
           type: integer
-    inline_object:
+    register_user_dto:
       properties:
         login:
           type: string
@@ -433,7 +450,7 @@ components:
         password:
           type: string
       type: object
-    inline_response_200_1:
+    login_response_200:
       example:
         bearer_token: bearer_token
         user_id: 0
@@ -442,14 +459,14 @@ components:
           type: integer
         bearer_token:
           type: string
-    inline_object_1:
+    login_user_dto:
       properties:
         login:
           type: string
         password:
           type: string
       type: object
-    inline_response_200_2:
+    cfa_image_dto:
       example:
         count: 6
         description: description
@@ -464,13 +481,13 @@ components:
           type: integer
         description:
           type: string
-    inline_response_200_3:
+    cfa_price_dto:
       example:
         price: 0
       properties:
         price:
           type: integer
-    inline_object_2:
+    create_cfa_image_dto:
       properties:
         title:
           type: string
@@ -479,7 +496,7 @@ components:
         description:
           type: string
       type: object
-    inline_response_200_4:
+    cfa_dto:
       example:
         user_id: 6
         cfa_image_id: 0
@@ -491,7 +508,7 @@ components:
           type: integer
         user_id:
           type: integer
-    inline_response_200_5:
+    trade_dto:
       example:
         date: date
         cfa_token: cfa_token
@@ -512,7 +529,7 @@ components:
           type: integer
         seller_id:
           type: integer
-    inline_object_3:
+    create_offer_dto:
       properties:
         cfa_image_id:
           type: integer
@@ -521,7 +538,7 @@ components:
         price:
           type: integer
       type: object
-    inline_response_200_6:
+    offer_dto:
       example:
         price: 5
         count: 1
@@ -539,7 +556,7 @@ components:
           type: integer
         seller_id:
           type: integer
-    inline_object_4:
+    accept_offer_dto:
       properties:
         count:
           type: integer

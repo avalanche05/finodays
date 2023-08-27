@@ -15,6 +15,7 @@ from openapi_server.models.trade_dto import TradeDTO  # noqa: E501
 from openapi_server.models.offer_dto import OfferDTO  # noqa: E501
 from openapi_server import util
 from openapi_server.views import user
+from openapi_server.views import cfa
 from openapi_server.views import cfa_image
 
 
@@ -28,7 +29,8 @@ def cfa_cfa_token_get(cfa_token):  # noqa: E501
 
     :rtype: CfaDTO
     """
-    return 'do some magic!'
+
+    return cfa.get_cfa(cfa_token)
 
 
 def cfa_history_cfa_token_get(cfa_token):  # noqa: E501
@@ -41,16 +43,13 @@ def cfa_history_cfa_token_get(cfa_token):  # noqa: E501
 
     :rtype: List[TradeDTO]
     """
-    return 'do some magic!'
+    return cfa.get_cfa_history(cfa_token)
 
 
 def cfa_image_create_post():  # noqa: E501
     """Создать новый CFA Image (Требуется Bearer-токен)
 
      # noqa: E501
-
-    :param create_cfa_image:
-    :type create_cfa_image: dict | bytes
 
     :rtype: None
     """
@@ -121,47 +120,41 @@ def login_post():  # noqa: E501
 
      # noqa: E501
 
-    :param inline_object1: 
-    :type inline_object1: dict | bytes
-
     :rtype: LoginResponse200
     """
     if connexion.request.is_json:
         login_user_dto = LoginUserDTO.from_dict(connexion.request.get_json())  # noqa: E501
 
         return user.login(login_user_dto)
-    return None, 401
+    return "Invalid credentials", 401
 
 
-def offer_buy_offer_id_post(offer_id, inline_object4):  # noqa: E501
+def offer_buy_offer_id_post(offer_id, accept_offer_dto):  # noqa: E501
     """Купить предложение (Требуется Bearer-токен)
 
      # noqa: E501
 
     :param offer_id: 
     :type offer_id: int
-    :param inline_object4: 
-    :type inline_object4: dict | bytes
+    :param accept_offer_dto:
+    :type accept_offer_dto: dict | bytes
 
     :rtype: None
     """
     if connexion.request.is_json:
-        inline_object4 = AcceptOfferDTO.from_dict(connexion.request.get_json())  # noqa: E501
+        accept_offer_dto = AcceptOfferDTO.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
-def offer_create_post(inline_object3):  # noqa: E501
+def offer_create_post():  # noqa: E501
     """Создать новое предложение (Требуется Bearer-токен)
 
      # noqa: E501
 
-    :param inline_object3: 
-    :type inline_object3: dict | bytes
-
     :rtype: None
     """
     if connexion.request.is_json:
-        inline_object3 = CreateOfferDTO.from_dict(connexion.request.get_json())  # noqa: E501
+        create_offer_dto = CreateOfferDTO.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
@@ -190,7 +183,7 @@ def register_post():  # noqa: E501
 
         return user.register(register_user_dto)
 
-    return None, 400
+    return "Invalid request", 400
 
 
 def trade_list_get(cfa_token=None):  # noqa: E501
@@ -213,6 +206,15 @@ def trade_trade_id_get(trade_id):  # noqa: E501
 
     :param trade_id: 
     :type trade_id: int
+
+    :rtype: TradeDTO
+    """
+    return 'do some magic!'
+
+def profile_get():
+    """Получить информацию о своём профиле
+
+     # noqa: E501
 
     :rtype: TradeDTO
     """

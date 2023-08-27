@@ -1,7 +1,6 @@
 from openapi_server.models import RegisterUserDTO, LoginUserDTO
 from data import db_session
-from data.user import User
-from data.token import Token
+import data.__all_models as db_models
 from sqlalchemy import or_
 from utils import generator
 from openapi_server.models import LoginResponse200
@@ -10,12 +9,12 @@ from openapi_server.models import LoginResponse200
 def register(register_user_dto: RegisterUserDTO):
     db_sess = db_session.create_session()
 
-    user = db_sess.query(User).filter(
-        or_(User.login == register_user_dto.login, User.username == register_user_dto.username))
+    user = db_sess.query(db_models.user.User).filter(or_(db_models.user.User.login == register_user_dto.login,
+                                                         db_models.user.User.username == register_user_dto.username))
 
     if user.first():
-        return None, 400
-    new_user = User()
+        return "Invalid request", 400
+    new_user = db_models.user.User()
     new_user.login = register_user_dto.login
     new_user.set_password(register_user_dto.password)
     new_user.username = register_user_dto.username
@@ -37,10 +36,10 @@ def register(register_user_dto: RegisterUserDTO):
 def login(login_user_dto: LoginUserDTO):
     db_sess = db_session.create_session()
 
-    user = db_sess.query(User).filter(
-        or_(User.login == login_user_dto.login, User.username == login_user_dto.login)).first()
+    user = db_sess.query(db_models.user.User).filter(or_(db_models.user.User.login == login_user_dto.login,
+                                                         db_models.user.User.username == login_user_dto.login)).first()
     if not user:
-        return None, 401
+        return "Invalid credentials", 401
     if user.check_password(login_user_dto.password):
         token = generator.generate_bearer_token(user)
 
@@ -49,4 +48,4 @@ def login(login_user_dto: LoginUserDTO):
 
         response = LoginResponse200(user.id, token.value)
         return response
-    return None, 401
+    return "Invalid credentials", 401
