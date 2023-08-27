@@ -35,9 +35,18 @@ def get_cfa_history(cfa_token: str):
     db_sess = db_session.create_session()
 
     history = db_sess.query(db_models.trade.Trade).filter(db_models.trade.Trade.cfa_token == cfa_token).order_by(
-        db_models.trade.Trade.date)
+        db_models.trade.Trade.date).all()
 
     if history:
         return history, 200
     else:
         return "CFA not found", 404
+
+
+def get_cfa_list(cfa_image_id: int):
+    db_sess = db_session.create_session()
+
+    cfa_list = db_sess.query(db_models.cfa.Cfa).filter(db_models.cfa.Cfa.cfa_image_id == cfa_image_id).all()
+
+    assert cfa_list, "CFA Image not found"
+    return cfa_list

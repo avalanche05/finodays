@@ -1,4 +1,4 @@
-from openapi_server.models import RegisterUserDTO, LoginUserDTO
+from openapi_server.models import RegisterUserDTO, LoginUserDTO, DepositValueDTO, WithdrawValueDTO
 from data import db_session
 import data.__all_models as db_models
 from sqlalchemy import or_
@@ -49,3 +49,46 @@ def login(login_user_dto: LoginUserDTO):
         response = LoginResponse200(user.id, token.value)
         return response
     return "Invalid credentials", 401
+
+
+def get_cfa_list(user_id: int):
+    db_sess = db_session.create_session()
+
+    user = db_sess.query(db_models.user.User).get(user_id)
+    assert user, "User not found"
+
+    user_cfas = db_sess.query(db_models.cfa.Cfa).filter(db_models.cfa.Cfa.user_id == user_id).all()
+
+    user_cfa_count = {}
+    for cfa in user_cfas:
+        user_cfa_count[cfa.cfa_image_id] = user_cfa_count.get(cfa.cfa_image_id, 0) + 1
+
+    result = []
+    for cfa_image, count in user_cfa_count.items():
+        result.append({
+            'cfa_image_id': cfa_image,
+            'count': count
+        })
+
+    return result
+
+
+def deposit_money(deposit_value_dto: DepositValueDTO, token: str):
+    db_sess = db_session.create_session()
+
+    token = db_sess.query(db_models.token.Token).get(token)
+    user = db_sess.query(db_models.user.User).get(token.user_id)
+    user.balance += deposit_value_dto.value
+
+    db_sess.commit()
+
+
+def withdraw_money(withdraw_value_dto: WithdrawValueDTO, token: str):
+    db_sess = db_session.create_session()
+
+    token = db_sess.query(db_models.token.Token).get(token)
+    user = db_sess.query(db_models.user.User).get(token.user_id)
+    user.balance -= withdraw_value_dto.value
+    assert user.balance >= 0
+
+    db_sess.commit()

@@ -111,7 +111,12 @@ def cfa_list_cfa_image_id_get(cfa_image_id):  # noqa: E501
 
     :rtype: List[CfaDTO]
     """
-    return 'do some magic!'
+
+    try:
+        cfa_list = cfa.get_cfa_list(cfa_image_id)
+        return cfa_list, 200
+    except Exception as e:
+        return str(e), 404
 
 
 def cfa_user_id_get(user_id):  # noqa: E501
@@ -124,7 +129,12 @@ def cfa_user_id_get(user_id):  # noqa: E501
 
     :rtype: List[UserCfaDTO]
     """
-    return 'do some magic!'
+
+    try:
+        user_cfas = user.get_cfa_list(user_id)
+        return user_cfas, 200
+    except Exception as e:
+        return str(e), 404
 
 
 def login_post():  # noqa: E501
@@ -252,9 +262,16 @@ def user_deposit_post():
     :rtype: None
     """
     if connexion.request.is_json:
+        token = connexion.request.headers.get('Authorization').split()[1]
         deposit_value_dto = DepositValueDTO.from_dict(connexion.request.get_json())  # noqa: E501
 
-    return 'do some magic!'
+        try:
+            user.deposit_money(deposit_value_dto, token)
+            return None, 200
+        except Exception as e:
+            return str(e), 401
+
+    return "Invalid credentials", 401
 
 
 def user_withdraw_post():
@@ -265,6 +282,13 @@ def user_withdraw_post():
     :rtype: None
     """
     if connexion.request.is_json:
+        token = connexion.request.headers.get('Authorization').split()[1]
         withdraw_value_dto = WithdrawValueDTO.from_dict(connexion.request.get_json())  # noqa: E501
 
-    return 'do some magic!'
+        try:
+            user.withdraw_money(withdraw_value_dto, token)
+            return None, 200
+        except Exception as e:
+            return str(e), 401
+
+    return "Invalid credentials", 401

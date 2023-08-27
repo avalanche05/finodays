@@ -18,3 +18,6 @@ from openapi_server.models.cfa_dto import CfaDTO
 from openapi_server.models.trade_dto import TradeDTO
 from openapi_server.models.offer_dto import OfferDTO
 from openapi_server.models.user import User
+from openapi_server.models.deposit_value_dto import DepositValueDTO
+from openapi_server.models.withdraw_value_dto import WithdrawValueDTO
+from openapi_server.models.public_user import PublicUser
