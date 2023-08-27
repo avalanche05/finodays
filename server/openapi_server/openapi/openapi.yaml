@@ -304,14 +304,6 @@ paths:
   /trade/list:
     get:
       operationId: trade_list_get
-      parameters:
-      - explode: true
-        in: query
-        name: cfa-token
-        required: false
-        schema:
-          type: string
-        style: form
       responses:
         "200":
           content:
@@ -353,7 +345,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/login_response_200'
+                $ref: '#/components/schemas/User'
           description: Успешный ответ
         "401":
           description: Неверный Bearer-токен
@@ -361,9 +353,89 @@ paths:
       - BearerAuth: []
       summary: Получить информацию о своём профиле
       x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/{user-id}:
+    get:
+      operationId: user_user_id_get
+      parameters:
+        - explode: false
+          in: path
+          name: user-id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicUser'
+          description: Успешный ответ
+        "404":
+          description: Пользователь не найден
+      security:
+        - BearerAuth: [ ]
+      summary: Получить информацию о профиле другого пользователя
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/deposit:
+    post:
+      operationId: user_deposit_post
+      requestBody:
+        $ref: '#/components/requestBodies/deposit_value_dto'
+        content:
+          application/json:
+            schema:
+              properties:
+                count:
+                  type: integer
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Пополнить баланс
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/withdraw:
+    post:
+      operationId: user_withdraw_post
+      requestBody:
+        $ref: '#/components/requestBodies/withdraw_value_dto'
+        content:
+          application/json:
+            schema:
+              properties:
+                count:
+                  type: integer
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Вывести деньги с баланса
+      x-openapi-router-controller: openapi_server.controllers.default_controller
 
 components:
   requestBodies:
+    deposit_value_dto:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/deposit_value_dto'
+      required: true
+    withdraw_value_dto:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/withdraw_value_dto'
+      required: true
     login_user_dto:
       content:
         application/json:
@@ -408,6 +480,17 @@ components:
         balance:
           type: integer
       type: object
+    PublicUser:
+      properties:
+        id:
+          type: integer
+        login:
+          type: string
+        username:
+          type: string
+        name:
+          type: string
+      type: object
     CfaImage:
       properties:
         id:
@@ -428,6 +511,16 @@ components:
         cfa_image_id:
           type: integer
         user_id:
+          type: integer
+      type: object
+    deposit_value_dto:
+      properties:
+        value:
+          type: integer
+      type: object
+    withdraw_value_dto:
+      properties:
+        value:
           type: integer
       type: object
     user_cfa_dto:

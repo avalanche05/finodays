@@ -13,6 +13,10 @@ from openapi_server.models.cfa_price_dto import CfaPriceDTO  # noqa: E501
 from openapi_server.models.cfa_dto import CfaDTO  # noqa: E501
 from openapi_server.models.trade_dto import TradeDTO  # noqa: E501
 from openapi_server.models.offer_dto import OfferDTO  # noqa: E501
+from openapi_server.models.user import User
+from openapi_server.models.public_user import PublicUser
+from openapi_server.models.deposit_value_dto import DepositValueDTO
+from openapi_server.models.withdraw_value_dto import WithdrawValueDTO
 from openapi_server import util
 from openapi_server.views import user
 from openapi_server.views import cfa
@@ -211,11 +215,51 @@ def trade_trade_id_get(trade_id):  # noqa: E501
     """
     return 'do some magic!'
 
+
 def profile_get():
     """Получить информацию о своём профиле
 
-     # noqa: E501
+    # noqa: E501
 
-    :rtype: TradeDTO
+    :rtype: User
     """
+    return 'do some magic!'
+
+
+def user_user_id_get(user_id):
+    """Получить информацию о профиле другого пользователя
+
+    # noqa: E501
+
+    :param user_id:
+    :type user_id: int
+
+    :rtype: PublicUser
+    """
+    return 'do some magic!'
+
+
+def user_deposit_post():
+    """Получить информацию о профиле другого пользователя
+
+    # noqa: E501
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        deposit_value_dto = DepositValueDTO.from_dict(connexion.request.get_json())  # noqa: E501
+
+    return 'do some magic!'
+
+
+def user_withdraw_post():
+    """Получить информацию о профиле другого пользователя
+
+    # noqa: E501
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        withdraw_value_dto = WithdrawValueDTO.from_dict(connexion.request.get_json())  # noqa: E501
+
     return 'do some magic!'
