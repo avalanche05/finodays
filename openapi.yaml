@@ -1,0 +1,422 @@
+openapi: 3.0.0
+info:
+  title: CFA API
+  version: 1.0.0
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        login:
+          type: string
+        username:
+          type: string
+        name:
+          type: string
+        balance:
+          type: integer
+
+    CfaImage:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        count:
+          type: integer
+        description:
+          type: string
+
+    Cfa:
+      type: object
+      properties:
+        token:
+          type: string
+        cfa_image_id:
+          type: integer
+        user_id:
+          type: integer
+
+paths:
+  /cfa/{user-id}:
+    get:
+      summary: Получить список CFA для пользователя
+      parameters:
+        - name: user-id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cfa_image_id:
+                    type: integer
+                  count:
+                    type: integer
+        404:
+          description: Пользователь не найден
+  /register:
+    post:
+      summary: Зарегистрировать нового пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                username:
+                  type: string
+                name:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                  bearer_token:
+                    type: string
+        400:
+          description: Некорректный запрос
+  /login:
+    post:
+      summary: Войти как пользователь
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                  bearer_token:
+                    type: string
+        401:
+          description: Неверные учетные данные
+  /cfa-image/list:
+    get:
+      summary: Получить список изображений CFA
+      responses:
+        200:
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    title:
+                      type: string
+                    count:
+                      type: integer
+                    description:
+                      type: string
+  /cfa-image/price/{cfa-image-id}:
+    get:
+      summary: Получить цену изображения CFA на основе рыночных предложений
+      parameters:
+        - name: cfa-image-id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  price:
+                    type: integer
+        404:
+          description: Изображение CFA не найдено
+  /cfa/create:
+    post:
+      summary: Создать новый CFA (Требуется Bearer-токен)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                cfa_image_id:
+                  type: integer
+                user_id:
+                  type: integer
+      responses:
+        200:
+          description: Успешный ответ
+        401:
+          description: Неверный Bearer-токен
+  /cfa/list/{cfa-image-id}:
+    get:
+      summary: Получить список CFAs для изображения CFA
+      parameters:
+        - name: cfa-image-id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    token:
+                      type: string
+                    cfa_image_id:
+                      type: integer
+                    user_id:
+                      type: integer
+        404:
+          description: Изображение CFA не найдено
+  /cfa/{cfa-token}:
+    get:
+      summary: Получить информацию о CFA по его токену
+      parameters:
+        - name: cfa-token
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  cfa_image_id:
+                    type: integer
+                  user_id:
+                    type: integer
+        404:
+          description: CFA не найден
+  /cfa/history/{cfa-token}:
+    get:
+      summary: Получить историю сделок для CFA по его токену
+      parameters:
+        - name: cfa-token
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    date:
+                      type: string
+                    cfa_token:
+                      type: string
+                    price:
+                      type: integer
+                    buyer_id:
+                      type: integer
+                    seller_id:
+                      type: integer
+        404:
+          description: CFA не найден
+  /trade/list/{cfa-token}:
+    get:
+      summary: Получить список сделок (опционально фильтр по токену CFA)
+      parameters:
+        - name: cfa-token
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    date:
+                      type: string
+                    cfa_token:
+                      type: string
+                    price:
+                      type: integer
+                    buyer_id:
+                      type: integer
+                    seller_id:
+                      type: integer
+  /trade/{trade-id}:
+    get:
+      summary: Получить информацию о сделке по ее ID
+      parameters:
+        - name: trade-id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  date:
+                    type: string
+                  cfa_token:
+                    type: string
+                  price:
+                    type: integer
+                  buyer_id:
+                    type: integer
+                  seller_id:
+                    type: integer
+        404:
+          description: Сделка не найдена
+  /offer/create:
+    post:
+      summary: Создать новое предложение (Требуется Bearer-токен)
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cfa_image_id:
+                  type: integer
+                count:
+                  type: integer
+                price:
+                  type: integer
+                seller_id:
+                  type: integer
+      responses:
+        200:
+          description: Успешный ответ
+        401:
+          description: Неверный Bearer-токен
+  /offer/list/{cfa-image-id}:
+    get:
+      summary: Получить список предложений для изображения CFA
+      parameters:
+        - name: cfa-image-id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    cfa_image_id:
+                      type: integer
+                    count:
+                      type: integer
+                    price:
+                      type: integer
+                    seller_id:
+                      type: integer
+        404:
+          description: Изображение CFA не найдено
+  /offer/buy/{offer-id}:
+    post:
+      summary: Купить предложение (Требуется Bearer-токен)
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: offer-id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                count:
+                  type: integer
+      responses:
+        200:
+          description: Успешный ответ
+        401:
+          description: Неверный Bearer-токен
+        404:
+          description: Предложение не найдено
+        409:
+          description: Недостаточно товара для покупки
