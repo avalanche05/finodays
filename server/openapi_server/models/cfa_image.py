@@ -15,7 +15,7 @@ class CfaImage(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, title=None, count=None, description=None):  # noqa: E501
+    def __init__(self, id=None, title=None, count=None, description=None, user_id=None):  # noqa: E501
         """CfaImage - a model defined in OpenAPI
 
         :param id: The id of this CfaImage.  # noqa: E501
@@ -45,6 +45,7 @@ class CfaImage(Model):
         self._title = title
         self._count = count
         self._description = description
+        self._user_id = user_id
 
     @classmethod
     def from_dict(cls, dikt) -> 'CfaImage':
@@ -140,3 +141,25 @@ class CfaImage(Model):
         """
 
         self._description = description
+
+    @property
+    def user_id(self):
+        """Gets the user_id of this CfaImage.
+
+
+        :return: The user_id of this CfaImage.
+        :rtype: str
+        """
+        return self._user_id
+
+    @user_id.setter
+    def user_id(self, user_id):
+        """Sets the user_id of this CfaImage.
+
+
+        :param user_id: The title of this CfaImage.
+        :type user_id: str
+        """
+
+        self._user_id = user_id
+

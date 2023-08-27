@@ -13,3 +13,4 @@ class CfaImage(SqlAlchemyBase, SerializerMixin):
     count = sqlalchemy.Column(sqlalchemy.Integer)
     description = sqlalchemy.Column(sqlalchemy.String)
     title = sqlalchemy.Column(sqlalchemy.String)
+    user_id = sqlalchemy.Column(sqlalchemy.Integer)
