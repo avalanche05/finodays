@@ -190,15 +190,12 @@ def register_post():  # noqa: E501
     return "Invalid request", 400
 
 
-def trade_list_get(cfa_token=None):  # noqa: E501
+def trade_list_get():  # noqa: E501
     """Получить список сделок
 
      # noqa: E501
 
-    :param cfa_token: 
-    :type cfa_token: str
-
-    :rtype: List[InlineResponse2005]
+    :rtype: List[TradeDTO]
     """
     return 'do some magic!'
 
