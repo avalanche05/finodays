@@ -4,10 +4,12 @@ import connexion
 
 from openapi_server import encoder
 from data import db_session
+from flask_cors import CORS
 
 
 def main():
     app = connexion.App(__name__, specification_dir='./openapi/')
+    CORS(app, resources={r"/*": {"origins": "*"}})
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('openapi.yaml',
                 arguments={'title': 'CFA API'},
