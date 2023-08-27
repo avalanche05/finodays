@@ -21,7 +21,8 @@ from openapi_server import util
 from openapi_server.views import user
 from openapi_server.views import cfa
 from openapi_server.views import cfa_image
-from views import offer
+from openapi_server.views import offer
+from openapi_server.views import trade
 
 
 def cfa_cfa_token_get(cfa_token):  # noqa: E501
@@ -152,7 +153,7 @@ def login_post():  # noqa: E501
     return "Invalid credentials", 401
 
 
-def offer_buy_offer_id_post(offer_id, accept_offer_dto):  # noqa: E501
+def offer_buy_offer_id_post(offer_id):  # noqa: E501
     """Купить предложение (Требуется Bearer-токен)
 
      # noqa: E501
@@ -165,8 +166,20 @@ def offer_buy_offer_id_post(offer_id, accept_offer_dto):  # noqa: E501
     :rtype: None
     """
     if connexion.request.is_json:
-        accept_offer_dto = AcceptOfferDTO.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        accept_offer_dto = AcceptOfferDTO.from_dict(connexion.request.get_json())
+
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = user.get_profile(token).id
+
+        try:
+            offer.buy(offer_id=offer_id,
+                      user_id=user_id,
+                      count=accept_offer_dto.count)
+            return "Offer buy success", 201
+        except Exception as e:
+            return str(e), 400
+
+    return 'invalid data in request', 400
 
 
 def offer_create_post():  # noqa: E501
@@ -178,7 +191,8 @@ def offer_create_post():  # noqa: E501
     """
     if connexion.request.is_json:
         create_offer_dto = CreateOfferDTO.from_dict(connexion.request.get_json())  # noqa: E501
-        user_id = 1
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = user.get_profile(token).id
 
         try:
             offer.create(user_id, create_offer_dto)
@@ -199,7 +213,14 @@ def offer_list_cfa_image_id_get(cfa_image_id):  # noqa: E501
 
     :rtype: List[InlineResponse2006]
     """
-    return 'do some magic!'
+
+    try:
+        offers = offer.get_all_by_cfa_image_id(cfa_image_id)
+        return offers, 200
+    except Exception as e:
+        return str(e), 400
+
+    return "Invalid request", 400
 
 
 def register_post():  # noqa: E501
@@ -224,7 +245,9 @@ def trade_list_get():  # noqa: E501
 
     :rtype: List[TradeDTO]
     """
-    return 'do some magic!'
+
+    trades = trade.get_all()
+    return trades, 200
 
 
 def trade_trade_id_get(trade_id):  # noqa: E501
@@ -237,7 +260,8 @@ def trade_trade_id_get(trade_id):  # noqa: E501
 
     :rtype: TradeDTO
     """
-    return 'do some magic!'
+    result = trade.get_by_id(trade_id)
+    return result, 200
 
 
 def profile_get():

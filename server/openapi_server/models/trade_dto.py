@@ -21,11 +21,11 @@ class TradeDTO(Model):
         :param id: The id of this TradeDTO.  # noqa: E501
         :type id: int
         :param date: The date of this TradeDTO.  # noqa: E501
-        :type date: str
+        :type date: datetime
         :param cfa_token: The cfa_token of this TradeDTO.  # noqa: E501
         :type cfa_token: str
         :param price: The price of this TradeDTO.  # noqa: E501
-        :type price: int
+        :type price: float
         :param buyer_id: The buyer_id of this TradeDTO.  # noqa: E501
         :type buyer_id: int
         :param seller_id: The seller_id of this TradeDTO.  # noqa: E501
@@ -33,9 +33,9 @@ class TradeDTO(Model):
         """
         self.openapi_types = {
             'id': int,
-            'date': str,
+            'date': datetime,
             'cfa_token': str,
-            'price': int,
+            'price': float,
             'buyer_id': int,
             'seller_id': int
         }
