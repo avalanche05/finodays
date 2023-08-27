@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import connexion
+from data import db_session
 
 
 def main():
@@ -12,4 +13,5 @@ def main():
 
 
 if __name__ == '__main__':
+    db_session.global_init("../../db/db.db")
     main()

@@ -1,7 +1,7 @@
 import connexion
 import six
 
-from openapi_server.models.inline_object import InlineObject  # noqa: E501
+from openapi_server.models.register_user_dto import RegisterUserDTO  # noqa: E501
 from openapi_server.models.inline_object1 import InlineObject1  # noqa: E501
 from openapi_server.models.inline_object2 import InlineObject2  # noqa: E501
 from openapi_server.models.inline_object3 import InlineObject3  # noqa: E501
@@ -167,7 +167,7 @@ def offer_list_cfa_image_id_get(cfa_image_id):  # noqa: E501
     return 'do some magic!'
 
 
-def register_post(inline_object):  # noqa: E501
+def register_post():  # noqa: E501
     """Зарегистрировать нового пользователя
 
      # noqa: E501
@@ -178,7 +178,9 @@ def register_post(inline_object):  # noqa: E501
     :rtype: InlineResponse2001
     """
     if connexion.request.is_json:
-        inline_object = InlineObject.from_dict(connexion.request.get_json())  # noqa: E501
+        register_user_dto = RegisterUserDTO.from_dict(connexion.request.get_json())  # noqa: E501
+
+
     return 'do some magic!'
 
 
