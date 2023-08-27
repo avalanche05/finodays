@@ -4,7 +4,13 @@ import { Avatar, Col, Layout, Menu, theme, Typography } from 'antd';
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
-import { DashboardOutlined, FormOutlined, UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import {
+    DashboardOutlined,
+    FormOutlined,
+    UserOutlined,
+    LogoutOutlined,
+    PlusCircleOutlined,
+} from '@ant-design/icons';
 
 import type { MenuProps } from 'antd';
 import AuthService from '../api/AuthService';
@@ -20,6 +26,11 @@ const menuItems: MenuProps['items'] = [
         label: <Link to='/dashboard/my-cfas'>Мои ЦФА</Link>,
         icon: React.createElement(FormOutlined),
         key: 'my-cfas',
+    },
+    {
+        label: <Link to='/dashboard/create-cfa'>Создать ЦФА</Link>,
+        icon: React.createElement(PlusCircleOutlined),
+        key: 'create-cfa',
     },
 ];
 

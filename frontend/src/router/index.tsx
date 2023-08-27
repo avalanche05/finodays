@@ -1,13 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import SignUp from '../pages/SignUp';
-import Login from '../pages/Login';
-import ProtectedRoute from './ProtectedRoute';
 import AuthService from '../api/AuthService';
-import UnauthorizedOnlyRoute from './UnauthorizedOnlyRoute';
 import DashboardLayout from '../components/DashboardLayout';
+import CreateCfa from '../pages/CreateCfa';
+import Login from '../pages/Login';
 import MyCfas from '../pages/MyCfas';
 import Profile from '../pages/Profile';
+import SignUp from '../pages/SignUp';
+import ProtectedRoute from './ProtectedRoute';
+import UnauthorizedOnlyRoute from './UnauthorizedOnlyRoute';
 
 export const router = createBrowserRouter([
     {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/my-cfas',
                 element: <MyCfas />,
+            },
+            {
+                path: '/dashboard/create-cfa',
+                element: <CreateCfa />,
             },
         ],
     },
