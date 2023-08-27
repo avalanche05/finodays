@@ -7,13 +7,14 @@ from openapi_server.models.inline_object2 import InlineObject2  # noqa: E501
 from openapi_server.models.inline_object3 import InlineObject3  # noqa: E501
 from openapi_server.models.inline_object4 import InlineObject4  # noqa: E501
 from openapi_server.models.inline_response200 import InlineResponse200  # noqa: E501
-from openapi_server.models.inline_response2001 import InlineResponse2001  # noqa: E501
+from openapi_server.models.register_response200 import RegisterResponse200  # noqa: E501
 from openapi_server.models.inline_response2002 import InlineResponse2002  # noqa: E501
 from openapi_server.models.inline_response2003 import InlineResponse2003  # noqa: E501
 from openapi_server.models.inline_response2004 import InlineResponse2004  # noqa: E501
 from openapi_server.models.inline_response2005 import InlineResponse2005  # noqa: E501
 from openapi_server.models.inline_response2006 import InlineResponse2006  # noqa: E501
 from openapi_server import util
+from views import user
 
 
 def cfa_cfa_token_get(cfa_token):  # noqa: E501
@@ -115,7 +116,7 @@ def login_post(inline_object1):  # noqa: E501
     :param inline_object1: 
     :type inline_object1: dict | bytes
 
-    :rtype: InlineResponse2001
+    :rtype: RegisterResponse200
     """
     if connexion.request.is_json:
         inline_object1 = InlineObject1.from_dict(connexion.request.get_json())  # noqa: E501
@@ -175,13 +176,15 @@ def register_post():  # noqa: E501
     :param inline_object: 
     :type inline_object: dict | bytes
 
-    :rtype: InlineResponse2001
+    :rtype: RegisterResponse200
     """
     if connexion.request.is_json:
         register_user_dto = RegisterUserDTO.from_dict(connexion.request.get_json())  # noqa: E501
 
+        return user.register(register_user_dto)
 
-    return 'do some magic!'
+    return None, 400
+
 
 
 def trade_list_get(cfa_token=None):  # noqa: E501

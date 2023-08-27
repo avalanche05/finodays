@@ -12,7 +12,7 @@ from openapi_server.models.inline_object2 import InlineObject2  # noqa: E501
 from openapi_server.models.inline_object3 import InlineObject3  # noqa: E501
 from openapi_server.models.inline_object4 import InlineObject4  # noqa: E501
 from openapi_server.models.inline_response200 import InlineResponse200  # noqa: E501
-from openapi_server.models.inline_response2001 import InlineResponse2001  # noqa: E501
+from openapi_server.models.register_response200 import RegisterResponse200  # noqa: E501
 from openapi_server.models.inline_response2002 import InlineResponse2002  # noqa: E501
 from openapi_server.models.inline_response2003 import InlineResponse2003  # noqa: E501
 from openapi_server.models.inline_response2004 import InlineResponse2004  # noqa: E501
