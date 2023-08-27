@@ -16,17 +16,17 @@ class OfferDTO(Model):
     """
 
     def __init__(self, id=None, cfa_image_id=None, count=None, price=None, seller_id=None):  # noqa: E501
-        """InlineResponse2006 - a model defined in OpenAPI
+        """OfferDTO - a model defined in OpenAPI
 
-        :param id: The id of this InlineResponse2006.  # noqa: E501
+        :param id: The id of this OfferDTO.  # noqa: E501
         :type id: int
-        :param cfa_image_id: The cfa_image_id of this InlineResponse2006.  # noqa: E501
+        :param cfa_image_id: The cfa_image_id of this OfferDTO.  # noqa: E501
         :type cfa_image_id: int
-        :param count: The count of this InlineResponse2006.  # noqa: E501
+        :param count: The count of this OfferDTO.  # noqa: E501
         :type count: int
-        :param price: The price of this InlineResponse2006.  # noqa: E501
+        :param price: The price of this OfferDTO.  # noqa: E501
         :type price: int
-        :param seller_id: The seller_id of this InlineResponse2006.  # noqa: E501
+        :param seller_id: The seller_id of this OfferDTO.  # noqa: E501
         :type seller_id: int
         """
         self.openapi_types = {
@@ -57,27 +57,27 @@ class OfferDTO(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The inline_response_200_6 of this InlineResponse2006.  # noqa: E501
+        :return: The offer_dto of this OfferDTO.  # noqa: E501
         :rtype: OfferDTO
         """
         return util.deserialize_model(dikt, cls)
 
     @property
     def id(self):
-        """Gets the id of this InlineResponse2006.
+        """Gets the id of this OfferDTO.
 
 
-        :return: The id of this InlineResponse2006.
+        :return: The id of this OfferDTO.
         :rtype: int
         """
         return self._id
 
     @id.setter
     def id(self, id):
-        """Sets the id of this InlineResponse2006.
+        """Sets the id of this OfferDTO.
 
 
-        :param id: The id of this InlineResponse2006.
+        :param id: The id of this OfferDTO.
         :type id: int
         """
 
@@ -85,20 +85,20 @@ class OfferDTO(Model):
 
     @property
     def cfa_image_id(self):
-        """Gets the cfa_image_id of this InlineResponse2006.
+        """Gets the cfa_image_id of this OfferDTO.
 
 
-        :return: The cfa_image_id of this InlineResponse2006.
+        :return: The cfa_image_id of this OfferDTO.
         :rtype: int
         """
         return self._cfa_image_id
 
     @cfa_image_id.setter
     def cfa_image_id(self, cfa_image_id):
-        """Sets the cfa_image_id of this InlineResponse2006.
+        """Sets the cfa_image_id of this OfferDTO.
 
 
-        :param cfa_image_id: The cfa_image_id of this InlineResponse2006.
+        :param cfa_image_id: The cfa_image_id of this OfferDTO.
         :type cfa_image_id: int
         """
 
@@ -106,20 +106,20 @@ class OfferDTO(Model):
 
     @property
     def count(self):
-        """Gets the count of this InlineResponse2006.
+        """Gets the count of this OfferDTO.
 
 
-        :return: The count of this InlineResponse2006.
+        :return: The count of this OfferDTO.
         :rtype: int
         """
         return self._count
 
     @count.setter
     def count(self, count):
-        """Sets the count of this InlineResponse2006.
+        """Sets the count of this OfferDTO.
 
 
-        :param count: The count of this InlineResponse2006.
+        :param count: The count of this OfferDTO.
         :type count: int
         """
 
@@ -127,20 +127,20 @@ class OfferDTO(Model):
 
     @property
     def price(self):
-        """Gets the price of this InlineResponse2006.
+        """Gets the price of this OfferDTO.
 
 
-        :return: The price of this InlineResponse2006.
+        :return: The price of this OfferDTO.
         :rtype: int
         """
         return self._price
 
     @price.setter
     def price(self, price):
-        """Sets the price of this InlineResponse2006.
+        """Sets the price of this OfferDTO.
 
 
-        :param price: The price of this InlineResponse2006.
+        :param price: The price of this OfferDTO.
         :type price: int
         """
 
@@ -148,20 +148,20 @@ class OfferDTO(Model):
 
     @property
     def seller_id(self):
-        """Gets the seller_id of this InlineResponse2006.
+        """Gets the seller_id of this OfferDTO.
 
 
-        :return: The seller_id of this InlineResponse2006.
+        :return: The seller_id of this OfferDTO.
         :rtype: int
         """
         return self._seller_id
 
     @seller_id.setter
     def seller_id(self, seller_id):
-        """Sets the seller_id of this InlineResponse2006.
+        """Sets the seller_id of this OfferDTO.
 
 
-        :param seller_id: The seller_id of this InlineResponse2006.
+        :param seller_id: The seller_id of this OfferDTO.
         :type seller_id: int
         """
 

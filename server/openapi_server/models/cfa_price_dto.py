@@ -16,9 +16,9 @@ class CfaPriceDTO(Model):
     """
 
     def __init__(self, price=None):  # noqa: E501
-        """InlineResponse2003 - a model defined in OpenAPI
+        """CfaPriceDTO - a model defined in OpenAPI
 
-        :param price: The price of this InlineResponse2003.  # noqa: E501
+        :param price: The price of this CfaPriceDTO.  # noqa: E501
         :type price: int
         """
         self.openapi_types = {
@@ -37,27 +37,27 @@ class CfaPriceDTO(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The inline_response_200_3 of this InlineResponse2003.  # noqa: E501
+        :return: The cfa_price_dto of this CfaPriceDTO.  # noqa: E501
         :rtype: CfaPriceDTO
         """
         return util.deserialize_model(dikt, cls)
 
     @property
     def price(self):
-        """Gets the price of this InlineResponse2003.
+        """Gets the price of this CfaPriceDTO.
 
 
-        :return: The price of this InlineResponse2003.
+        :return: The price of this CfaPriceDTO.
         :rtype: int
         """
         return self._price
 
     @price.setter
     def price(self, price):
-        """Sets the price of this InlineResponse2003.
+        """Sets the price of this CfaPriceDTO.
 
 
-        :param price: The price of this InlineResponse2003.
+        :param price: The price of this CfaPriceDTO.
         :type price: int
         """
 

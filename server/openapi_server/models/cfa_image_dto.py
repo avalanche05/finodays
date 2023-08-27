@@ -16,15 +16,15 @@ class CfaImageDTO(Model):
     """
 
     def __init__(self, id=None, title=None, count=None, description=None):  # noqa: E501
-        """InlineResponse2002 - a model defined in OpenAPI
+        """CfaImageDTO - a model defined in OpenAPI
 
-        :param id: The id of this InlineResponse2002.  # noqa: E501
+        :param id: The id of this CfaImageDTO.  # noqa: E501
         :type id: int
-        :param title: The title of this InlineResponse2002.  # noqa: E501
+        :param title: The title of this CfaImageDTO.  # noqa: E501
         :type title: str
-        :param count: The count of this InlineResponse2002.  # noqa: E501
+        :param count: The count of this CfaImageDTO.  # noqa: E501
         :type count: int
-        :param description: The description of this InlineResponse2002.  # noqa: E501
+        :param description: The description of this CfaImageDTO.  # noqa: E501
         :type description: str
         """
         self.openapi_types = {
@@ -52,27 +52,27 @@ class CfaImageDTO(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The inline_response_200_2 of this InlineResponse2002.  # noqa: E501
+        :return: The cfa_image_dto of this CfaImageDTO.  # noqa: E501
         :rtype: CfaImageDTO
         """
         return util.deserialize_model(dikt, cls)
 
     @property
     def id(self):
-        """Gets the id of this InlineResponse2002.
+        """Gets the id of this CfaImageDTO.
 
 
-        :return: The id of this InlineResponse2002.
+        :return: The id of this CfaImageDTO.
         :rtype: int
         """
         return self._id
 
     @id.setter
     def id(self, id):
-        """Sets the id of this InlineResponse2002.
+        """Sets the id of this CfaImageDTO.
 
 
-        :param id: The id of this InlineResponse2002.
+        :param id: The id of this CfaImageDTO.
         :type id: int
         """
 
@@ -80,20 +80,20 @@ class CfaImageDTO(Model):
 
     @property
     def title(self):
-        """Gets the title of this InlineResponse2002.
+        """Gets the title of this CfaImageDTO.
 
 
-        :return: The title of this InlineResponse2002.
+        :return: The title of this CfaImageDTO.
         :rtype: str
         """
         return self._title
 
     @title.setter
     def title(self, title):
-        """Sets the title of this InlineResponse2002.
+        """Sets the title of this CfaImageDTO.
 
 
-        :param title: The title of this InlineResponse2002.
+        :param title: The title of this CfaImageDTO.
         :type title: str
         """
 
@@ -101,20 +101,20 @@ class CfaImageDTO(Model):
 
     @property
     def count(self):
-        """Gets the count of this InlineResponse2002.
+        """Gets the count of this CfaImageDTO.
 
 
-        :return: The count of this InlineResponse2002.
+        :return: The count of this CfaImageDTO.
         :rtype: int
         """
         return self._count
 
     @count.setter
     def count(self, count):
-        """Sets the count of this InlineResponse2002.
+        """Sets the count of this CfaImageDTO.
 
 
-        :param count: The count of this InlineResponse2002.
+        :param count: The count of this CfaImageDTO.
         :type count: int
         """
 
@@ -122,20 +122,20 @@ class CfaImageDTO(Model):
 
     @property
     def description(self):
-        """Gets the description of this InlineResponse2002.
+        """Gets the description of this CfaImageDTO.
 
 
-        :return: The description of this InlineResponse2002.
+        :return: The description of this CfaImageDTO.
         :rtype: str
         """
         return self._description
 
     @description.setter
     def description(self, description):
-        """Sets the description of this InlineResponse2002.
+        """Sets the description of this CfaImageDTO.
 
 
-        :param description: The description of this InlineResponse2002.
+        :param description: The description of this CfaImageDTO.
         :type description: str
         """
 

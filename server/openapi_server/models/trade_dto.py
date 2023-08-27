@@ -16,19 +16,19 @@ class TradeDTO(Model):
     """
 
     def __init__(self, id=None, date=None, cfa_token=None, price=None, buyer_id=None, seller_id=None):  # noqa: E501
-        """InlineResponse2005 - a model defined in OpenAPI
+        """TradeDTO - a model defined in OpenAPI
 
-        :param id: The id of this InlineResponse2005.  # noqa: E501
+        :param id: The id of this TradeDTO.  # noqa: E501
         :type id: int
-        :param date: The date of this InlineResponse2005.  # noqa: E501
+        :param date: The date of this TradeDTO.  # noqa: E501
         :type date: str
-        :param cfa_token: The cfa_token of this InlineResponse2005.  # noqa: E501
+        :param cfa_token: The cfa_token of this TradeDTO.  # noqa: E501
         :type cfa_token: str
-        :param price: The price of this InlineResponse2005.  # noqa: E501
+        :param price: The price of this TradeDTO.  # noqa: E501
         :type price: int
-        :param buyer_id: The buyer_id of this InlineResponse2005.  # noqa: E501
+        :param buyer_id: The buyer_id of this TradeDTO.  # noqa: E501
         :type buyer_id: int
-        :param seller_id: The seller_id of this InlineResponse2005.  # noqa: E501
+        :param seller_id: The seller_id of this TradeDTO.  # noqa: E501
         :type seller_id: int
         """
         self.openapi_types = {
@@ -62,27 +62,27 @@ class TradeDTO(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The inline_response_200_5 of this InlineResponse2005.  # noqa: E501
+        :return: The trade_dto of this TradeDTO.  # noqa: E501
         :rtype: TradeDTO
         """
         return util.deserialize_model(dikt, cls)
 
     @property
     def id(self):
-        """Gets the id of this InlineResponse2005.
+        """Gets the id of this TradeDTO.
 
 
-        :return: The id of this InlineResponse2005.
+        :return: The id of this TradeDTO.
         :rtype: int
         """
         return self._id
 
     @id.setter
     def id(self, id):
-        """Sets the id of this InlineResponse2005.
+        """Sets the id of this TradeDTO.
 
 
-        :param id: The id of this InlineResponse2005.
+        :param id: The id of this TradeDTO.
         :type id: int
         """
 
@@ -90,20 +90,20 @@ class TradeDTO(Model):
 
     @property
     def date(self):
-        """Gets the date of this InlineResponse2005.
+        """Gets the date of this TradeDTO.
 
 
-        :return: The date of this InlineResponse2005.
+        :return: The date of this TradeDTO.
         :rtype: str
         """
         return self._date
 
     @date.setter
     def date(self, date):
-        """Sets the date of this InlineResponse2005.
+        """Sets the date of this TradeDTO.
 
 
-        :param date: The date of this InlineResponse2005.
+        :param date: The date of this TradeDTO.
         :type date: str
         """
 
@@ -111,20 +111,20 @@ class TradeDTO(Model):
 
     @property
     def cfa_token(self):
-        """Gets the cfa_token of this InlineResponse2005.
+        """Gets the cfa_token of this TradeDTO.
 
 
-        :return: The cfa_token of this InlineResponse2005.
+        :return: The cfa_token of this TradeDTO.
         :rtype: str
         """
         return self._cfa_token
 
     @cfa_token.setter
     def cfa_token(self, cfa_token):
-        """Sets the cfa_token of this InlineResponse2005.
+        """Sets the cfa_token of this TradeDTO.
 
 
-        :param cfa_token: The cfa_token of this InlineResponse2005.
+        :param cfa_token: The cfa_token of this TradeDTO.
         :type cfa_token: str
         """
 
@@ -132,20 +132,20 @@ class TradeDTO(Model):
 
     @property
     def price(self):
-        """Gets the price of this InlineResponse2005.
+        """Gets the price of this TradeDTO.
 
 
-        :return: The price of this InlineResponse2005.
+        :return: The price of this TradeDTO.
         :rtype: int
         """
         return self._price
 
     @price.setter
     def price(self, price):
-        """Sets the price of this InlineResponse2005.
+        """Sets the price of this TradeDTO.
 
 
-        :param price: The price of this InlineResponse2005.
+        :param price: The price of this TradeDTO.
         :type price: int
         """
 
@@ -153,20 +153,20 @@ class TradeDTO(Model):
 
     @property
     def buyer_id(self):
-        """Gets the buyer_id of this InlineResponse2005.
+        """Gets the buyer_id of this TradeDTO.
 
 
-        :return: The buyer_id of this InlineResponse2005.
+        :return: The buyer_id of this TradeDTO.
         :rtype: int
         """
         return self._buyer_id
 
     @buyer_id.setter
     def buyer_id(self, buyer_id):
-        """Sets the buyer_id of this InlineResponse2005.
+        """Sets the buyer_id of this TradeDTO.
 
 
-        :param buyer_id: The buyer_id of this InlineResponse2005.
+        :param buyer_id: The buyer_id of this TradeDTO.
         :type buyer_id: int
         """
 
@@ -174,20 +174,20 @@ class TradeDTO(Model):
 
     @property
     def seller_id(self):
-        """Gets the seller_id of this InlineResponse2005.
+        """Gets the seller_id of this TradeDTO.
 
 
-        :return: The seller_id of this InlineResponse2005.
+        :return: The seller_id of this TradeDTO.
         :rtype: int
         """
         return self._seller_id
 
     @seller_id.setter
     def seller_id(self, seller_id):
-        """Sets the seller_id of this InlineResponse2005.
+        """Sets the seller_id of this TradeDTO.
 
 
-        :param seller_id: The seller_id of this InlineResponse2005.
+        :param seller_id: The seller_id of this TradeDTO.
         :type seller_id: int
         """
 

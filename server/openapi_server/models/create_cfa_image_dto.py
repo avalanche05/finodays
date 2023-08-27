@@ -16,13 +16,13 @@ class CreateCfaImageDTO(Model):
     """
 
     def __init__(self, title=None, count=None, description=None):  # noqa: E501
-        """InlineObject2 - a model defined in OpenAPI
+        """CreateCfaImageDTO - a model defined in OpenAPI
 
-        :param title: The title of this InlineObject2.  # noqa: E501
+        :param title: The title of this CreateCfaImageDTO.  # noqa: E501
         :type title: str
-        :param count: The count of this InlineObject2.  # noqa: E501
+        :param count: The count of this CreateCfaImageDTO.  # noqa: E501
         :type count: int
-        :param description: The description of this InlineObject2.  # noqa: E501
+        :param description: The description of this CreateCfaImageDTO.  # noqa: E501
         :type description: str
         """
         self.openapi_types = {
@@ -47,27 +47,27 @@ class CreateCfaImageDTO(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The inline_object_2 of this InlineObject2.  # noqa: E501
+        :return: The create_cfa_image_dto of this CreateCfaImageDTO.  # noqa: E501
         :rtype: CreateCfaImageDTO
         """
         return util.deserialize_model(dikt, cls)
 
     @property
     def title(self):
-        """Gets the title of this InlineObject2.
+        """Gets the title of this CreateCfaImageDTO.
 
 
-        :return: The title of this InlineObject2.
+        :return: The title of this CreateCfaImageDTO.
         :rtype: str
         """
         return self._title
 
     @title.setter
     def title(self, title):
-        """Sets the title of this InlineObject2.
+        """Sets the title of this CreateCfaImageDTO.
 
 
-        :param title: The title of this InlineObject2.
+        :param title: The title of this CreateCfaImageDTO.
         :type title: str
         """
 
@@ -75,20 +75,20 @@ class CreateCfaImageDTO(Model):
 
     @property
     def count(self):
-        """Gets the count of this InlineObject2.
+        """Gets the count of this CreateCfaImageDTO.
 
 
-        :return: The count of this InlineObject2.
+        :return: The count of this CreateCfaImageDTO.
         :rtype: int
         """
         return self._count
 
     @count.setter
     def count(self, count):
-        """Sets the count of this InlineObject2.
+        """Sets the count of this CreateCfaImageDTO.
 
 
-        :param count: The count of this InlineObject2.
+        :param count: The count of this CreateCfaImageDTO.
         :type count: int
         """
 
@@ -96,20 +96,20 @@ class CreateCfaImageDTO(Model):
 
     @property
     def description(self):
-        """Gets the description of this InlineObject2.
+        """Gets the description of this CreateCfaImageDTO.
 
 
-        :return: The description of this InlineObject2.
+        :return: The description of this CreateCfaImageDTO.
         :rtype: str
         """
         return self._description
 
     @description.setter
     def description(self, description):
-        """Sets the description of this InlineObject2.
+        """Sets the description of this CreateCfaImageDTO.
 
 
-        :param description: The description of this InlineObject2.
+        :param description: The description of this CreateCfaImageDTO.
         :type description: str
         """
 

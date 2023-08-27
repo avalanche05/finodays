@@ -16,13 +16,13 @@ class CfaDTO(Model):
     """
 
     def __init__(self, token=None, cfa_image_id=None, user_id=None):  # noqa: E501
-        """InlineResponse2004 - a model defined in OpenAPI
+        """CfaDTO - a model defined in OpenAPI
 
-        :param token: The token of this InlineResponse2004.  # noqa: E501
+        :param token: The token of this CfaDTO.  # noqa: E501
         :type token: str
-        :param cfa_image_id: The cfa_image_id of this InlineResponse2004.  # noqa: E501
+        :param cfa_image_id: The cfa_image_id of this CfaDTO.  # noqa: E501
         :type cfa_image_id: int
-        :param user_id: The user_id of this InlineResponse2004.  # noqa: E501
+        :param user_id: The user_id of this CfaDTO.  # noqa: E501
         :type user_id: int
         """
         self.openapi_types = {
@@ -47,27 +47,27 @@ class CfaDTO(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The inline_response_200_4 of this InlineResponse2004.  # noqa: E501
+        :return: The cfa_dto of this CfaDTO.  # noqa: E501
         :rtype: CfaDTO
         """
         return util.deserialize_model(dikt, cls)
 
     @property
     def token(self):
-        """Gets the token of this InlineResponse2004.
+        """Gets the token of this CfaDTO.
 
 
-        :return: The token of this InlineResponse2004.
+        :return: The token of this CfaDTO.
         :rtype: str
         """
         return self._token
 
     @token.setter
     def token(self, token):
-        """Sets the token of this InlineResponse2004.
+        """Sets the token of this CfaDTO.
 
 
-        :param token: The token of this InlineResponse2004.
+        :param token: The token of this CfaDTO.
         :type token: str
         """
 
@@ -75,20 +75,20 @@ class CfaDTO(Model):
 
     @property
     def cfa_image_id(self):
-        """Gets the cfa_image_id of this InlineResponse2004.
+        """Gets the cfa_image_id of this CfaDTO.
 
 
-        :return: The cfa_image_id of this InlineResponse2004.
+        :return: The cfa_image_id of this CfaDTO.
         :rtype: int
         """
         return self._cfa_image_id
 
     @cfa_image_id.setter
     def cfa_image_id(self, cfa_image_id):
-        """Sets the cfa_image_id of this InlineResponse2004.
+        """Sets the cfa_image_id of this CfaDTO.
 
 
-        :param cfa_image_id: The cfa_image_id of this InlineResponse2004.
+        :param cfa_image_id: The cfa_image_id of this CfaDTO.
         :type cfa_image_id: int
         """
 
@@ -96,20 +96,20 @@ class CfaDTO(Model):
 
     @property
     def user_id(self):
-        """Gets the user_id of this InlineResponse2004.
+        """Gets the user_id of this CfaDTO.
 
 
-        :return: The user_id of this InlineResponse2004.
+        :return: The user_id of this CfaDTO.
         :rtype: int
         """
         return self._user_id
 
     @user_id.setter
     def user_id(self, user_id):
-        """Sets the user_id of this InlineResponse2004.
+        """Sets the user_id of this CfaDTO.
 
 
-        :param user_id: The user_id of this InlineResponse2004.
+        :param user_id: The user_id of this CfaDTO.
         :type user_id: int
         """
 

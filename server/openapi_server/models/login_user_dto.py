@@ -16,11 +16,11 @@ class LoginUserDTO(Model):
     """
 
     def __init__(self, login=None, password=None):  # noqa: E501
-        """InlineObject1 - a model defined in OpenAPI
+        """LoginUserDTO - a model defined in OpenAPI
 
-        :param login: The login of this InlineObject1.  # noqa: E501
+        :param login: The login of this LoginUserDTO.  # noqa: E501
         :type login: str
-        :param password: The password of this InlineObject1.  # noqa: E501
+        :param password: The password of this LoginUserDTO.  # noqa: E501
         :type password: str
         """
         self.openapi_types = {
@@ -42,27 +42,27 @@ class LoginUserDTO(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The inline_object_1 of this InlineObject1.  # noqa: E501
+        :return: The login_user_dto of this LoginUserDTO.  # noqa: E501
         :rtype: LoginUserDTO
         """
         return util.deserialize_model(dikt, cls)
 
     @property
     def login(self):
-        """Gets the login of this InlineObject1.
+        """Gets the login of this LoginUserDTO.
 
 
-        :return: The login of this InlineObject1.
+        :return: The login of this LoginUserDTO.
         :rtype: str
         """
         return self._login
 
     @login.setter
     def login(self, login):
-        """Sets the login of this InlineObject1.
+        """Sets the login of this LoginUserDTO.
 
 
-        :param login: The login of this InlineObject1.
+        :param login: The login of this LoginUserDTO.
         :type login: str
         """
 
@@ -70,20 +70,20 @@ class LoginUserDTO(Model):
 
     @property
     def password(self):
-        """Gets the password of this InlineObject1.
+        """Gets the password of this LoginUserDTO.
 
 
-        :return: The password of this InlineObject1.
+        :return: The password of this LoginUserDTO.
         :rtype: str
         """
         return self._password
 
     @password.setter
     def password(self, password):
-        """Sets the password of this InlineObject1.
+        """Sets the password of this LoginUserDTO.
 
 
-        :param password: The password of this InlineObject1.
+        :param password: The password of this LoginUserDTO.
         :type password: str
         """
 

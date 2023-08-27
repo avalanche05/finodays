@@ -16,11 +16,11 @@ class LoginResponse200(Model):
     """
 
     def __init__(self, user_id=None, bearer_token=None):  # noqa: E501
-        """InlineResponse2001 - a model defined in OpenAPI
+        """LoginResponse200 - a model defined in OpenAPI
 
-        :param user_id: The user_id of this InlineResponse2001.  # noqa: E501
+        :param user_id: The user_id of this LoginResponse200.  # noqa: E501
         :type user_id: int
-        :param bearer_token: The bearer_token of this InlineResponse2001.  # noqa: E501
+        :param bearer_token: The bearer_token of this LoginResponse200.  # noqa: E501
         :type bearer_token: str
         """
         self.openapi_types = {
@@ -42,27 +42,27 @@ class LoginResponse200(Model):
 
         :param dikt: A dict.
         :type: dict
-        :return: The inline_response_200_1 of this InlineResponse2001.  # noqa: E501
+        :return: The login_response_200 of this LoginResponse200.  # noqa: E501
         :rtype: LoginResponse200
         """
         return util.deserialize_model(dikt, cls)
 
     @property
     def user_id(self):
-        """Gets the user_id of this InlineResponse2001.
+        """Gets the user_id of this LoginResponse200.
 
 
-        :return: The user_id of this InlineResponse2001.
+        :return: The user_id of this LoginResponse200.
         :rtype: int
         """
         return self._user_id
 
     @user_id.setter
     def user_id(self, user_id):
-        """Sets the user_id of this InlineResponse2001.
+        """Sets the user_id of this LoginResponse200.
 
 
-        :param user_id: The user_id of this InlineResponse2001.
+        :param user_id: The user_id of this LoginResponse200.
         :type user_id: int
         """
 
@@ -70,20 +70,20 @@ class LoginResponse200(Model):
 
     @property
     def bearer_token(self):
-        """Gets the bearer_token of this InlineResponse2001.
+        """Gets the bearer_token of this LoginResponse200.
 
 
-        :return: The bearer_token of this InlineResponse2001.
+        :return: The bearer_token of this LoginResponse200.
         :rtype: str
         """
         return self._bearer_token
 
     @bearer_token.setter
     def bearer_token(self, bearer_token):
-        """Sets the bearer_token of this InlineResponse2001.
+        """Sets the bearer_token of this LoginResponse200.
 
 
-        :param bearer_token: The bearer_token of this InlineResponse2001.
+        :param bearer_token: The bearer_token of this LoginResponse200.
         :type bearer_token: str
         """
 
