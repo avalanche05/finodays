@@ -11,7 +11,7 @@ from openapi_server.models.inline_object2 import InlineObject2
 from openapi_server.models.inline_object3 import InlineObject3
 from openapi_server.models.inline_object4 import InlineObject4
 from openapi_server.models.inline_response200 import InlineResponse200
-from openapi_server.models.register_response200 import RegisterResponse200
+from openapi_server.models.register_response200 import LoginResponse200
 from openapi_server.models.inline_response2002 import InlineResponse2002
 from openapi_server.models.inline_response2003 import InlineResponse2003
 from openapi_server.models.inline_response2004 import InlineResponse2004

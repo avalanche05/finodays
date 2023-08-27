@@ -7,7 +7,7 @@ from openapi_server.models.inline_object2 import InlineObject2  # noqa: E501
 from openapi_server.models.inline_object3 import InlineObject3  # noqa: E501
 from openapi_server.models.inline_object4 import InlineObject4  # noqa: E501
 from openapi_server.models.inline_response200 import InlineResponse200  # noqa: E501
-from openapi_server.models.register_response200 import RegisterResponse200  # noqa: E501
+from openapi_server.models.register_response200 import LoginResponse200  # noqa: E501
 from openapi_server.models.inline_response2002 import InlineResponse2002  # noqa: E501
 from openapi_server.models.inline_response2003 import InlineResponse2003  # noqa: E501
 from openapi_server.models.inline_response2004 import InlineResponse2004  # noqa: E501
@@ -116,12 +116,13 @@ def login_post():  # noqa: E501
     :param inline_object1: 
     :type inline_object1: dict | bytes
 
-    :rtype: RegisterResponse200
+    :rtype: LoginResponse200
     """
     if connexion.request.is_json:
         login_user_dto = LoginUserDTO.from_dict(connexion.request.get_json())  # noqa: E501
 
-    return 'do some magic!'
+        return user.login(login_user_dto)
+    return None, 401
 
 
 def offer_buy_offer_id_post(offer_id, inline_object4):  # noqa: E501
@@ -174,7 +175,7 @@ def register_post():  # noqa: E501
 
      # noqa: E501
 
-    :rtype: RegisterResponse200
+    :rtype: LoginResponse200
     """
     if connexion.request.is_json:
         register_user_dto = RegisterUserDTO.from_dict(connexion.request.get_json())  # noqa: E501
