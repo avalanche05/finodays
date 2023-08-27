@@ -1,10 +1,10 @@
-from models import RegisterUserDTO, LoginUserDTO
+from openapi_server.models import RegisterUserDTO, LoginUserDTO
 from data import db_session
 from data.user import User
 from data.token import Token
 from sqlalchemy import or_
 from utils import generator
-from models import LoginResponse200
+from openapi_server.models import LoginResponse200
 
 
 def register(register_user_dto: RegisterUserDTO):

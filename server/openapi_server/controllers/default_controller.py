@@ -14,8 +14,8 @@ from openapi_server.models.cfa_dto import CfaDTO  # noqa: E501
 from openapi_server.models.trade_dto import TradeDTO  # noqa: E501
 from openapi_server.models.offer_dto import OfferDTO  # noqa: E501
 from openapi_server import util
-from views import user
-from views import cfa_image
+from openapi_server.views import user
+from openapi_server.views import cfa_image
 
 
 def cfa_cfa_token_get(cfa_token):  # noqa: E501

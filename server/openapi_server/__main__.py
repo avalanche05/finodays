@@ -9,14 +9,14 @@ from flask_cors import CORS
 
 def main():
     app = connexion.App(__name__, specification_dir='./openapi/')
-    CORS(app, resources={r"/*": {"origins": "*"}})
+    CORS(app.app, resources={r"/*": {"origins": "*"}})
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('openapi.yaml',
                 arguments={'title': 'CFA API'},
                 pythonic_params=True)
-    app.run(port=8080)
+    app.run(port=46874)
 
 
 if __name__ == '__main__':
-    db_session.global_init("../db/db.db")
+    db_session.global_init("db/db.db")
     main()

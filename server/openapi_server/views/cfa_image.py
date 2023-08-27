@@ -1,7 +1,7 @@
-import models
+import openapi_server.models as models
 import data.__all_models as db_models
 from data import db_session
-from views import cfa
+from openapi_server.views import cfa
 
 
 def create_cfa_image(user_id: int, create_cfo_image_dto: models.CreateCfaImageDTO):
