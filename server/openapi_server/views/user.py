@@ -25,10 +25,7 @@ def register(register_user_dto: RegisterUserDTO):
     db_sess.add(new_user)
     db_sess.commit()
 
-    token = Token()
-    token.value = generator.generate_bearer_token()
-    token.user_id = new_user.id
-    token.is_alive = True
+    token = generator.generate_bearer_token(new_user)
 
     db_sess.add(token)
     db_sess.commit()
@@ -40,14 +37,12 @@ def register(register_user_dto: RegisterUserDTO):
 def login(login_user_dto: LoginUserDTO):
     db_sess = db_session.create_session()
 
-    user = db_sess.query(User).filter(User.login == login_user_dto.login).first()
+    user = db_sess.query(User).filter(
+        or_(User.login == login_user_dto.login, User.username == login_user_dto.login)).first()
     if not user:
         return None, 401
     if user.check_password(login_user_dto.password):
-        token = Token()
-        token.value = generator.generate_bearer_token()
-        token.user_id = user.id
-        token.is_alive = True
+        token = generator.generate_bearer_token(user)
 
         db_sess.add(token)
         db_sess.commit()

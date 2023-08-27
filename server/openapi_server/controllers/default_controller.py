@@ -2,17 +2,17 @@ import connexion
 import six
 
 from openapi_server.models.register_user_dto import RegisterUserDTO  # noqa: E501
-from openapi_server.models.inline_object1 import LoginUserDTO  # noqa: E501
+from openapi_server.models.login_user_dto import LoginUserDTO  # noqa: E501
 from openapi_server.models.inline_object2 import CreateCfaImageDTO  # noqa: E501
 from openapi_server.models.inline_object3 import InlineObject3  # noqa: E501
 from openapi_server.models.inline_object4 import InlineObject4  # noqa: E501
 from openapi_server.models.inline_response200 import InlineResponse200  # noqa: E501
-from openapi_server.models.register_response200 import LoginResponse200  # noqa: E501
-from openapi_server.models.inline_response2002 import InlineResponse2002  # noqa: E501
-from openapi_server.models.inline_response2003 import InlineResponse2003  # noqa: E501
-from openapi_server.models.inline_response2004 import InlineResponse2004  # noqa: E501
-from openapi_server.models.inline_response2005 import InlineResponse2005  # noqa: E501
-from openapi_server.models.inline_response2006 import InlineResponse2006  # noqa: E501
+from openapi_server.models.login_response200 import LoginResponse200  # noqa: E501
+from openapi_server.models.cfa_image_dto import CfaImageDTO  # noqa: E501
+from openapi_server.models.cfa_price_dto import CfaPriceDTO  # noqa: E501
+from openapi_server.models.cfa_dto import CfaDTO  # noqa: E501
+from openapi_server.models.trade_dto import TradeDTO  # noqa: E501
+from openapi_server.models.offer_dto import OfferDTO  # noqa: E501
 from openapi_server import util
 from views import user
 
@@ -25,7 +25,7 @@ def cfa_cfa_token_get(cfa_token):  # noqa: E501
     :param cfa_token: 
     :type cfa_token: str
 
-    :rtype: InlineResponse2004
+    :rtype: CfaDTO
     """
     return 'do some magic!'
 
@@ -38,7 +38,7 @@ def cfa_history_cfa_token_get(cfa_token):  # noqa: E501
     :param cfa_token: 
     :type cfa_token: str
 
-    :rtype: List[InlineResponse2005]
+    :rtype: List[TradeDTO]
     """
     return 'do some magic!'
 
@@ -65,7 +65,7 @@ def cfa_image_list_get():  # noqa: E501
      # noqa: E501
 
 
-    :rtype: List[InlineResponse2002]
+    :rtype: List[CfaImageDTO]
     """
     return 'do some magic!'
 
@@ -78,7 +78,7 @@ def cfa_image_price_cfa_image_id_get(cfa_image_id):  # noqa: E501
     :param cfa_image_id: 
     :type cfa_image_id: int
 
-    :rtype: InlineResponse2003
+    :rtype: CfaPriceDTO
     """
     return 'do some magic!'
 
@@ -207,6 +207,6 @@ def trade_trade_id_get(trade_id):  # noqa: E501
     :param trade_id: 
     :type trade_id: int
 
-    :rtype: InlineResponse2005
+    :rtype: TradeDTO
     """
     return 'do some magic!'
