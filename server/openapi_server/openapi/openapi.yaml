@@ -401,6 +401,8 @@ components:
           type: integer
         description:
           type: string
+        user_id:
+          type: integer
       type: object
     Cfa:
       properties:
