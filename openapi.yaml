@@ -3,6 +3,11 @@ info:
   title: CFA API
   version: 1.0.0
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     User:
       type: object
@@ -172,7 +177,7 @@ paths:
     post:
       summary: Создать новый CFA Image (Требуется Bearer-токен)
       security:
-        - BearerAuth: []
+        - BearerAuth: [ ]
       requestBody:
         required: true
         content:
@@ -341,7 +346,7 @@ paths:
     post:
       summary: Создать новое предложение (Требуется Bearer-токен)
       security:
-        - BearerAuth: []
+        - BearerAuth: [ ]
       requestBody:
         required: true
         content:
@@ -395,7 +400,7 @@ paths:
     post:
       summary: Купить предложение (Требуется Bearer-токен)
       security:
-        - BearerAuth: []
+        - BearerAuth: [ ]
       parameters:
         - name: offer-id
           in: path
