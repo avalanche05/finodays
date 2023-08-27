@@ -247,7 +247,13 @@ def profile_get():
 
     :rtype: User
     """
-    return 'do some magic!'
+
+    token = connexion.request.headers.get('Authorization').split()[1]
+
+    try:
+        return user.get_profile(token), 200
+    except Exception as e:
+        return str(e), 401
 
 
 def user_user_id_get(user_id):
@@ -260,7 +266,10 @@ def user_user_id_get(user_id):
 
     :rtype: PublicUser
     """
-    return 'do some magic!'
+    try:
+        return user.get_user(user_id), 200
+    except Exception as e:
+        return str(e), 404
 
 
 def user_deposit_post():

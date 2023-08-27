@@ -1,4 +1,4 @@
-from openapi_server.models import RegisterUserDTO, LoginUserDTO, DepositValueDTO, WithdrawValueDTO
+from openapi_server.models import RegisterUserDTO, LoginUserDTO, DepositValueDTO, WithdrawValueDTO, User, PublicUser
 from data import db_session
 import data.__all_models as db_models
 from sqlalchemy import or_
@@ -92,3 +92,20 @@ def withdraw_money(withdraw_value_dto: WithdrawValueDTO, token: str):
     assert user.balance >= 0
 
     db_sess.commit()
+
+
+def get_profile(token: str):
+    db_sess = db_session.create_session()
+    token = db_sess.query(db_models.token.Token).get(token)
+    user = db_sess.query(db_models.user.User).get(token.user_id)
+
+    return User(user.id, user.login, user.username, user.name, user.balance)
+
+
+def get_user(user_id: int):
+    db_sess = db_session.create_session()
+    user = db_sess.query(db_models.user.User).get(user_id)
+
+    assert user, "User not found"
+
+    return PublicUser(user.id, user.login, user.username, user.name)
