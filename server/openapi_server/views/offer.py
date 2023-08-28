@@ -107,7 +107,8 @@ def buy(offer_id: int, user_id: int, count: int):
     if count < 0 or count > offer.count:
         raise ValueError("Wrong count value")
 
-    user = entities.get_user(user_id)
+    user = db_sess.query(db_models.user.User).filter(
+        db_models.user.User.id == user_id).first()
 
     if user is None:
         raise FileNotFoundError(f"Cannot find user with id {user_id}")
@@ -128,7 +129,8 @@ def buy(offer_id: int, user_id: int, count: int):
         db_models.cfa.Cfa.offer_id == offer.id
     ).limit(count).all()
 
-    seller = entities.get_user(offer.seller_id)
+    seller = db_sess.query(db_models.user.User).filter(
+        db_models.user.User.id == offer.id).first()
     seller.balance += calculated_price
     db_sess.commit()
 
