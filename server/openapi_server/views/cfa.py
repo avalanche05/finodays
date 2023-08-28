@@ -19,6 +19,7 @@ def create_cfa(user_id: int, cfa_image_id: int):
     db_sess = db_session.create_session()
     db_sess.add(cfa)
     db_sess.commit()
+    db_sess.close()
 
 
 def get_cfa(cfa_token: str):
@@ -43,6 +44,8 @@ def get_cfa_history(cfa_token: str):
             buyer=entities.get_public_user(trade.buyer_id),
             seller=entities.get_public_user(trade.seller_id)
         ))
+
+    db_sess.close()
 
     if history:
         return history, 200
@@ -75,4 +78,6 @@ def get_cfa_list(cfa_image_id: int):
             cfa_image=cfa_image,
             user=user
         ))
+
+    db_sess.close()
     return result

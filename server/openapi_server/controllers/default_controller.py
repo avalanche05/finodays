@@ -201,8 +201,8 @@ def offer_create_post():  # noqa: E501
         user_id = user.get_profile(token).id
 
         try:
-            offer.create(user_id, create_offer_dto)
-            return "Offer create success", 201
+            offer_id = offer.create(user_id, create_offer_dto)
+            return {"id": offer_id}, 201
         except Exception as e:
             return str(e), 400
 
@@ -340,15 +340,31 @@ def user_withdraw_post():
     return "Invalid credentials", 401
 
 
-def user_offer_get(user_id: int):
+def user_offer_get():
     """Получить список всех своих предложений
 
     # noqa: E501
 
     :rtype: None
     """
-    try:
-        offers = user.get_offer_list(user_id)
-        return offers, 200
-    except Exception as e:
-        return str(e), 404
+
+
+def offer_cancel_post(offer_id):  # noqa: E501
+    """Удалить предложение (Требуется Bearer-токен)
+
+     # noqa: E501
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        create_offer_dto = CreateOfferDTO.from_dict(connexion.request.get_json())  # noqa: E501
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = user.get_profile(token).id
+
+        try:
+            offer_id = offer.create(user_id, create_offer_dto)
+            return {"id": offer_id}, 201
+        except Exception as e:
+            return str(e), 400
+
+    return 'invalid data in request', 400

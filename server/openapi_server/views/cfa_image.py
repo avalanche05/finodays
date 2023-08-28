@@ -21,6 +21,8 @@ def create_cfa_image(user_id: int, create_cfo_image_dto: models.CreateCfaImageDT
 
     for _ in range(create_cfo_image_dto.count):
         cfa.create_cfa(user_id, cfa_image.id)
+
+    db_sess.close()
     return cfa_image.id
 
 
@@ -57,4 +59,5 @@ def get_lower_price(cfa_image_id: int):
     cheapest_order = db_sess.query(db_models.offer.Offer).filter(
         db_models.offer.Offer.cfa_image_id == cfa_image_id).order_by(db_models.offer.Offer.price).first()
 
+    db_sess.close()
     return cheapest_order.price

@@ -36,6 +36,7 @@ def register(register_user_dto: RegisterUserDTO):
                                      username=new_user.username,
                                      name=new_user.name,
                                      balance=new_user.balance), token.value)
+    db_sess.close()
     return response
 
 
@@ -57,7 +58,9 @@ def login(login_user_dto: LoginUserDTO):
                                          username=user.username,
                                          name=user.name,
                                          balance=user.balance), token.value)
+        db_sess.close()
         return response
+    db_sess.close()
     return "Invalid credentials", 401
 
 
@@ -81,6 +84,7 @@ def get_cfa_list(user_id: int):
         cfa_image = entities.get_cfa_image(cfa_image_id)
         result.append(UserCfaDTO(cfa_image, len(tokens), tokens))
 
+    db_sess.close()
     return result
 
 
@@ -101,6 +105,8 @@ def get_offer_list(user_id: int):
             price=offer.price,
             seller=entities.get_public_user(offer.seller_id)
         ))
+
+    db_sess.close()
     return result
 
 

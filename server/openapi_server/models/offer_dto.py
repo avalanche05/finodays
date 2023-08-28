@@ -33,7 +33,7 @@ class OfferDTO(Model):
             'id': int,
             'cfa_image': 'CfaImage',
             'count': int,
-            'price': int,
+            'price': float,
             'seller': 'PublicUser'
         }
 
