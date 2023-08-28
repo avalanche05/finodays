@@ -42,8 +42,8 @@ def cfa_cfa_token_get(cfa_token):  # noqa: E501
     """
     try:
         return cfa.get_cfa(cfa_token), 200
-    except Exception:
-        return [], 200
+    except Exception as e:
+        return str(e), 404
 
 
 def cfa_history_cfa_token_get(cfa_token):  # noqa: E501

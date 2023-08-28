@@ -44,7 +44,7 @@ def get_cfa(cfa_token: str):
         raise FileNotFoundError("CFA not found")
 
     db_sess.close()
-    return CfaDTO(cfa.token, cfa.cfa_image_id, get_user(cfa.user_id))
+    return CfaDTO(cfa.token, cfa.cfa_image_id, get_public_user(cfa.user_id))
 
 
 def get_cfa_image(cfa_image_id):

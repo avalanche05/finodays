@@ -836,8 +836,8 @@ components:
           type: string
         cfa_image:
           $ref: '#/components/schemas/CfaImage'
-        user_id:
-          type: integer
+        user:
+          $ref: '#/components/schemas/PublicUser'
     trade_dto:
       properties:
         id:

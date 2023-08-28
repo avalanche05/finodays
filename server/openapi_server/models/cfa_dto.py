@@ -23,12 +23,12 @@ class CfaDTO(Model):
         :param cfa_image: The cfa_image of this CfaDTO.  # noqa: E501
         :type cfa_image: int
         :param user: The user of this CfaDTO.  # noqa: E501
-        :type user: 'User'
+        :type user: 'PublicUser'
         """
         self.openapi_types = {
             'token': str,
             'cfa_image': 'CfaImage',
-            'user': 'User'
+            'user': 'PublicUser'
         }
 
         self.attribute_map = {
