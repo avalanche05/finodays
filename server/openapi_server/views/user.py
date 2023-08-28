@@ -1,4 +1,5 @@
-from openapi_server.models import RegisterUserDTO, LoginUserDTO, DepositValueDTO, WithdrawValueDTO, User, PublicUser, UserCfaDTO, CfaImage, OfferDTO
+from openapi_server.models import RegisterUserDTO, LoginUserDTO, DepositValueDTO, WithdrawValueDTO, User, PublicUser, \
+    UserCfaDTO, CfaImage, OfferDTO
 from data import db_session
 import data.__all_models as db_models
 from sqlalchemy import or_, and_
@@ -65,7 +66,8 @@ def get_cfa_list(user_id: int):
 
     user = entities.get_public_user(user_id)
 
-    user_cfas = db_sess.query(db_models.cfa.Cfa).filter(and_(db_models.cfa.Cfa.user_id == user_id, db_models.cfa.Cfa.offer_id == 0)).all()
+    user_cfas = db_sess.query(db_models.cfa.Cfa).filter(
+        and_(db_models.cfa.Cfa.user_id == user_id, db_models.cfa.Cfa.offer_id == 0)).all()
 
     user_cfa_count = {}
     for cfa in user_cfas:
@@ -81,17 +83,24 @@ def get_cfa_list(user_id: int):
 
     return result
 
+
 def get_offer_list(user_id: int):
     db_sess = db_session.create_session()
 
     user = entities.get_public_user(user_id)
 
     user_offers = db_sess.query(db_models.offer.Offer).filter(
-        and_(db_models.offer.Offer.user_id == user_id, db_models.offer.Offer.count > 0)).all()
+        and_(db_models.offer.Offer.seller_id == user_id, db_models.offer.Offer.count > 0)).all()
 
     result = []
     for offer in user_offers:
-        result.append(OfferDTO(offer.id, ))
+        result.append(OfferDTO(
+            id=offer.id,
+            cfa_image=entities.get_cfa_image(offer.cfa_image_id),
+            count=offer.count,
+            price=offer.price,
+            seller=entities.get_public_user(offer.seller_id)
+        ))
     return result
 
 

@@ -340,11 +340,15 @@ def user_withdraw_post():
     return "Invalid credentials", 401
 
 
-def user_offer_get():
+def user_offer_get(user_id: int):
     """Получить список всех своих предложений
 
     # noqa: E501
 
     :rtype: None
     """
-
+    try:
+        offers = user.get_offer_list(user_id)
+        return offers, 200
+    except Exception as e:
+        return str(e), 404

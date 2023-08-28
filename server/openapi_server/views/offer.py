@@ -65,7 +65,7 @@ def get_all_by_cfa_image_id(cfa_image_id: int):
         result.append(
             OfferDTO(
                 id=offer.id,
-                cfa_image_id=entities.get_cfa_image(offer.cfa_image_id),
+                cfa_image=entities.get_cfa_image(offer.cfa_image_id),
                 count=offer.count,
                 price=offer.price,
                 seller=entities.get_public_user(offer.seller_id)
