@@ -46,27 +46,20 @@ def cancel_offer(user_id: int, offer_id: id):
         db_models.offer.Offer.id == offer_id).first()
 
     if offer is None:
-        raise FileNotFoundError(f"Cannot find offer with id {offer_id}")
+        raise FileNotFoundError(f"Cannot find offer with id: {offer_id}")
+
+    if user_id != offer.id:
+        raise ValueError(f"You cannot cancel offer with id: {offer_id}")
 
     cfas = db_sess.query(db_models.cfa.Cfa).filter(
         db_models.cfa.Cfa.user_id == user_id,
         db_models.cfa.Cfa.cfa_image_id == offer.cfa_image_id,
         db_models.cfa.Cfa.offer_id == offer_id
     ).all()
-
-    pass
 
     for cfa in cfas:
         cfa.offer_id = 0
         db_sess.commit()
-
-    cfas = db_sess.query(db_models.cfa.Cfa).filter(
-        db_models.cfa.Cfa.user_id == user_id,
-        db_models.cfa.Cfa.cfa_image_id == offer.cfa_image_id,
-        db_models.cfa.Cfa.offer_id == offer_id
-    ).all()
-
-    pass
 
     offer.count = 0
 
@@ -128,7 +121,7 @@ def buy(offer_id: int, user_id: int, count: int):
     ).limit(count).all()
 
     seller = db_sess.query(db_models.user.User).filter(
-        db_models.user.User.id == offer.id).first()
+        db_models.user.User.id == offer.seller_id).first()
     seller.balance += calculated_price
 
     for cfa in cfas:
