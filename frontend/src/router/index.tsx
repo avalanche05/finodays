@@ -9,6 +9,7 @@ import Profile from '../pages/Profile';
 import SignUp from '../pages/SignUp';
 import ProtectedRoute from './ProtectedRoute';
 import UnauthorizedOnlyRoute from './UnauthorizedOnlyRoute';
+import CfaMarket from '../pages/CfaMarket';
 
 export const router = createBrowserRouter([
     {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/create-cfa',
                 element: <CreateCfa />,
+            },
+            {
+                path: '/dashboard/cfa-market',
+                element: <CfaMarket />,
             },
         ],
     },

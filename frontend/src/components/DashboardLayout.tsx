@@ -1,5 +1,3 @@
-import './DashboardLayout.scss';
-
 import { Avatar, Col, Layout, Menu, theme, Typography } from 'antd';
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
@@ -10,6 +8,7 @@ import {
     UserOutlined,
     LogoutOutlined,
     PlusCircleOutlined,
+    ShoppingOutlined,
 } from '@ant-design/icons';
 
 import type { MenuProps } from 'antd';
@@ -31,6 +30,11 @@ const menuItems: MenuProps['items'] = [
         label: <Link to='/dashboard/create-cfa'>Создать ЦФА</Link>,
         icon: React.createElement(PlusCircleOutlined),
         key: 'create-cfa',
+    },
+    {
+        label: <Link to='/dashboard/cfa-market'>Витрина ЦФА</Link>,
+        icon: React.createElement(ShoppingOutlined),
+        key: 'cfa-market',
     },
 ];
 
