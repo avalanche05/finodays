@@ -1,27 +1,32 @@
 import { Row, Tabs, TabsProps, Tag, Typography } from 'antd';
-import { CfaImage } from '../api/models';
+import { CfaImage, Offer } from '../api/models';
 import OffersList from './OffersList';
 import TokensList from './TokensList';
+import { useEffect, useState } from 'react';
+import { useStores } from '../hooks/useStores';
 
 type Props = {
     cfaImage: CfaImage;
 };
 
 const CfaDetails = ({ cfaImage }: Props) => {
+    const { rootStore } = useStores();
+    const [offers, setOffers] = useState<Offer[]>([]);
+
     const items: TabsProps['items'] = [
         {
             key: '1',
             label: 'Заявки на продажу',
-            children: <OffersList />,
+            children: <OffersList offers={offers} />,
         },
         {
             key: '2',
             label: (
                 <>
-                    Заявки на продажу <Tag color='warning'>WIP</Tag>
+                    Заявки на покупку <Tag color='warning'>WIP</Tag>
                 </>
             ),
-            children: 'Заявки на обмен',
+            children: 'Заявки на покупку',
             disabled: true,
         },
         {
@@ -35,6 +40,14 @@ const CfaDetails = ({ cfaImage }: Props) => {
             disabled: true,
         },
     ];
+
+    useEffect(() => {
+        async function fetchOffers() {
+            const offers = await rootStore.getOffersByCfaImage(cfaImage.id);
+            setOffers(offers);
+        }
+        fetchOffers();
+    }, [rootStore, cfaImage]);
 
     return (
         <>

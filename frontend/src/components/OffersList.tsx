@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
-import { Button, InputNumber, Modal, Space, Table, Typography } from 'antd';
+import { useState } from 'react';
+import { Button, InputNumber, Modal, Space, Table, Typography, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Offer } from '../api/models';
+import { useStores } from '../hooks/useStores';
 
-const data: Offer[] = [
-    {
-        cfa_image_id: 1,
-        price: 100,
-        count: 23,
-        id: 1,
-        seller_id: 1,
-    },
-];
+type Props = {
+    offers: Offer[];
+};
 
-const OffersList: React.FC = () => {
+const OffersList = ({ offers }: Props) => {
+    const { rootStore } = useStores();
+    const [messageApi, contextHolder] = message.useMessage();
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
+    const [selectedOffer, setSelectedOffer] = useState<Offer>(offers[0]);
 
     const columns: ColumnsType<Offer> = [
         {
@@ -30,17 +28,17 @@ const OffersList: React.FC = () => {
             key: 'count',
         },
         {
-            title: 'ID продавца',
-            dataIndex: 'seller_id',
-            key: 'seller_id',
+            title: 'Продавец',
+            dataIndex: 'sellerName',
+            key: 'sellerName',
         },
         {
             title: '',
             key: 'action',
-            render: () => {
+            render: (row) => {
                 return (
                     <Space size='middle'>
-                        <Button onClick={buyCfa} size='small'>
+                        <Button onClick={() => buyCfa(row)} size='small'>
                             Купить
                         </Button>
                     </Space>
@@ -51,10 +49,19 @@ const OffersList: React.FC = () => {
 
     const handleOk = () => {
         setConfirmLoading(true);
-        setTimeout(() => {
-            setOpen(false);
-            setConfirmLoading(false);
-        }, 2000);
+
+        rootStore
+            .buyOffer(selectedOffer)
+            .then(() => {
+                messageApi.success('ЦФА куплен');
+            })
+            .catch((error) => {
+                messageApi.error(error.response.data);
+            })
+            .finally(() => {
+                setConfirmLoading(false);
+                setOpen(false);
+            });
     };
 
     const handleCancel = () => {
@@ -62,17 +69,22 @@ const OffersList: React.FC = () => {
         setOpen(false);
     };
 
-    const buyCfa = () => {
+    const buyCfa = (offer: Offer) => {
+        setSelectedOffer(offer);
         setOpen(true);
-    };
-
-    const handleCountChange = (count: number | null) => {
-        console.log(count);
     };
 
     return (
         <>
-            <Table columns={columns} dataSource={data.map((row) => ({ ...row, key: row.id }))} />
+            {contextHolder}
+            <Table
+                columns={columns}
+                dataSource={offers.map((row) => ({
+                    ...row,
+                    key: row.id,
+                    sellerName: row.seller.name,
+                }))}
+            />
 
             <Modal
                 title='Купить ЦФА'
@@ -84,11 +96,7 @@ const OffersList: React.FC = () => {
                 cancelText='Отмена'
             >
                 <Typography.Paragraph>Цена лота 100 ₽</Typography.Paragraph>
-                <InputNumber
-                    style={{ width: '100%' }}
-                    placeholder='Введите количество'
-                    onChange={handleCountChange}
-                />
+                <InputNumber style={{ width: '100%' }} placeholder='Введите количество' />
             </Modal>
         </>
     );

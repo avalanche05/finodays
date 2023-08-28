@@ -31,7 +31,7 @@ const CreateCfa = () => {
         rootStore
             .createCfa(createCfaForm)
             .then(() => {
-                messageApi.success('ЦФА успешно создана');
+                messageApi.success('ЦФА успешно создан');
             })
             .catch(() => {
                 messageApi.error('Ошибка создания ЦФА');

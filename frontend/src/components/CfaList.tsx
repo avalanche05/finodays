@@ -1,22 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Avatar, Button, Drawer, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { UserOutlined } from '@ant-design/icons';
 import CfaDetails from './CfaDetails';
 import { CfaImage } from '../api/models';
 
-const data: CfaImage[] = [
-    {
-        title: 'John Brown',
-        issuer: 'АО Ромашка',
-        count: 23,
-        description: 'desc',
-        id: 1,
-    },
-];
+type Props = {
+    cfas: CfaImage[];
+};
 
-const CfaList: React.FC = () => {
-    const [open, setOpen] = useState(false);
+const CfaList = ({ cfas }: Props) => {
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [selectedRowId, setSelectedRowId] = useState<number>(0);
 
     const columns: ColumnsType<CfaImage> = [
         {
@@ -47,10 +42,10 @@ const CfaList: React.FC = () => {
         {
             title: '',
             key: 'action',
-            render: () => {
+            render: (row) => {
                 return (
                     <Space size='middle'>
-                        <Button onClick={showDrawer} size='small'>
+                        <Button onClick={() => showDrawer(row.id)} size='small'>
                             Предложения
                         </Button>
                     </Space>
@@ -59,26 +54,30 @@ const CfaList: React.FC = () => {
         },
     ];
 
-    const showDrawer = () => {
-        setOpen(true);
+    const showDrawer = (rowId: number) => {
+        setSelectedRowId(rowId - 1);
+        setIsDrawerOpen(true);
     };
 
     const onClose = () => {
-        setOpen(false);
+        setIsDrawerOpen(false);
     };
 
     return (
         <>
-            <Table columns={columns} dataSource={data.map((row) => ({ ...row, key: row.id }))} />
+            <Table
+                columns={columns}
+                dataSource={cfas.map((row) => ({ ...row, key: row.id, issuer: row.user.name }))}
+            />
 
             <Drawer
                 title='Подробнее про ЦФА'
                 placement='right'
                 size={'large'}
                 onClose={onClose}
-                open={open}
+                open={isDrawerOpen}
             >
-                <CfaDetails cfaImage={data[0]} />
+                <CfaDetails cfaImage={cfas[selectedRowId]} />
             </Drawer>
         </>
     );

@@ -1,7 +1,9 @@
+import { User } from '../../models/User';
+
 export interface CfaImage {
     id: number;
     title: string;
-    issuer: string;
+    user: User;
     description: string;
     count: number;
 }
