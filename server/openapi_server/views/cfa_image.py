@@ -21,7 +21,7 @@ def create_cfa_image(user_id: int, create_cfo_image_dto: models.CreateCfaImageDT
 
     for _ in range(create_cfo_image_dto.count):
         cfa.create_cfa(user_id, cfa_image.id)
-    return True
+    return cfa_image.id
 
 
 def get_cfa_images_list() -> List[CfaImage]:

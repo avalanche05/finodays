@@ -24,6 +24,10 @@ paths:
         required: true
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cfa_image_id_dto'
           description: Успешный ответ
         "401":
           description: Неверный Bearer-токен
@@ -572,6 +576,12 @@ components:
           type: integer
         description:
           type: string
+    cfa_image_id_dto:
+      example:
+        id: 0
+      properties:
+        id:
+          type: integer
     cfa_price_dto:
       example:
         price: 0

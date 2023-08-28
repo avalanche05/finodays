@@ -10,6 +10,7 @@ from openapi_server.models.user_cfa_dto import UserCfaDTO  # noqa: E501
 from openapi_server.models.login_response_200 import LoginResponse200  # noqa: E501
 from openapi_server.models.cfa_image_dto import CfaImageDTO  # noqa: E501
 from openapi_server.models.cfa_price_dto import CfaPriceDTO  # noqa: E501
+from openapi_server.models.cfa_image_id_dto import CfaImageIdDTO  # noqa: E501
 from openapi_server.models.cfa_dto import CfaDTO  # noqa: E501
 from openapi_server.models.trade_dto import TradeDTO  # noqa: E501
 from openapi_server.models.offer_dto import OfferDTO  # noqa: E501
@@ -57,7 +58,7 @@ def cfa_image_create_post():  # noqa: E501
 
      # noqa: E501
 
-    :rtype: None
+    :rtype: CfaImageIdDTO
     """
     if connexion.request.is_json:
         create_cfa_image = CreateCfaImageDTO.from_dict(connexion.request.get_json())  # noqa: E501
@@ -68,8 +69,8 @@ def cfa_image_create_post():  # noqa: E501
             return f"Bearer token is invalid", 401
 
         try:
-            cfa_image.create_cfa_image(user_id, create_cfa_image)
-            return None, 200
+            cfa_image_id = cfa_image.create_cfa_image(user_id, create_cfa_image)
+            return CfaImageIdDTO(cfa_image_id), 200
         except Exception as e:
             return str(e), 401
 

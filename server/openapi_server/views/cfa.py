@@ -5,7 +5,6 @@ from openapi_server.models import TradeDTO
 from utils import generator
 import data.__all_models as db_models
 import openapi_server.views as views
-import openapi_server.views as views
 from utils import entities
 
 

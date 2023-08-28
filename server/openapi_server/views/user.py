@@ -11,9 +11,9 @@ def register(register_user_dto: RegisterUserDTO):
     db_sess = db_session.create_session()
 
     user = db_sess.query(db_models.user.User).filter(or_(db_models.user.User.login == register_user_dto.login,
-                                                         db_models.user.User.username == register_user_dto.username))
+                                                         db_models.user.User.username == register_user_dto.username)).first()
 
-    if user.first():
+    if user:
         return "Invalid request", 400
     new_user = db_models.user.User()
     new_user.login = register_user_dto.login
@@ -30,11 +30,11 @@ def register(register_user_dto: RegisterUserDTO):
     db_sess.add(token)
     db_sess.commit()
 
-    response = LoginResponse200(User(id=user.id,
-                                     login=user.login,
-                                     username=user.username,
-                                     name=user.name,
-                                     balance=user.balance), token.value)
+    response = LoginResponse200(User(id=new_user.id,
+                                     login=new_user.login,
+                                     username=new_user.username,
+                                     name=new_user.name,
+                                     balance=new_user.balance), token.value)
     return response
 
 
