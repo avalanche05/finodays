@@ -5,7 +5,6 @@ from datetime import date, datetime  # noqa: F401
 
 from typing import List, Dict  # noqa: F401
 
-from models import PublicUser
 from openapi_server.models.base_model_ import Model
 from openapi_server import util
 
@@ -37,8 +36,8 @@ class TradeDTO(Model):
             'date': datetime,
             'cfa_token': str,
             'price': float,
-            'buyer': PublicUser,
-            'seller': PublicUser
+            'buyer': 'PublicUser',
+            'seller': 'PublicUser'
         }
 
         self.attribute_map = {

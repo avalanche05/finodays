@@ -114,6 +114,5 @@ def get_user(user_id: int):
     db_sess = db_session.create_session()
     user = db_sess.query(db_models.user.User).get(user_id)
 
-    assert user, "User not found"
-
+    db_sess.close()
     return PublicUser(user.id, user.login, user.username, user.name)

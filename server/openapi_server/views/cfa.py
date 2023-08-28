@@ -1,8 +1,10 @@
 from data import db_session
+from models import User
 from openapi_server.models import CfaDTO
 from openapi_server.models import TradeDTO
 from utils import generator
 import data.__all_models as db_models
+import openapi_server.views as views
 import openapi_server.views as views
 
 
@@ -62,5 +64,23 @@ def get_cfa_list(cfa_image_id: int):
 
     cfa_list = db_sess.query(db_models.cfa.Cfa).filter(db_models.cfa.Cfa.cfa_image_id == cfa_image_id).all()
 
+    db_sess.close()
     assert cfa_list, "CFA Image not found"
-    return cfa_list
+
+    result = []
+    users = {}
+    for cfa in cfa_list:
+        if cfa.user_id in users:
+            user = users[cfa.user_id]
+        else:
+            try:
+                user = views.user.get_user(cfa.user_id)
+            except Exception:
+                user = User(username="User Not Founded")
+        result.append(CfaDTO(
+            token=cfa.token,
+            cfa_image_id=cfa.cfa_image_id,
+            user=user
+        ))
+        print(len(result))
+    return result

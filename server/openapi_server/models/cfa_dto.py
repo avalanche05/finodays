@@ -5,7 +5,6 @@ from datetime import date, datetime  # noqa: F401
 
 from typing import List, Dict  # noqa: F401
 
-from models import User
 from openapi_server.models.base_model_ import Model
 from openapi_server import util
 
@@ -29,7 +28,7 @@ class CfaDTO(Model):
         self.openapi_types = {
             'token': str,
             'cfa_image_id': int,
-            'user': User
+            'user': 'User'
         }
 
         self.attribute_map = {
