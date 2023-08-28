@@ -4,9 +4,240 @@ info:
   version: 1.0.0
 servers:
 - url: /
+tags:
+  - name: User
+    description: Пользователь в системе
+  - name: CfaImage
+    description: Образ ЦФА - модель типа ЦФА
+  - name: Cfa
+    description: ЦФА - модель единицы ЦФА
+  - name: Offer
+    description: Предложение - модель для продажи ЦФА на маркетплейсе
+  - name: Desire
+    description: Запрос - модель для покупки ЦФА на маркетплейсе по желаемой цене
+  - name: Trade
+    description: Сделка - создаётся автоматически при покупке предложения. Одна сделка на один ЦФА
 paths:
+  /user/register:
+    post:
+      tags:
+        - User
+      operationId: register_post
+      requestBody:
+        $ref: '#/components/requestBodies/register_user_dto'
+        content:
+          application/json:
+            schema:
+              properties:
+                login:
+                  type: string
+                username:
+                  type: string
+                name:
+                  type: string
+                password:
+                  type: string
+              type: object
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_response_200'
+          description: Успешный ответ
+        "400":
+          description: Некорректный запрос
+      summary: Зарегистрировать нового пользователя
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/login:
+    post:
+      tags:
+        - User
+      operationId: login_post
+      requestBody:
+        $ref: '#/components/requestBodies/login_user_dto'
+        content:
+          application/json:
+            schema:
+              properties:
+                login:
+                  type: string
+                password:
+                  type: string
+              type: object
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_response_200'
+          description: Успешный ответ
+        "401":
+          description: Неверные учетные данные
+      summary: Войти как пользователь
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/profile:
+    get:
+      tags:
+        - User
+      operationId: profile_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+      - BearerAuth: []
+      summary: Получить информацию о своём профиле
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/{user-id}:
+    get:
+      tags:
+        - User
+      operationId: user_user_id_get
+      parameters:
+        - explode: false
+          in: path
+          name: user-id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicUser'
+          description: Успешный ответ
+        "404":
+          description: Пользователь не найден
+      summary: Получить информацию о профиле другого пользователя
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/deposit:
+    post:
+      tags:
+        - User
+      operationId: user_deposit_post
+      requestBody:
+        $ref: '#/components/requestBodies/deposit_value_dto'
+        content:
+          application/json:
+            schema:
+              properties:
+                count:
+                  type: integer
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Пополнить баланс
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/withdraw:
+    post:
+      tags:
+        - User
+      operationId: user_withdraw_post
+      requestBody:
+        $ref: '#/components/requestBodies/withdraw_value_dto'
+        content:
+          application/json:
+            schema:
+              properties:
+                count:
+                  type: integer
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Вывести деньги с баланса
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/cfa/{user-id}:
+    get:
+      tags:
+        - User
+      operationId: cfa_user_id_get
+      parameters:
+      - explode: false
+        in: path
+        name: user-id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/user_cfa_dto'
+                type: array
+          description: Успешный ответ
+        "404":
+          description: Пользователь не найден
+      summary: Получить список CFA для пользователя
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/offer/{user-id}:
+    get:
+      tags:
+        - User
+      operationId: user_offer_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/offer_dto'
+                type: array
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Получить список всех своих предложений
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/desire/{user-id}:
+    get:
+      tags:
+        - User
+      operationId: user_desire_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/desire_dto'
+                type: array
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Получить список всех своих предложений
+      x-openapi-router-controller: openapi_server.controllers.default_controller
   /cfa-image/create:
     post:
+      tags:
+        - CfaImage
       operationId: cfa_image_create_post
       requestBody:
         $ref: '#/components/requestBodies/create_cfa_image_dto'
@@ -37,6 +268,8 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /cfa-image/list:
     get:
+      tags:
+        - CfaImage
       operationId: cfa_image_list_get
       responses:
         "200":
@@ -51,6 +284,8 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /cfa-image/price/{cfa-image-id}:
     get:
+      tags:
+        - CfaImage
       operationId: cfa_image_price_cfa_image_id_get
       parameters:
       - explode: false
@@ -71,9 +306,11 @@ paths:
           description: Изображение CFA не найдено
       summary: Получить цену изображения CFA на основе рыночных предложений
       x-openapi-router-controller: openapi_server.controllers.default_controller
-  /cfa/history/{cfa-token}:
+  /cfa/{cfa-token}:
     get:
-      operationId: cfa_history_cfa_token_get
+      tags:
+        - Cfa
+      operationId: cfa_cfa_token_get
       parameters:
       - explode: false
         in: path
@@ -87,16 +324,16 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/trade_dto'
-                type: array
+                $ref: '#/components/schemas/cfa_dto'
           description: Успешный ответ
         "404":
           description: CFA не найден
-      summary: Получить историю сделок для CFA по его токену
+      summary: Получить информацию о CFA по его токену
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /cfa/list/{cfa-image-id}:
     get:
+      tags:
+        - Cfa
       operationId: cfa_list_cfa_image_id_get
       parameters:
       - explode: false
@@ -119,9 +356,11 @@ paths:
           description: Изображение CFA не найдено
       summary: Получить список CFAs для изображения CFA
       x-openapi-router-controller: openapi_server.controllers.default_controller
-  /cfa/{cfa-token}:
+  /cfa/history/{cfa-token}:
     get:
-      operationId: cfa_cfa_token_get
+      tags:
+        - Cfa
+      operationId: cfa_history_cfa_token_get
       parameters:
       - explode: false
         in: path
@@ -135,64 +374,68 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/cfa_dto'
+                items:
+                  $ref: '#/components/schemas/trade_dto'
+                type: array
           description: Успешный ответ
         "404":
           description: CFA не найден
-      summary: Получить информацию о CFA по его токену
+      summary: Получить историю сделок для CFA по его токену
       x-openapi-router-controller: openapi_server.controllers.default_controller
-  /user/cfa/{user-id}:
-    get:
-      operationId: cfa_user_id_get
+  /offer/create:
+    post:
+      tags:
+        - Offer
+      operationId: offer_create_post
+      requestBody:
+        $ref: '#/components/requestBodies/create_offer_dto'
+        content:
+          application/json:
+            schema:
+              properties:
+                cfa_image_id:
+                  type: integer
+                count:
+                  type: integer
+                price:
+                  type: integer
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+      - BearerAuth: []
+      summary: Создать новое предложение (Требуется Bearer-токен)
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /offer/cancel/{offer-id}:
+    post:
+      tags:
+        - Offer
+      operationId: offer_cancel_post
       parameters:
       - explode: false
         in: path
-        name: user-id
+        name: offer-id
         required: true
         schema:
           type: integer
         style: simple
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/user_cfa_dto'
-                type: array
-          description: Успешный ответ
-        "404":
-          description: Пользователь не найден
-      summary: Получить список CFA для пользователя
-      x-openapi-router-controller: openapi_server.controllers.default_controller
-  /login:
-    post:
-      operationId: login_post
-      requestBody:
-        $ref: '#/components/requestBodies/login_user_dto'
-        content:
-          application/json:
-            schema:
-              properties:
-                login:
-                  type: string
-                password:
-                  type: string
-              type: object
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/login_response_200'
           description: Успешный ответ
         "401":
-          description: Неверные учетные данные
-      summary: Войти как пользователь
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Удалить предложение (Требуется Bearer-токен)
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /offer/buy/{offer-id}:
     post:
+      tags:
+        - Offer
       operationId: offer_buy_offer_id_post
       parameters:
       - explode: false
@@ -225,54 +468,10 @@ paths:
       - BearerAuth: []
       summary: Купить предложение (Требуется Bearer-токен)
       x-openapi-router-controller: openapi_server.controllers.default_controller
-  /offer/create:
-    post:
-      operationId: offer_create_post
-      requestBody:
-        $ref: '#/components/requestBodies/create_offer_dto'
-        content:
-          application/json:
-            schema:
-              properties:
-                cfa_image_id:
-                  type: integer
-                count:
-                  type: integer
-                price:
-                  type: integer
-              type: object
-        required: true
-      responses:
-        "200":
-          description: Успешный ответ
-        "401":
-          description: Неверный Bearer-токен
-      security:
-      - BearerAuth: []
-      summary: Создать новое предложение (Требуется Bearer-токен)
-      x-openapi-router-controller: openapi_server.controllers.default_controller
-  /offer/cancel/{offer-id}:
-    post:
-      operationId: offer_cancel_post
-      parameters:
-      - explode: false
-        in: path
-        name: offer-id
-        required: true
-        schema:
-          type: integer
-        style: simple
-      responses:
-        "200":
-          description: Успешный ответ
-        "401":
-          description: Неверный Bearer-токен
-      security:
-        - BearerAuth: [ ]
-      summary: Удалить предложение (Требуется Bearer-токен)
-      x-openapi-router-controller: openapi_server.controllers.default_controller
   /offer/list/{cfa-image-id}:
     get:
+      tags:
+        - Offer
       operationId: offer_list_cfa_image_id_get
       parameters:
       - explode: false
@@ -295,26 +494,60 @@ paths:
           description: Изображение CFA не найдено
       summary: Получить список предложений для изображения CFA
       x-openapi-router-controller: openapi_server.controllers.default_controller
-  /user/offer/{user-id}:
-    get:
-      operationId: user_offer_get
+  /desire/create:
+    post:
+      tags:
+        - Desire
+      operationId: desire_create_post
+      requestBody:
+        $ref: '#/components/requestBodies/create_desire_dto'
+        content:
+          application/json:
+            schema:
+              properties:
+                cfa_image_id:
+                  type: integer
+                count:
+                  type: integer
+                price:
+                  type: integer
+              type: object
+        required: true
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/offer_dto'
-                type: array
           description: Успешный ответ
         "401":
           description: Неверный Bearer-токен
       security:
         - BearerAuth: [ ]
-      summary: Получить список всех своих предложений
+      summary: Создать новое предложение (Требуется Bearer-токен)
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /desire/cancel/{desire-id}:
+    post:
+      tags:
+        - Desire
+      operationId: desire_cancel_post
+      parameters:
+        - explode: false
+          in: path
+          name: desire-id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Удалить предложение (Требуется Bearer-токен)
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /desire/sell/{desire-id}:
     post:
+      tags:
+        - Desire
       operationId: desire_sell_desire_id_post
       parameters:
         - explode: false
@@ -347,54 +580,10 @@ paths:
         - BearerAuth: [ ]
       summary: Продать cfa (Требуется Bearer-токен)
       x-openapi-router-controller: openapi_server.controllers.default_controller
-  /desire/create:
-    post:
-      operationId: desire_create_post
-      requestBody:
-        $ref: '#/components/requestBodies/create_desire_dto'
-        content:
-          application/json:
-            schema:
-              properties:
-                cfa_image_id:
-                  type: integer
-                count:
-                  type: integer
-                price:
-                  type: integer
-              type: object
-        required: true
-      responses:
-        "200":
-          description: Успешный ответ
-        "401":
-          description: Неверный Bearer-токен
-      security:
-        - BearerAuth: [ ]
-      summary: Создать новое предложение (Требуется Bearer-токен)
-      x-openapi-router-controller: openapi_server.controllers.default_controller
-  /desire/cancel/{desire-id}:
-    post:
-      operationId: desire_cancel_post
-      parameters:
-        - explode: false
-          in: path
-          name: desire-id
-          required: true
-          schema:
-            type: integer
-          style: simple
-      responses:
-        "200":
-          description: Успешный ответ
-        "401":
-          description: Неверный Bearer-токен
-      security:
-        - BearerAuth: [ ]
-      summary: Удалить предложение (Требуется Bearer-токен)
-      x-openapi-router-controller: openapi_server.controllers.default_controller
   /desire/list/{cfa-image-id}:
     get:
+      tags:
+        - Desire
       operationId: desire_list_cfa_image_id_get
       parameters:
         - explode: false
@@ -417,70 +606,10 @@ paths:
           description: Изображение CFA не найдено
       summary: Получить список желаний для изображения CFA
       x-openapi-router-controller: openapi_server.controllers.default_controller
-  /user/desire/{user-id}:
-    get:
-      operationId: user_desire_get
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/desire_dto'
-                type: array
-          description: Успешный ответ
-        "401":
-          description: Неверный Bearer-токен
-      security:
-        - BearerAuth: [ ]
-      summary: Получить список всех своих предложений
-      x-openapi-router-controller: openapi_server.controllers.default_controller
-  /register:
-    post:
-      operationId: register_post
-      requestBody:
-        $ref: '#/components/requestBodies/register_user_dto'
-        content:
-          application/json:
-            schema:
-              properties:
-                login:
-                  type: string
-                username:
-                  type: string
-                name:
-                  type: string
-                password:
-                  type: string
-              type: object
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/login_response_200'
-          description: Успешный ответ
-        "400":
-          description: Некорректный запрос
-      summary: Зарегистрировать нового пользователя
-      x-openapi-router-controller: openapi_server.controllers.default_controller
-  /trade/list:
-    get:
-      operationId: trade_list_get
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/trade_dto'
-                type: array
-          description: Успешный ответ
-      summary: Получить список сделок
-      x-openapi-router-controller: openapi_server.controllers.default_controller
   /trade/{trade-id}:
     get:
+      tags:
+        - Trade
       operationId: trade_trade_id_get
       parameters:
       - explode: false
@@ -501,87 +630,21 @@ paths:
           description: Сделка не найдена
       summary: Получить информацию о сделке по ее ID
       x-openapi-router-controller: openapi_server.controllers.default_controller
-  /profile:
+  /trade/list:
     get:
-      operationId: profile_get
+      tags:
+        - Trade
+      operationId: trade_list_get
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                items:
+                  $ref: '#/components/schemas/trade_dto'
+                type: array
           description: Успешный ответ
-        "401":
-          description: Неверный Bearer-токен
-      security:
-      - BearerAuth: []
-      summary: Получить информацию о своём профиле
-      x-openapi-router-controller: openapi_server.controllers.default_controller
-  /user/{user-id}:
-    get:
-      operationId: user_user_id_get
-      parameters:
-        - explode: false
-          in: path
-          name: user-id
-          required: true
-          schema:
-            type: integer
-          style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PublicUser'
-          description: Успешный ответ
-        "404":
-          description: Пользователь не найден
-      summary: Получить информацию о профиле другого пользователя
-      x-openapi-router-controller: openapi_server.controllers.default_controller
-  /user/deposit:
-    post:
-      operationId: user_deposit_post
-      requestBody:
-        $ref: '#/components/requestBodies/deposit_value_dto'
-        content:
-          application/json:
-            schema:
-              properties:
-                count:
-                  type: integer
-              type: object
-        required: true
-      responses:
-        "200":
-          description: Успешный ответ
-        "401":
-          description: Неверный Bearer-токен
-      security:
-        - BearerAuth: [ ]
-      summary: Пополнить баланс
-      x-openapi-router-controller: openapi_server.controllers.default_controller
-  /user/withdraw:
-    post:
-      operationId: user_withdraw_post
-      requestBody:
-        $ref: '#/components/requestBodies/withdraw_value_dto'
-        content:
-          application/json:
-            schema:
-              properties:
-                count:
-                  type: integer
-              type: object
-        required: true
-      responses:
-        "200":
-          description: Успешный ответ
-        "401":
-          description: Неверный Bearer-токен
-      security:
-        - BearerAuth: [ ]
-      summary: Вывести деньги с баланса
+      summary: Получить список сделок
       x-openapi-router-controller: openapi_server.controllers.default_controller
 components:
   requestBodies:
