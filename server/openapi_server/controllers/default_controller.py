@@ -338,3 +338,13 @@ def user_withdraw_post():
             return str(e), 401
 
     return "Invalid credentials", 401
+
+
+def user_offer_get():
+    """Получить список всех своих предложений
+
+    # noqa: E501
+
+    :rtype: None
+    """
+

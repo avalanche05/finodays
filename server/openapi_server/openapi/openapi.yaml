@@ -423,7 +423,24 @@ paths:
         - BearerAuth: [ ]
       summary: Вывести деньги с баланса
       x-openapi-router-controller: openapi_server.controllers.default_controller
-
+  /user/offer/{user-id}:
+    get:
+      operationId: user_offer_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/offer_dto'
+                type: array
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Получить список всех своих предложений
+      x-openapi-router-controller: openapi_server.controllers.default_controller
 components:
   requestBodies:
     deposit_value_dto:
