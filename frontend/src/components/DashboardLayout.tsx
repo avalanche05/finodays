@@ -4,7 +4,6 @@ import { Link, Outlet } from 'react-router-dom';
 
 import {
     DashboardOutlined,
-    FormOutlined,
     UserOutlined,
     LogoutOutlined,
     PlusCircleOutlined,
@@ -20,11 +19,6 @@ const menuItems: MenuProps['items'] = [
         label: <Link to='/dashboard/profile'>Мой кабинет</Link>,
         icon: React.createElement(DashboardOutlined),
         key: 'profile',
-    },
-    {
-        label: <Link to='/dashboard/my-cfas'>Мои ЦФА</Link>,
-        icon: React.createElement(FormOutlined),
-        key: 'my-cfas',
     },
     {
         label: <Link to='/dashboard/create-cfa'>Создать ЦФА</Link>,

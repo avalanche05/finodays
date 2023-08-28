@@ -4,7 +4,6 @@ import AuthService from '../api/AuthService';
 import DashboardLayout from '../components/DashboardLayout';
 import CreateCfa from '../pages/CreateCfa';
 import Login from '../pages/Login';
-import MyCfas from '../pages/MyCfas';
 import Profile from '../pages/Profile';
 import SignUp from '../pages/SignUp';
 import ProtectedRoute from './ProtectedRoute';
@@ -39,10 +38,6 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/profile',
                 element: <Profile />,
-            },
-            {
-                path: '/dashboard/my-cfas',
-                element: <MyCfas />,
             },
             {
                 path: '/dashboard/create-cfa',

@@ -3,3 +3,4 @@ export * from './CreateUserBody';
 export * from './LoginBody';
 export * from './CfaImage';
 export * from './Offer';
+export * from './CreateCfaResponse';
