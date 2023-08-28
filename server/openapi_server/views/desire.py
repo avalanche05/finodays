@@ -40,11 +40,13 @@ def sell(desire_id: int, user_id: int, count: int):
     if count < 0 or count > desire.count:
         raise ValueError("Wrong count value")
 
-    user = entities.get_user(user_id)
-    buyer = entities.get_user(desire.buyer_id)
+    user = db_sess.query(db_models.user.User).get(user_id)
+    buyer = db_sess.query(db_models.user.User).get(desire.buyer_id)
 
     if user is None:
         raise FileNotFoundError(f"Cannot find user with id {user_id}")
+    if buyer is None:
+        raise FileNotFoundError(f"Cannot find user with id {desire.buyer_id}")
 
     calculated_price = desire.price * count
 
