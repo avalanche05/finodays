@@ -20,3 +20,4 @@ class Trade(SqlAlchemyBase, SerializerMixin):
                                  sqlalchemy.ForeignKey("user.id"))
     seller_id = sqlalchemy.Column(sqlalchemy.Integer,
                                   sqlalchemy.ForeignKey("user.id"))
+
