@@ -118,7 +118,9 @@ def buy(offer_id: int, user_id: int, count: int):
         raise ValueError("User have not enough money")
 
     user.balance -= calculated_price
+    db_sess.commit()
     offer.count -= count
+    db_sess.commit()
 
     cfas = db_sess.query(db_models.cfa.Cfa).filter(
         db_models.cfa.Cfa.user_id == offer.seller_id,
@@ -130,6 +132,7 @@ def buy(offer_id: int, user_id: int, count: int):
         db_models.user.User.id == offer.seller_id
     ).first()
     seller.balance += calculated_price
+    db_sess.commit()
 
     for cfa in cfas:
         cfa.user_id = user_id
@@ -143,6 +146,7 @@ def buy(offer_id: int, user_id: int, count: int):
         trade.seller_id = offer.seller_id
 
         db_sess.add(trade)
+        db_sess.commit()
 
     db_sess.commit()
     db_sess.close()

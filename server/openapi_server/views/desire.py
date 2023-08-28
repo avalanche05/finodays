@@ -27,7 +27,10 @@ def cancel(user_id: int, desire_id: id):
         db_models.desire.Desire.id == desire_id).first()
 
     if desire is None:
-        raise FileNotFoundError(f"Cannot find desire with id {desire_id}")
+        raise FileNotFoundError(f"Cannot find desire with id: {desire_id}")
+
+    if desire.buyer_id != user_id:
+        raise ValueError(f"You cannot cancel desire with id: {desire_id}")
 
     desire.count = 0
 
