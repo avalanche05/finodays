@@ -15,7 +15,7 @@ class DesireDTO(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, cfa_image=None, count=None, price=None, seller=None):  # noqa: E501
+    def __init__(self, id=None, cfa_image=None, count=None, price=None, buyer=None):  # noqa: E501
         """DesireDTO - a model defined in OpenAPI
 
         :param id: The id of this DesireDTO.  # noqa: E501
@@ -26,15 +26,15 @@ class DesireDTO(Model):
         :type count: int
         :param price: The price of this DesireDTO.  # noqa: E501
         :type price: float
-        :param seller: The seller of this DesireDTO.  # noqa: E501
-        :type seller: PublicUser
+        :param buyer: The buyer of this DesireDTO.  # noqa: E501
+        :type buyer: PublicUser
         """
         self.openapi_types = {
             'id': int,
             'cfa_image': 'CfaImage',
             'count': int,
             'price': float,
-            'seller': 'PublicUser'
+            'buyer': 'PublicUser'
         }
 
         self.attribute_map = {
@@ -42,14 +42,14 @@ class DesireDTO(Model):
             'cfa_image': 'cfa_image',
             'count': 'count',
             'price': 'price',
-            'seller': 'seller'
+            'buyer': 'buyer'
         }
 
         self._id = id
         self._cfa_image = cfa_image
         self._count = count
         self._price = price
-        self._seller = seller
+        self._buyer = buyer
 
     @classmethod
     def from_dict(cls, dikt) -> 'DesireDTO':
@@ -147,22 +147,22 @@ class DesireDTO(Model):
         self._price = price
 
     @property
-    def seller(self):
-        """Gets the seller of this DesireDTO.
+    def buyer(self):
+        """Gets the buyer of this DesireDTO.
 
 
-        :return: The seller of this DesireDTO.
+        :return: The buyer of this DesireDTO.
         :rtype: int
         """
-        return self._seller
+        return self._buyer
 
-    @seller.setter
-    def seller(self, seller):
-        """Sets the seller of this DesireDTO.
+    @buyer.setter
+    def buyer(self, buyer):
+        """Sets the buyer of this DesireDTO.
 
 
-        :param seller: The seller of this DesireDTO.
-        :type seller: int
+        :param buyer: The buyer of this DesireDTO.
+        :type buyer: int
         """
 
-        self._seller = seller
+        self._buyer = buyer

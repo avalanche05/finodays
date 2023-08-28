@@ -6,6 +6,7 @@ from openapi_server.models.offer_dto import OfferDTO
 import data.__all_models as db_models
 from utils import entities
 
+
 def create(user_id, offer_create: CreateOfferDTO):
     db_sess = db_session.create_session()
 
@@ -36,6 +37,7 @@ def create(user_id, offer_create: CreateOfferDTO):
     db_sess.close()
 
     return offer_id
+
 
 def cancel_offer(user_id: int, offer_id: id):
     db_sess = db_session.create_session()
@@ -105,9 +107,7 @@ def buy(offer_id: int, user_id: int, count: int):
     if count < 0 or count > offer.count:
         raise ValueError("Wrong count value")
 
-    user = db_sess.query(db_models.user.User).filter(
-        db_models.user.User.id == user_id
-    ).first()
+    user = entities.get_user(user_id)
 
     if user is None:
         raise FileNotFoundError(f"Cannot find user with id {user_id}")
@@ -128,9 +128,7 @@ def buy(offer_id: int, user_id: int, count: int):
         db_models.cfa.Cfa.offer_id == offer.id
     ).limit(count).all()
 
-    seller = db_sess.query(db_models.user.User).filter(
-        db_models.user.User.id == offer.seller_id
-    ).first()
+    seller = entities.get_user(offer.seller_id)
     seller.balance += calculated_price
     db_sess.commit()
 

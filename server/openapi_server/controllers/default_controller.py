@@ -223,7 +223,7 @@ def offer_list_cfa_image_id_get(cfa_image_id):  # noqa: E501
     :param cfa_image_id: 
     :type cfa_image_id: int
 
-    :rtype: List[InlineResponse2006]
+    :rtype: List[OfferDTO]
     """
 
     try:
@@ -351,7 +351,7 @@ def user_offer_get(user_id: int):
 
     # noqa: E501
 
-    :rtype: None
+    :rtype: List[OfferDTO]
     """
     try:
         token = connexion.request.headers.get('Authorization').split()[1]
@@ -397,7 +397,7 @@ def desire_sell_desire_id_post(desire_id):  # noqa: E501
         user_id = user.get_profile(token).id
 
         try:
-            desire.buy(desire_id=desire_id,
+            desire.sell(desire_id=desire_id,
                        user_id=user_id,
                        count=accept_desire_dto.count)
             return "desire buy success", 201
@@ -436,7 +436,7 @@ def desire_list_cfa_image_id_get(cfa_image_id):  # noqa: E501
     :param cfa_image_id:
     :type cfa_image_id: int
 
-    :rtype: List[InlineResponse2006]
+    :rtype: List[DesireDTO]
     """
 
     try:
@@ -451,8 +451,15 @@ def user_desire_get(user_id: int):
 
     # noqa: E501
 
-    :rtype: None
+    :rtype: List[DesireDTO]
     """
+    try:
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = user.get_profile(token).id
+        desires = user.get_desire_list(user_id)
+        return desires, 201
+    except Exception as e:
+        return str(e), 400
 
 
 def desire_cancel_post(desire_id):  # noqa: E501
