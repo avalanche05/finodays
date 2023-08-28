@@ -133,6 +133,7 @@ def buy(offer_id: int, user_id: int, count: int):
 
     for cfa in cfas:
         cfa.user_id = user_id
+        cfa.offer_id = 0
 
         trade = db_models.trade.Trade()
         trade.date = datetime.now()
