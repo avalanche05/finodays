@@ -53,8 +53,8 @@ def cancel_offer(user_id: int, offer_id: id):
 
     offer.count = 0
 
-    db_sess.close()
     db_sess.commit()
+    db_sess.close()
 
 
 def get_all_by_cfa_image_id(cfa_image_id: int):

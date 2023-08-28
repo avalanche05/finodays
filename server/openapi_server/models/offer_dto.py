@@ -25,7 +25,7 @@ class OfferDTO(Model):
         :param count: The count of this OfferDTO.  # noqa: E501
         :type count: int
         :param price: The price of this OfferDTO.  # noqa: E501
-        :type price: int
+        :type price: float
         :param seller: The seller of this OfferDTO.  # noqa: E501
         :type seller: PublicUser
         """

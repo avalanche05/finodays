@@ -251,6 +251,26 @@ paths:
       - BearerAuth: []
       summary: Создать новое предложение (Требуется Bearer-токен)
       x-openapi-router-controller: openapi_server.controllers.default_controller
+  /offer/cancel/{offer-id}:
+    post:
+      operationId: offer_cancel_post
+      parameters:
+      - explode: false
+        in: path
+        name: offer-id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Удалить предложение (Требуется Bearer-токен)
+      x-openapi-router-controller: openapi_server.controllers.default_controller
   /offer/list/{cfa-image-id}:
     get:
       operationId: offer_list_cfa_image_id_get

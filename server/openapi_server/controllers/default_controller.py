@@ -356,15 +356,10 @@ def offer_cancel_post(offer_id):  # noqa: E501
 
     :rtype: None
     """
-    if connexion.request.is_json:
-        create_offer_dto = CreateOfferDTO.from_dict(connexion.request.get_json())  # noqa: E501
+    try:
         token = connexion.request.headers.get('Authorization').split()[1]
         user_id = user.get_profile(token).id
-
-        try:
-            offer_id = offer.create(user_id, create_offer_dto)
-            return {"id": offer_id}, 201
-        except Exception as e:
-            return str(e), 400
-
-    return 'invalid data in request', 400
+        offer.cancel_offer(user_id=user_id, offer_id=offer_id)
+        return "Delete offer success", 201
+    except Exception as e:
+        return str(e), 400
