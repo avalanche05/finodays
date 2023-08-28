@@ -16,6 +16,7 @@ def create(user_id, offer_create: CreateOfferDTO):
     ).all()
 
     if offer_create.count > len(cfas):
+        db_sess.close()
         raise ValueError("User have not enough cfas to sell")
 
     offer = db_models.offer.Offer()
