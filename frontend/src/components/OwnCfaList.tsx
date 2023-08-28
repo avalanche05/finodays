@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { Avatar, Button, Drawer, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { UserOutlined } from '@ant-design/icons';
-import CfaDetails from './CfaDetails';
-import { CfaImage } from '../api/models';
+import { CfaImage, OwnCfaImage } from '../api/models';
+import OwnCfaDetails from './OwnCfaDetails';
 
 type Props = {
-    cfas: CfaImage[];
+    cfas: OwnCfaImage[];
+    trigger: Dispatch<SetStateAction<boolean>>;
+    triggerValue: boolean;
 };
 
-const CfaList = ({ cfas }: Props) => {
+const OwnCfaList = ({ cfas, trigger, triggerValue }: Props) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [selectedRowId, setSelectedRowId] = useState<number>(0);
 
@@ -46,7 +48,7 @@ const CfaList = ({ cfas }: Props) => {
                 return (
                     <Space size='middle'>
                         <Button onClick={() => showDrawer(row.id)} size='small'>
-                            Предложения
+                            Создать оффер
                         </Button>
                     </Space>
                 );
@@ -64,14 +66,19 @@ const CfaList = ({ cfas }: Props) => {
     };
 
     const getCfaImageById = (id: number) => {
-        return cfas.find((cfa) => cfa.id === id);
+        return cfas.find((cfa) => cfa.cfa_image.id === id);
     };
 
     return (
         <>
             <Table
                 columns={columns}
-                dataSource={cfas.map((row) => ({ ...row, key: row.id, issuer: row.user.name }))}
+                dataSource={cfas.map((row) => ({
+                    ...row.cfa_image,
+                    key: row.cfa_image.id,
+                    issuer: row.cfa_image.user.name,
+                    count: row.tokens.length,
+                }))}
             />
 
             <Drawer
@@ -82,11 +89,15 @@ const CfaList = ({ cfas }: Props) => {
                 open={isDrawerOpen}
             >
                 {getCfaImageById(selectedRowId) && (
-                    <CfaDetails cfaImage={getCfaImageById(selectedRowId) as CfaImage} />
+                    <OwnCfaDetails
+                        trigger={trigger}
+                        triggerValue={triggerValue}
+                        ownCfaImage={getCfaImageById(selectedRowId) as OwnCfaImage}
+                    />
                 )}
             </Drawer>
         </>
     );
 };
 
-export default CfaList;
+export default OwnCfaList;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, InputNumber, Modal, Space, Table, Typography, message } from 'antd';
+import { Button, Modal, Space, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Offer } from '../api/models';
 import { useStores } from '../hooks/useStores';
@@ -8,15 +8,19 @@ type Props = {
     offers: Offer[];
 };
 
-const OffersList = ({ offers }: Props) => {
+const OwnOffersList = ({ offers }: Props) => {
     const { rootStore } = useStores();
     const [messageApi, contextHolder] = message.useMessage();
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [selectedOffer, setSelectedOffer] = useState<Offer>(offers[0]);
-    const [count, setCount] = useState<number>(0);
 
     const columns: ColumnsType<Offer> = [
+        {
+            title: 'Название ЦФА',
+            dataIndex: 'cfaImageTitle',
+            key: 'cfaImageTitle',
+        },
         {
             title: 'Стоимость',
             dataIndex: 'price',
@@ -29,18 +33,13 @@ const OffersList = ({ offers }: Props) => {
             key: 'count',
         },
         {
-            title: 'Продавец',
-            dataIndex: 'sellerName',
-            key: 'sellerName',
-        },
-        {
             title: '',
             key: 'action',
             render: (row) => {
                 return (
                     <Space size='middle'>
-                        <Button onClick={() => buyCfa(row)} size='small'>
-                            Купить
+                        <Button danger type='text' onClick={() => deleteOffer(row)} size='small'>
+                            Удалить
                         </Button>
                     </Space>
                 );
@@ -52,12 +51,12 @@ const OffersList = ({ offers }: Props) => {
         setConfirmLoading(true);
 
         rootStore
-            .buyOffer({ ...selectedOffer, count })
+            .deleteOffer(selectedOffer.id)
             .then(() => {
-                messageApi.success('ЦФА куплен');
+                messageApi.success('Оффер удален');
             })
-            .catch((error) => {
-                messageApi.error(error.response.data);
+            .catch(() => {
+                messageApi.error('Ошибка удаления оффера');
             })
             .finally(() => {
                 setConfirmLoading(false);
@@ -70,7 +69,7 @@ const OffersList = ({ offers }: Props) => {
         setOpen(false);
     };
 
-    const buyCfa = (offer: Offer) => {
+    const deleteOffer = (offer: Offer) => {
         setSelectedOffer(offer);
         setOpen(true);
     };
@@ -84,33 +83,21 @@ const OffersList = ({ offers }: Props) => {
                     ...row,
                     key: row.id,
                     sellerName: row.seller.name,
+                    cfaImageTitle: row.cfa_image.title,
                 }))}
             />
 
             <Modal
-                title='Купить ЦФА'
+                title='Подтверждение удаления оффера'
                 open={open}
                 onOk={handleOk}
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}
-                okText='Купить'
+                okText='Удалить'
                 cancelText='Отмена'
-            >
-                <Typography.Paragraph>Цена лота {selectedOffer?.price} ₽</Typography.Paragraph>
-                <InputNumber
-                    onChange={(value) => {
-                        if (value) {
-                            setCount(parseInt(value.toString()));
-                        } else {
-                            setCount(0);
-                        }
-                    }}
-                    style={{ width: '100%' }}
-                    placeholder='Введите количество'
-                />
-            </Modal>
+            ></Modal>
         </>
     );
 };
 
-export default OffersList;
+export default OwnOffersList;

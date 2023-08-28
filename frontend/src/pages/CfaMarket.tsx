@@ -1,4 +1,4 @@
-import { Button, Row, Tabs, TabsProps, Typography } from 'antd';
+import { Row, Tabs, TabsProps, Typography } from 'antd';
 import CfaList from '../components/CfaList';
 import { useEffect, useState } from 'react';
 import { useStores } from '../hooks/useStores';
@@ -37,12 +37,7 @@ const CfaMarket = () => {
             </Row>
 
             <Row>
-                <Tabs
-                    style={{ width: '100%' }}
-                    tabBarExtraContent={<Button>Продать ЦФА</Button>}
-                    defaultActiveKey='1'
-                    items={items}
-                />
+                <Tabs style={{ width: '100%' }} defaultActiveKey='1' items={items} />
             </Row>
         </>
     );

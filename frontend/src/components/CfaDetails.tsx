@@ -1,7 +1,6 @@
 import { Row, Tabs, TabsProps, Tag, Typography } from 'antd';
 import { CfaImage, Offer } from '../api/models';
 import OffersList from './OffersList';
-import TokensList from './TokensList';
 import { useEffect, useState } from 'react';
 import { useStores } from '../hooks/useStores';
 
@@ -61,13 +60,6 @@ const CfaDetails = ({ cfaImage }: Props) => {
 
             <Row>
                 <Tabs style={{ width: '100%' }} defaultActiveKey='1' items={items} />
-            </Row>
-
-            <Row>
-                <Typography.Title level={3}>Список токенов</Typography.Title>
-            </Row>
-            <Row>
-                <TokensList />
             </Row>
         </>
     );

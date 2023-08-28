@@ -27,6 +27,18 @@ class OffersApiService {
 
         return response.data;
     }
+
+    public async deleteOffer(offerId: number) {
+        const response = await axios.post<void>(
+            `${API_URL}/offer/cancel/${offerId}`,
+            {},
+            {
+                headers: authHeader(),
+            }
+        );
+
+        return response.data;
+    }
 }
 
 export const OffersApiServiceInstanse = new OffersApiService();
