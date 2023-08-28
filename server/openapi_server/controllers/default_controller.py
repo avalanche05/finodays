@@ -472,7 +472,7 @@ def desire_cancel_post(desire_id):  # noqa: E501
     try:
         token = connexion.request.headers.get('Authorization').split()[1]
         user_id = user.get_profile(token).id
-        desire.cancel_desire(user_id=user_id, desire_id=desire_id)
+        desire.cancel(user_id=user_id, desire_id=desire_id)
         return "Delete desire success", 201
     except Exception as e:
         return str(e), 400

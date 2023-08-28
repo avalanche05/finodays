@@ -91,9 +91,9 @@ def create(user_id, desire_create: CreateDesireDTO):
     desire.price = desire_create.price
     desire.buyer_id = user_id
 
-    desire_id = desire.id
     db_sess.add(desire)
     db_sess.commit()
+    desire_id = desire.id
     db_sess.close()
 
     return desire_id
