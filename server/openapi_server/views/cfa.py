@@ -1,5 +1,5 @@
 from data import db_session
-from models import User
+from openapi_server.models import User
 from openapi_server.models import CfaDTO
 from openapi_server.models import TradeDTO
 from utils import generator
@@ -60,6 +60,8 @@ def get_cfa_list(cfa_image_id: int):
 
     result = []
     users = {}
+
+    cfa_image = entities.get_cfa_image(cfa_image_id)
     for cfa in cfa_list:
         if cfa.user_id in users:
             user = users[cfa.user_id]
@@ -70,8 +72,7 @@ def get_cfa_list(cfa_image_id: int):
                 user = User(username="User Not Founded")
         result.append(CfaDTO(
             token=cfa.token,
-            cfa_image_id=cfa.cfa_image_id,
+            cfa_image=cfa_image,
             user=user
         ))
-        print(len(result))
     return result

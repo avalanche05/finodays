@@ -46,6 +46,8 @@ def get_cfa_images_list() -> List[CfaImage]:
             )
         )
 
+    db_sess.close()
+
     return result
 
 
