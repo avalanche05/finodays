@@ -651,7 +651,8 @@ components:
         name:
           type: string
         balance:
-          type: integer
+          type: number
+          format: float
       type: object
     PublicUser:
       properties:
@@ -674,8 +675,8 @@ components:
           type: integer
         description:
           type: string
-        user_id:
-          type: integer
+        user:
+          $ref: '#/components/schemas/PublicUser'
       type: object
     Cfa:
       properties:
@@ -697,14 +698,15 @@ components:
           type: integer
       type: object
     user_cfa_dto:
-      example:
-        count: 6
-        cfa_image_id: 0
       properties:
-        cfa_image_id:
-          type: integer
+        cfa_image:
+          $ref: '#/components/schemas/PublicUser'
         count:
           type: integer
+        tokens:
+          type: array
+          items:
+            type: string
     register_user_dto:
       properties:
         login:
@@ -717,12 +719,9 @@ components:
           type: string
       type: object
     login_response_200:
-      example:
-        bearer_token: bearer_token
-        user_id: 0
       properties:
-        user_id:
-          type: integer
+        user:
+          $ref: '#/components/schemas/User'
         bearer_token:
           type: string
     login_user_dto:
@@ -769,38 +768,29 @@ components:
           type: string
       type: object
     cfa_dto:
-      example:
-        user_id: 6
-        cfa_image_id: 0
-        token: token
       properties:
         token:
           type: string
-        cfa_image_id:
-          type: integer
+        cfa_image:
+          $ref: '#/components/schemas/CfaImage'
         user_id:
           type: integer
     trade_dto:
-      example:
-        date: date
-        cfa_token: cfa_token
-        price: 6
-        id: 0
-        buyer_id: 1
-        seller_id: 5
       properties:
         id:
           type: integer
         date:
           type: string
+          format: date-time
         cfa_token:
           type: string
         price:
-          type: integer
-        buyer_id:
-          type: integer
-        seller_id:
-          type: integer
+          type: number
+          format: float
+        buyer:
+          $ref: '#/components/schemas/PublicUser'
+        seller:
+          $ref: '#/components/schemas/PublicUser'
     create_offer_dto:
       properties:
         cfa_image_id:
@@ -811,23 +801,18 @@ components:
           type: integer
       type: object
     offer_dto:
-      example:
-        price: 5
-        count: 1
-        id: 0
-        cfa_image_id: 6
-        seller_id: 5
       properties:
         id:
           type: integer
-        cfa_image_id:
-          type: integer
+        cfa_image:
+          $ref: '#/components/schemas/CfaImage'
         count:
           type: integer
         price:
-          type: integer
-        seller_id:
-          type: integer
+          type: number
+          format: float
+        seller:
+          $ref: '#/components/schemas/PublicUser'
     accept_offer_dto:
       properties:
         count:
@@ -843,23 +828,18 @@ components:
           type: integer
       type: object
     desire_dto:
-      example:
-        price: 5
-        count: 1
-        id: 0
-        cfa_image_id: 6
-        seller_id: 5
       properties:
         id:
           type: integer
-        cfa_image_id:
-          type: integer
+        cfa_image:
+          $ref: '#/components/schemas/CfaImage'
         count:
           type: integer
         price:
-          type: integer
-        seller_id:
-          type: integer
+          type: number
+          format: float
+        seller:
+          $ref: '#/components/schemas/PublicUser'
     accept_desire_dto:
       properties:
         count:
