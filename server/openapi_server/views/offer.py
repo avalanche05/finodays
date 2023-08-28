@@ -23,15 +23,18 @@ def create(user_id, offer_create: CreateOfferDTO):
     offer.price = offer_create.price
     offer.cfa_image_id = offer_create.cfa_image_id
     offer.count = offer_create.count
+    db_sess.add(offer)
+    db_sess.commit()
 
     for i in range(offer_create.count):
         cfas[i].offer_id = offer.id
 
-    db_sess.add(offer)
+    offer_id = offer.id
+
     db_sess.commit()
     db_sess.close()
 
-    return offer.id
+    return offer_id
 
 def cancel_offer(user_id: int, offer_id: id):
     db_sess = db_session.create_session()
@@ -48,8 +51,19 @@ def cancel_offer(user_id: int, offer_id: id):
         db_models.cfa.Cfa.offer_id == offer_id
     ).all()
 
+    pass
+
     for cfa in cfas:
         cfa.offer_id = 0
+        db_sess.commit()
+
+    cfas = db_sess.query(db_models.cfa.Cfa).filter(
+        db_models.cfa.Cfa.user_id == user_id,
+        db_models.cfa.Cfa.cfa_image_id == offer.cfa_image_id,
+        db_models.cfa.Cfa.offer_id == offer_id
+    ).all()
+
+    pass
 
     offer.count = 0
 
