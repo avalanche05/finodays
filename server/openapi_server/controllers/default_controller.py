@@ -14,6 +14,9 @@ from openapi_server.models.cfa_image_id_dto import CfaImageIdDTO  # noqa: E501
 from openapi_server.models.cfa_dto import CfaDTO  # noqa: E501
 from openapi_server.models.trade_dto import TradeDTO  # noqa: E501
 from openapi_server.models.offer_dto import OfferDTO  # noqa: E501
+from openapi_server.models.accept_desire_dto import AcceptDesireDTO  # noqa: E501
+from openapi_server.models.desire_dto import DesireDTO  # noqa: E501
+from openapi_server.models.create_desire_dto import CreateDesireDTO  # noqa: E501
 from openapi_server.models.user import User
 from openapi_server.models.public_user import PublicUser
 from openapi_server.models.deposit_value_dto import DepositValueDTO
@@ -23,6 +26,7 @@ from openapi_server.views import user
 from openapi_server.views import cfa
 from openapi_server.views import cfa_image
 from openapi_server.views import offer
+from openapi_server.views import desire
 from openapi_server.views import trade
 
 
@@ -340,16 +344,23 @@ def user_withdraw_post():
     return "Invalid credentials", 401
 
 
-def user_offer_get():
+def user_offer_get(user_id: int):
     """Получить список всех своих предложений
 
     # noqa: E501
 
     :rtype: None
     """
+    try:
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = user.get_profile(token).id
+        offers = user.get_offer_list(user_id)
+        return offers, 201
+    except Exception as e:
+        return str(e), 400
 
 
-def offer_cancel_post(offer_id):  # noqa: E501
+def offer_cancel_post(offer_id: int):  # noqa: E501
     """Удалить предложение (Требуется Bearer-токен)
 
      # noqa: E501
@@ -361,5 +372,98 @@ def offer_cancel_post(offer_id):  # noqa: E501
         user_id = user.get_profile(token).id
         offer.cancel_offer(user_id=user_id, offer_id=offer_id)
         return "Delete offer success", 201
+    except Exception as e:
+        return str(e), 400
+
+
+def desire_sell_desire_id_post(desire_id):  # noqa: E501
+    """Продать cfa (Требуется Bearer-токен)
+
+     # noqa: E501
+
+    :param desire_id:
+    :type desire_id: int
+    :param accept_desire_dto:
+    :type accept_desire_dto: dict | bytes
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        accept_desire_dto = AcceptDesireDTO.from_dict(connexion.request.get_json())
+
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = user.get_profile(token).id
+
+        try:
+            desire.buy(desire_id=desire_id,
+                       user_id=user_id,
+                       count=accept_desire_dto.count)
+            return "desire buy success", 201
+        except Exception as e:
+            return str(e), 400
+
+    return 'invalid data in request', 400
+
+
+def desire_create_post():  # noqa: E501
+    """Создать новое предложение (Требуется Bearer-токен)
+
+     # noqa: E501
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        create_desire_dto = CreateDesireDTO.from_dict(connexion.request.get_json())  # noqa: E501
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = user.get_profile(token).id
+
+        try:
+            desire_id = desire.create(user_id, create_desire_dto)
+            return {"id": desire_id}, 201
+        except Exception as e:
+            return str(e), 400
+
+    return 'invalid data in request', 400
+
+
+def desire_list_cfa_image_id_get(cfa_image_id):  # noqa: E501
+    """Получить список желаний для изображения CFA
+
+     # noqa: E501
+
+    :param cfa_image_id:
+    :type cfa_image_id: int
+
+    :rtype: List[InlineResponse2006]
+    """
+
+    try:
+        desires = desire.get_all_by_cfa_image_id(cfa_image_id)
+        return desires, 200
+    except Exception as e:
+        return str(e), 400
+
+
+def user_desire_get(user_id: int):
+    """Получить список всех своих предложений
+
+    # noqa: E501
+
+    :rtype: None
+    """
+
+
+def desire_cancel_post(desire_id):  # noqa: E501
+    """Удалить предложение (Требуется Bearer-токен)
+
+     # noqa: E501
+
+    :rtype: None
+    """
+    try:
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = user.get_profile(token).id
+        desire.cancel_desire(user_id=user_id, desire_id=desire_id)
+        return "Delete desire success", 201
     except Exception as e:
         return str(e), 400

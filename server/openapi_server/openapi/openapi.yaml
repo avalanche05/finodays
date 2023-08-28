@@ -295,6 +295,146 @@ paths:
           description: Изображение CFA не найдено
       summary: Получить список предложений для изображения CFA
       x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/offer/{user-id}:
+    get:
+      operationId: user_offer_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/offer_dto'
+                type: array
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Получить список всех своих предложений
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /desire/sell/{desire-id}:
+    post:
+      operationId: desire_sell_desire_id_post
+      parameters:
+        - explode: false
+          in: path
+          name: desire-id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      requestBody:
+        $ref: '#/components/requestBodies/accept_desire_dto'
+        content:
+          application/json:
+            schema:
+              properties:
+                count:
+                  type: integer
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+        "404":
+          description: Предложение не найдено
+        "409":
+          description: Недостаточно товара для покупки
+      security:
+        - BearerAuth: [ ]
+      summary: Продать cfa (Требуется Bearer-токен)
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /desire/create:
+    post:
+      operationId: desire_create_post
+      requestBody:
+        $ref: '#/components/requestBodies/create_desire_dto'
+        content:
+          application/json:
+            schema:
+              properties:
+                cfa_image_id:
+                  type: integer
+                count:
+                  type: integer
+                price:
+                  type: integer
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Создать новое предложение (Требуется Bearer-токен)
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /desire/cancel/{desire-id}:
+    post:
+      operationId: desire_cancel_post
+      parameters:
+        - explode: false
+          in: path
+          name: desire-id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Удалить предложение (Требуется Bearer-токен)
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /desire/list/{cfa-image-id}:
+    get:
+      operationId: desire_list_cfa_image_id_get
+      parameters:
+        - explode: false
+          in: path
+          name: cfa-image-id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/desire_dto'
+                type: array
+          description: Успешный ответ
+        "404":
+          description: Изображение CFA не найдено
+      summary: Получить список желаний для изображения CFA
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/desire/{user-id}:
+    get:
+      operationId: user_desire_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/desire_dto'
+                type: array
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Получить список всех своих предложений
+      x-openapi-router-controller: openapi_server.controllers.default_controller
   /register:
     post:
       operationId: register_post
@@ -443,24 +583,6 @@ paths:
         - BearerAuth: [ ]
       summary: Вывести деньги с баланса
       x-openapi-router-controller: openapi_server.controllers.default_controller
-  /user/offer/{user-id}:
-    get:
-      operationId: user_offer_get
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/offer_dto'
-                type: array
-          description: Успешный ответ
-        "401":
-          description: Неверный Bearer-токен
-      security:
-        - BearerAuth: [ ]
-      summary: Получить список всех своих предложений
-      x-openapi-router-controller: openapi_server.controllers.default_controller
 components:
   requestBodies:
     deposit_value_dto:
@@ -498,6 +620,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/create_offer_dto'
+      required: true
+    accept_desire_dto:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/accept_desire_dto'
+      required: true
+    create_desire_dto:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/create_desire_dto'
       required: true
     create_cfa_image_dto:
       content:
@@ -695,6 +829,38 @@ components:
         seller_id:
           type: integer
     accept_offer_dto:
+      properties:
+        count:
+          type: integer
+      type: object
+    create_desire_dto:
+      properties:
+        cfa_image_id:
+          type: integer
+        count:
+          type: integer
+        price:
+          type: integer
+      type: object
+    desire_dto:
+      example:
+        price: 5
+        count: 1
+        id: 0
+        cfa_image_id: 6
+        seller_id: 5
+      properties:
+        id:
+          type: integer
+        cfa_image_id:
+          type: integer
+        count:
+          type: integer
+        price:
+          type: integer
+        seller_id:
+          type: integer
+    accept_desire_dto:
       properties:
         count:
           type: integer
