@@ -15,7 +15,7 @@ components:
         id:
           type: integer
         login:
-          type: string
+          type:int string
         username:
           type: string
         name:

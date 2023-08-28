@@ -61,9 +61,14 @@ def cfa_image_create_post():  # noqa: E501
     """
     if connexion.request.is_json:
         create_cfa_image = CreateCfaImageDTO.from_dict(connexion.request.get_json())  # noqa: E501
+        try:
+            token = connexion.request.headers.get('Authorization').split()[1]
+            user_id = user.get_profile(token).id
+        except Exception as e:
+            return f"Bearer token is invalid", 401
 
         try:
-            cfa_image.create_cfa_image(1, create_cfa_image)
+            cfa_image.create_cfa_image(user_id, create_cfa_image)
             return None, 200
         except Exception as e:
             return str(e), 401

@@ -15,7 +15,7 @@ class User(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, login=None, username=None, name=None, balance=None):  # noqa: E501
+    def __init__(self, id=None, login=None, username=None, name=None, balance=None, **_):  # noqa: E501
         """User - a model defined in OpenAPI
 
         :param id: The id of this User.  # noqa: E501
@@ -34,7 +34,7 @@ class User(Model):
             'login': str,
             'username': str,
             'name': str,
-            'balance': int
+            'balance': float
         }
 
         self.attribute_map = {

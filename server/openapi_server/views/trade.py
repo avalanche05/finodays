@@ -1,6 +1,7 @@
 import data.__all_models as db_models
 from data import db_session
 from openapi_server.models.trade_dto import TradeDTO
+import openapi_server.views as views
 
 
 def get_all():
@@ -15,8 +16,8 @@ def get_all():
                 date=trade.date,
                 cfa_token=trade.cfa_token,
                 price=trade.price,
-                buyer_id=trade.buyer_id,
-                seller_id=trade.seller_id
+                buyer=views.user.get_user(trade.buyer_id),
+                seller=views.user.get_user(trade.seller_id)
             )
         )
 
@@ -35,8 +36,8 @@ def get_by_id(trade_id: int):
         date=trade.date,
         cfa_token=trade.cfa_token,
         price=trade.price,
-        buyer_id=trade.buyer_id,
-        seller_id=trade.seller_id
+        buyer=views.user.get_user(trade.buyer_id),
+        seller=views.user.get_user(trade.seller_id)
     )
 
     return trade_dto

@@ -5,6 +5,7 @@ from datetime import date, datetime  # noqa: F401
 
 from typing import List, Dict  # noqa: F401
 
+from models import PublicUser
 from openapi_server.models.base_model_ import Model
 from openapi_server import util
 
@@ -15,7 +16,7 @@ class TradeDTO(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, date=None, cfa_token=None, price=None, buyer_id=None, seller_id=None):  # noqa: E501
+    def __init__(self, id=None, date=None, cfa_token=None, price=None, buyer=None, seller=None):  # noqa: E501
         """TradeDTO - a model defined in OpenAPI
 
         :param id: The id of this TradeDTO.  # noqa: E501
@@ -26,18 +27,18 @@ class TradeDTO(Model):
         :type cfa_token: str
         :param price: The price of this TradeDTO.  # noqa: E501
         :type price: float
-        :param buyer_id: The buyer_id of this TradeDTO.  # noqa: E501
-        :type buyer_id: int
-        :param seller_id: The seller_id of this TradeDTO.  # noqa: E501
-        :type seller_id: int
+        :param buyer: The buyer of this TradeDTO.  # noqa: E501
+        :type buyer: int
+        :param seller: The seller of this TradeDTO.  # noqa: E501
+        :type seller: int
         """
         self.openapi_types = {
             'id': int,
             'date': datetime,
             'cfa_token': str,
             'price': float,
-            'buyer_id': int,
-            'seller_id': int
+            'buyer': PublicUser,
+            'seller': PublicUser
         }
 
         self.attribute_map = {
@@ -45,16 +46,16 @@ class TradeDTO(Model):
             'date': 'date',
             'cfa_token': 'cfa_token',
             'price': 'price',
-            'buyer_id': 'buyer_id',
-            'seller_id': 'seller_id'
+            'buyer': 'buyer',
+            'seller': 'seller'
         }
 
         self._id = id
         self._date = date
         self._cfa_token = cfa_token
         self._price = price
-        self._buyer_id = buyer_id
-        self._seller_id = seller_id
+        self._buyer = buyer
+        self._seller = seller
 
     @classmethod
     def from_dict(cls, dikt) -> 'TradeDTO':
@@ -152,43 +153,43 @@ class TradeDTO(Model):
         self._price = price
 
     @property
-    def buyer_id(self):
-        """Gets the buyer_id of this TradeDTO.
+    def buyer(self):
+        """Gets the buyer of this TradeDTO.
 
 
-        :return: The buyer_id of this TradeDTO.
+        :return: The buyer of this TradeDTO.
         :rtype: int
         """
-        return self._buyer_id
+        return self._buyer
 
-    @buyer_id.setter
-    def buyer_id(self, buyer_id):
-        """Sets the buyer_id of this TradeDTO.
+    @buyer.setter
+    def buyer(self, buyer):
+        """Sets the buyer of this TradeDTO.
 
 
-        :param buyer_id: The buyer_id of this TradeDTO.
-        :type buyer_id: int
+        :param buyer: The buyer of this TradeDTO.
+        :type buyer: int
         """
 
-        self._buyer_id = buyer_id
+        self._buyer = buyer
 
     @property
-    def seller_id(self):
-        """Gets the seller_id of this TradeDTO.
+    def seller(self):
+        """Gets the seller of this TradeDTO.
 
 
-        :return: The seller_id of this TradeDTO.
+        :return: The seller of this TradeDTO.
         :rtype: int
         """
-        return self._seller_id
+        return self._seller
 
-    @seller_id.setter
-    def seller_id(self, seller_id):
-        """Sets the seller_id of this TradeDTO.
+    @seller.setter
+    def seller(self, seller):
+        """Sets the seller of this TradeDTO.
 
 
-        :param seller_id: The seller_id of this TradeDTO.
-        :type seller_id: int
+        :param seller: The seller of this TradeDTO.
+        :type seller: int
         """
 
-        self._seller_id = seller_id
+        self._seller = seller

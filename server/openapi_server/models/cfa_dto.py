@@ -5,6 +5,7 @@ from datetime import date, datetime  # noqa: F401
 
 from typing import List, Dict  # noqa: F401
 
+from models import User
 from openapi_server.models.base_model_ import Model
 from openapi_server import util
 
@@ -15,31 +16,31 @@ class CfaDTO(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, token=None, cfa_image_id=None, user_id=None):  # noqa: E501
+    def __init__(self, token=None, cfa_image_id=None, user=None):  # noqa: E501
         """CfaDTO - a model defined in OpenAPI
 
         :param token: The token of this CfaDTO.  # noqa: E501
         :type token: str
         :param cfa_image_id: The cfa_image_id of this CfaDTO.  # noqa: E501
         :type cfa_image_id: int
-        :param user_id: The user_id of this CfaDTO.  # noqa: E501
-        :type user_id: int
+        :param user: The user of this CfaDTO.  # noqa: E501
+        :type user: int
         """
         self.openapi_types = {
             'token': str,
             'cfa_image_id': int,
-            'user_id': int
+            'user': User
         }
 
         self.attribute_map = {
             'token': 'token',
             'cfa_image_id': 'cfa_image_id',
-            'user_id': 'user_id'
+            'user': 'user'
         }
 
         self._token = token
         self._cfa_image_id = cfa_image_id
-        self._user_id = user_id
+        self._user = user
 
     @classmethod
     def from_dict(cls, dikt) -> 'CfaDTO':
@@ -95,22 +96,22 @@ class CfaDTO(Model):
         self._cfa_image_id = cfa_image_id
 
     @property
-    def user_id(self):
-        """Gets the user_id of this CfaDTO.
+    def user(self):
+        """Gets the user of this CfaDTO.
 
 
-        :return: The user_id of this CfaDTO.
+        :return: The user of this CfaDTO.
         :rtype: int
         """
-        return self._user_id
+        return self._user
 
-    @user_id.setter
-    def user_id(self, user_id):
-        """Sets the user_id of this CfaDTO.
+    @user.setter
+    def user(self, user):
+        """Sets the user of this CfaDTO.
 
 
-        :param user_id: The user_id of this CfaDTO.
-        :type user_id: int
+        :param user: The user of this CfaDTO.
+        :type user: int
         """
 
-        self._user_id = user_id
+        self._user = user

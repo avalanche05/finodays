@@ -7,6 +7,7 @@ from typing import List, Dict  # noqa: F401
 
 from openapi_server import util
 from openapi_server.models.base_model_ import Model
+from openapi_server.models.user import User
 
 
 class LoginResponse200(Model):
@@ -15,25 +16,25 @@ class LoginResponse200(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, user_id=None, bearer_token=None):  # noqa: E501
+    def __init__(self, user=None, bearer_token=None):  # noqa: E501
         """LoginResponse200 - a model defined in OpenAPI
 
-        :param user_id: The user_id of this LoginResponse200.  # noqa: E501
-        :type user_id: int
+        :param user: The user of this LoginResponse200.  # noqa: E501
+        :type user: User
         :param bearer_token: The bearer_token of this LoginResponse200.  # noqa: E501
         :type bearer_token: str
         """
         self.openapi_types = {
-            'user_id': int,
+            'user': User,
             'bearer_token': str
         }
 
         self.attribute_map = {
-            'user_id': 'user_id',
+            'user': 'user',
             'bearer_token': 'bearer_token'
         }
 
-        self._user_id = user_id
+        self._user = user
         self._bearer_token = bearer_token
 
     @classmethod
@@ -48,25 +49,25 @@ class LoginResponse200(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def user_id(self):
-        """Gets the user_id of this LoginResponse200.
+    def user(self):
+        """Gets the user of this LoginResponse200.
 
 
-        :return: The user_id of this LoginResponse200.
+        :return: The user of this LoginResponse200.
         :rtype: int
         """
-        return self._user_id
+        return self._user
 
-    @user_id.setter
-    def user_id(self, user_id):
-        """Sets the user_id of this LoginResponse200.
+    @user.setter
+    def user(self, user):
+        """Sets the user of this LoginResponse200.
 
 
-        :param user_id: The user_id of this LoginResponse200.
-        :type user_id: int
+        :param user: The user of this LoginResponse200.
+        :type user: int
         """
 
-        self._user_id = user_id
+        self._user = user
 
     @property
     def bearer_token(self):

@@ -29,7 +29,11 @@ def register(register_user_dto: RegisterUserDTO):
     db_sess.add(token)
     db_sess.commit()
 
-    response = LoginResponse200(new_user.id, token.value)
+    response = LoginResponse200(User(id=user.id,
+                                     login=user.login,
+                                     username=user.username,
+                                     name=user.name,
+                                     balance=user.balance), token.value)
     return response
 
 
@@ -46,7 +50,11 @@ def login(login_user_dto: LoginUserDTO):
         db_sess.add(token)
         db_sess.commit()
 
-        response = LoginResponse200(user.id, token.value)
+        response = LoginResponse200(User(id=user.id,
+                                         login=user.login,
+                                         username=user.username,
+                                         name=user.name,
+                                         balance=user.balance), token.value)
         return response
     return "Invalid credentials", 401
 

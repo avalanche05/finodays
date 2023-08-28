@@ -137,7 +137,7 @@ paths:
           description: CFA не найден
       summary: Получить информацию о CFA по его токену
       x-openapi-router-controller: openapi_server.controllers.default_controller
-  /cfa/{user-id}:
+  /user/cfa/{user-id}:
     get:
       operationId: cfa_user_id_get
       parameters:
