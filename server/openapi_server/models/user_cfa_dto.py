@@ -6,6 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
+from openapi_server.models import CfaImage
 from openapi_server import util
 
 
@@ -15,26 +16,31 @@ class UserCfaDTO(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, cfa_image_id=None, count=None):  # noqa: E501
+    def __init__(self, cfa_image=None, count=None, tokens=None):  # noqa: E501
         """UserCfaDTO - a model defined in OpenAPI
 
-        :param cfa_image_id: The cfa_image_id of this UserCfaDTO.  # noqa: E501
-        :type cfa_image_id: int
+        :param cfa_image: The cfa_image of this UserCfaDTO.  # noqa: E501
+        :type cfa_image: CfaImage
         :param count: The count of this UserCfaDTO.  # noqa: E501
         :type count: int
+        :param tokens: The list of tokens of this UserCfaDTO.  # noqa: E501
+        :type tokens: list
         """
         self.openapi_types = {
-            'cfa_image_id': int,
-            'count': int
+            'cfa_image': CfaImage,
+            'count': int,
+            'tokens': list
         }
 
         self.attribute_map = {
-            'cfa_image_id': 'cfa_image_id',
-            'count': 'count'
+            'cfa_image': 'cfa_image',
+            'count': 'count',
+            'tokens': 'tokens'
         }
 
-        self._cfa_image_id = cfa_image_id
+        self._cfa_image = cfa_image
         self._count = count
+        self._tokens = tokens
 
     @classmethod
     def from_dict(cls, dikt) -> 'UserCfaDTO':
@@ -48,25 +54,25 @@ class UserCfaDTO(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def cfa_image_id(self):
-        """Gets the cfa_image_id of this UserCfaDTO.
+    def cfa_image(self):
+        """Gets the cfa_image of this UserCfaDTO.
 
 
-        :return: The cfa_image_id of this UserCfaDTO.
+        :return: The cfa_image of this UserCfaDTO.
         :rtype: int
         """
-        return self._cfa_image_id
+        return self._cfa_image
 
-    @cfa_image_id.setter
-    def cfa_image_id(self, cfa_image_id):
-        """Sets the cfa_image_id of this UserCfaDTO.
+    @cfa_image.setter
+    def cfa_image(self, cfa_image):
+        """Sets the cfa_image of this UserCfaDTO.
 
 
-        :param cfa_image_id: The cfa_image_id of this UserCfaDTO.
-        :type cfa_image_id: int
+        :param cfa_image: The cfa_image of this UserCfaDTO.
+        :type cfa_image: int
         """
 
-        self._cfa_image_id = cfa_image_id
+        self._cfa_image = cfa_image
 
     @property
     def count(self):
@@ -88,3 +94,24 @@ class UserCfaDTO(Model):
         """
 
         self._count = count
+
+    @property
+    def tokens(self):
+        """Gets the tokens of this UserCfaDTO.
+
+
+        :return: The tokens of this UserCfaDTO.
+        :rtype: list
+        """
+        return self._tokens
+
+    @tokens.setter
+    def tokens(self, tokens):
+        """Sets the tokens of this UserCfaDTO.
+
+
+        :param tokens: The tokens of this UserCfaDTO.
+        :type tokens: list
+        """
+
+        self._tokens = tokens

@@ -225,8 +225,6 @@ def offer_list_cfa_image_id_get(cfa_image_id):  # noqa: E501
     except Exception as e:
         return str(e), 400
 
-    return "Invalid request", 400
-
 
 def register_post():  # noqa: E501
     """Зарегистрировать нового пользователя

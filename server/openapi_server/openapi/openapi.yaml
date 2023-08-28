@@ -373,8 +373,6 @@ paths:
           description: Успешный ответ
         "404":
           description: Пользователь не найден
-      security:
-        - BearerAuth: [ ]
       summary: Получить информацию о профиле другого пользователя
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /user/deposit:

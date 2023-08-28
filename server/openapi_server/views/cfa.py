@@ -6,6 +6,7 @@ from utils import generator
 import data.__all_models as db_models
 import openapi_server.views as views
 import openapi_server.views as views
+from utils import entities
 
 
 def create_cfa(user_id: int, cfa_image_id: int):
@@ -22,17 +23,8 @@ def create_cfa(user_id: int, cfa_image_id: int):
 
 
 def get_cfa(cfa_token: str):
-    db_sess = db_session.create_session()
-
-    cfa = db_sess.query(db_models.cfa.Cfa).filter(db_models.cfa.Cfa.token == cfa_token).first()
-    if cfa:
-        cfa_dto = CfaDTO()
-        cfa_dto.token = cfa.token
-        cfa_dto.cfa_image_id = cfa.cfa_image_id
-        cfa_dto.user = views.user.get_user(cfa.user_id)
-        return cfa_dto, 200
-    else:
-        return "CFA not found", 404
+    cfa = entities.get_cfa(cfa_token)
+    return cfa
 
 
 def get_cfa_history(cfa_token: str):
@@ -49,8 +41,8 @@ def get_cfa_history(cfa_token: str):
             date=trade.date,
             cfa_token=trade.cfa_token,
             price=trade.price,
-            buyer=views.user.get_user(trade.buyer_id),
-            seller=views.user.get_user(trade.seller_id)
+            buyer=entities.get_public_user(trade.buyer_id),
+            seller=entities.get_public_user(trade.seller_id)
         ))
 
     if history:
@@ -74,7 +66,7 @@ def get_cfa_list(cfa_image_id: int):
             user = users[cfa.user_id]
         else:
             try:
-                user = views.user.get_user(cfa.user_id)
+                user = entities.get_public_user(cfa.user_id)
             except Exception:
                 user = User(username="User Not Founded")
         result.append(CfaDTO(
