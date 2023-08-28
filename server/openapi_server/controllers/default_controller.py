@@ -40,8 +40,10 @@ def cfa_cfa_token_get(cfa_token):  # noqa: E501
 
     :rtype: CfaDTO
     """
-
-    return cfa.get_cfa(cfa_token)
+    try:
+        return cfa.get_cfa(cfa_token), 200
+    except Exception:
+        return [], 200
 
 
 def cfa_history_cfa_token_get(cfa_token):  # noqa: E501
