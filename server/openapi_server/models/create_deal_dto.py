@@ -95,27 +95,6 @@ class CreateDealDTO(Model):
         self._host_items = host_items
 
     @property
-    def price(self):
-        """Gets the price of this CreateDealDTO.
-
-
-        :return: The price of this CreateDealDTO.
-        :rtype: int
-        """
-        return self._price
-
-    @price.setter
-    def price(self, price):
-        """Sets the price of this CreateDealDTO.
-
-
-        :param price: The price of this CreateDealDTO.
-        :type price: int
-        """
-
-        self._price = price
-
-    @property
     def host_id(self):
         """Gets the host_id of this CreateDealDTO.
 

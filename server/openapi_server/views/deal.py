@@ -4,31 +4,10 @@ from sqlalchemy import desc
 
 from data import db_session
 import data.__all_models as db_models
+from openapi_server.models.deal_dto import DealDTO
 from utils import entities
 from openapi_server.models.create_deal_dto import CreateDealDTO
 from openapi_server.models.desire_dto import DesireDTO
-
-
-def get_all_by_cfa_image_id(cfa_image_id: int):
-    db_sess = db_session.create_session()
-
-    desires = db_sess.query(db_models.desire.Desire).filter(
-        db_models.desire.Desire.cfa_image_id == cfa_image_id, db_models.desire.Desire.count > 0) \
-        .order_by(desc(db_models.desire.Desire.price)).all()
-
-    result = []
-    for desire in desires:
-        result.append(
-            DesireDTO(
-                id=desire.id,
-                cfa_image=entities.get_cfa_image(desire.cfa_image_id),
-                count=desire.count,
-                price=desire.price,
-                buyer=entities.get_public_user(desire.buyer_id)
-            )
-        )
-    db_sess.close()
-    return result
 
 
 def accept(deal_id: int, user_id: int, count: int):
@@ -88,17 +67,21 @@ def accept(deal_id: int, user_id: int, count: int):
     db_sess.close()
 
 
-def create(initiator_id, host_id, create_deal: CreateDealDTO):
+def create(initiator_id, create_deal: CreateDealDTO):
     db_sess = db_session.create_session()
 
     deal = db_models.deal.Deal()
     deal.initiator_id = initiator_id
-    deal.host_id = host_id
-    initiator_items = create_deal.initiator_items
-    host_items = sqlalchemy.Column(sqlalchemy.JSON)
-    is_active = sqlalchemy.Column(sqlalchemy.Boolean, default=sqlalchemy.True_)
-    is_accepted
+    deal.host_id = create_deal.host_id
+    deal.initiator_items = create_deal.initiator_items
+    deal.host_items = create_deal.host_items
+    deal.is_active = True
+    deal.is_accepted = False
 
+    db_sess.add(deal)
+    db_sess.commit()
+    deal_id = deal.id
+    db_sess.close()
 
     return deal_id
 
@@ -119,3 +102,19 @@ def cancel(user_id: int, desire_id: id):
 
     db_sess.commit()
     db_sess.close()
+
+
+def get_all_in_deals(user_id: int):
+    db_sess = db_session.create_session()
+
+    deals = db_sess.query(db_models.deal.Deal).filter(
+        db_models.deal.Deal.host_id == user_id,
+        db_models.deal.Deal.is_active == True).all()
+
+    result = []
+    for deal in deals:
+        result.append(
+            DealDTO()
+        )
+
+

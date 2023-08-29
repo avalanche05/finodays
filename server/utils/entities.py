@@ -1,5 +1,6 @@
 from data import db_session
 import data.__all_models as db_models
+from models.deal_dto import DealDTO
 from openapi_server.models import PublicUser, User, CfaDTO, CfaImage
 
 
@@ -57,3 +58,20 @@ def get_cfa_image(cfa_image_id):
     db_sess.close()
     return CfaImage(cfa_image.id, cfa_image.title, cfa_image.count, cfa_image.description,
                     get_public_user(cfa_image.user_id))
+
+
+def get_deal(deal_id):
+    db_sess = db_session.create_session()
+
+    deal = db_sess.query(db_models.deal.Deal).filter(db_models.deal.Deal.id == deal_id).first()
+
+    if not deal:
+        raise FileNotFoundError("Deal not found")
+
+    db_sess.close()
+
+    return DealDTO(id=deal.id,
+                   initiator=get_user(deal.initiator_id),
+                   host=get_user(deal.host_id),
+                   initiator_items=deal.initiator_items,
+                   host_items=deal.host_items)

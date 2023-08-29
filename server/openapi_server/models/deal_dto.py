@@ -15,7 +15,7 @@ class DealDTO(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, initiator=None, host=None, initiator_items=None, host_items=None, seller=None):  # noqa: E501
+    def __init__(self, id=None, initiator=None, host=None, initiator_items=None, host_items=None):  # noqa: E501
         """DealDTO - a model defined in OpenAPI
 
         :param id: The id of this DealDTO.  # noqa: E501
