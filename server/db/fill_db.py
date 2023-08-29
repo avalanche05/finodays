@@ -5,7 +5,7 @@ from openapi_server.views import user, cfa_image, offer, trade, cfa, desire
 from openapi_server import models
 
 if __name__ == '__main__':
-    db_session.global_init("./db.db")
+    db_session.global_init("db.db")
 
     user1 = user.register(models.register_user_dto.RegisterUserDTO("m@m.m", "skewb", "mihail", "qwerty"))
     user2 = user.register(models.register_user_dto.RegisterUserDTO("i@i.i", "buran", "ivan", "qwerty"))
