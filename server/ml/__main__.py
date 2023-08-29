@@ -15,11 +15,6 @@ from datetime import datetime
 
 model = CatBoostRegressor().load_model("ml/ws/model_weights")
 
-# if __name__ == '__main__':
-#     n_days = 1
-    
-#     l = get_future_prices(cfa_image_id=2, is_refit=True, n_days=n_days)
-#     print(l)
 
 
 def predict_price(cfa_image_id, db_sess, is_refit=True, n_days=1):
@@ -41,10 +36,14 @@ def get_future_prices(cfa_image_id, db_sess, is_refit: bool=True, n_days: int=1)
     period = 10
     list_of_prices = get_list_of_prices(cfa_image_id=cfa_image_id, db_sess=db_sess)
 
+    if list_of_prices == []:
+        return np.zeros(n_days).astype(list)
+    
     if is_refit:
         refit_model(list_of_prices=list_of_prices, period=period)
         
     list_of_prices = preprocess_list(list_of_prices)
+    
     n_predicted_prices = []
     
     for i in range(n_days):
@@ -130,4 +129,9 @@ def preprocess_list(list_of_prices, period: int=10)->list:
     
     
 
+if __name__ == '__main__':
+    n_days = 2
+    
+    l = get_future_prices(cfa_image_id=3, is_refit=True, n_days=n_days)
+    print(l)
 
