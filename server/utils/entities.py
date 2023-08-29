@@ -1,6 +1,6 @@
 from data import db_session
 import data.__all_models as db_models
-from models.deal_dto import DealDTO
+from openapi_server.models.deal_dto import DealDTO
 from openapi_server.models import PublicUser, User, CfaDTO, CfaImage
 
 

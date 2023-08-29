@@ -102,15 +102,26 @@ def get_all_in_deals(user_id: int):
 
     result = []
     for deal in deals:
+        initiator_items = []
+        for item in deal.initiator_items:
+            initiator_items.append({
+                "count": item["count"],
+                "cfa_image": entities.get_cfa_image(item["cfa_image_id"])
+            })
+
+        host_items = []
+        for item in deal.host_items:
+            host_items.append({
+                "count": item["count"],
+                "cfa_image": entities.get_cfa_image(item["cfa_image_id"])
+            })
         result.append(
             DealDTO(id=deal.id,
                     initiator=entities.get_public_user(deal.initiator_id),
                     host=entities.get_public_user(deal.initiator_id),
-                    initiator_items=deal.initiator_items,
-                    host_items=deal.host_items)
+                    initiator_items=initiator_items,
+                    host_items=host_items)
         )
-
-    return result
 
 
 def get_all_out_deals(user_id: int):
@@ -122,12 +133,25 @@ def get_all_out_deals(user_id: int):
 
     result = []
     for deal in deals:
+        initiator_items = []
+        for item in deal.initiator_items:
+            initiator_items.append({
+                "count": item["count"],
+                "cfa_image": entities.get_cfa_image(item["cfa_image_id"])
+            })
+
+        host_items = []
+        for item in deal.host_items:
+            host_items.append({
+                "count": item["count"],
+                "cfa_image": entities.get_cfa_image(item["cfa_image_id"])
+            })
         result.append(
             DealDTO(id=deal.id,
                     initiator=entities.get_public_user(deal.initiator_id),
                     host=entities.get_public_user(deal.initiator_id),
-                    initiator_items=deal.initiator_items,
-                    host_items=deal.host_items)
+                    initiator_items=initiator_items,
+                    host_items=host_items)
         )
 
     return result

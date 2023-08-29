@@ -364,6 +364,32 @@ paths:
           description: Изображение CFA не найдено
       summary: Получить цену изображения CFA на основе рыночных предложений
       x-openapi-router-controller: openapi_server.controllers.default_controller
+  /cfa-image/pred-price/{cfa-image-id}:
+    get:
+      tags:
+        - CfaImage
+      operationId: cfa_image_predict_price
+      parameters:
+        - explode: false
+          in: path
+          name: cfa-image-id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: number
+                type: array
+          description: Успешный ответ
+        "404":
+          description: Изображение CFA не найдено
+      summary: Получить цену изображения CFA на основе рыночных предложений
+      x-openapi-router-controller: openapi_server.controllers.default_controller
   /cfa/{cfa-token}:
     get:
       tags:
