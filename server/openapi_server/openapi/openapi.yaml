@@ -15,6 +15,8 @@ tags:
     description: Предложение - модель для продажи ЦФА на маркетплейсе
   - name: Desire
     description: Запрос - модель для покупки ЦФА на маркетплейсе по желаемой цене
+  - name: Deal
+    description: Сделка - модель для обмена ЦФА на ЦФА
   - name: Trade
     description: Сделка - создаётся автоматически при покупке предложения. Одна сделка на один ЦФА
 paths:
@@ -216,10 +218,8 @@ paths:
                   $ref: '#/components/schemas/offer_dto'
                 type: array
           description: Успешный ответ
-        "401":
-          description: Неверный Bearer-токен
-      security:
-        - BearerAuth: [ ]
+        "404":
+          description: Пользователь не найден
       summary: Получить список всех своих предложений
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /user/desire/{user-id}:
@@ -244,10 +244,34 @@ paths:
                   $ref: '#/components/schemas/desire_dto'
                 type: array
           description: Успешный ответ
-        "401":
-          description: Неверный Bearer-токен
-      security:
-        - BearerAuth: [ ]
+        "404":
+          description: Пользователь не найден
+      summary: Получить список всех своих предложений
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/deal/{user-id}:
+    get:
+      tags:
+        - User
+      operationId: user_deal_get
+      parameters:
+        - explode: false
+          in: path
+          name: user-id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/deal_dto'
+                type: array
+          description: Успешный ответ
+        "404":
+          description: Пользователь не найден
       summary: Получить список всех своих предложений
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /cfa-image/create:
@@ -622,6 +646,108 @@ paths:
           description: Изображение CFA не найдено
       summary: Получить список желаний для изображения CFA
       x-openapi-router-controller: openapi_server.controllers.default_controller
+  /deal/create:
+    post:
+      tags:
+        - Deal
+      operationId: deal_create_post
+      requestBody:
+        $ref: '#/components/requestBodies/create_deal_dto'
+        content:
+          application/json:
+            schema:
+              properties:
+                cfa_image_id:
+                  type: integer
+                count:
+                  type: integer
+                price:
+                  type: integer
+              type: object
+        required: true
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Создать новое предложение (Требуется Bearer-токен)
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /deal/cancel/{deal-id}:
+    post:
+      tags:
+        - Deal
+      operationId: deal_cancel_post
+      parameters:
+        - explode: false
+          in: path
+          name: deal-id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+      security:
+        - BearerAuth: [ ]
+      summary: Удалить предложение (Требуется Bearer-токен)
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /deal/accept/{deal-id}:
+    post:
+      tags:
+        - Deal
+      operationId: deal_accept_deal_id_post
+      parameters:
+        - explode: false
+          in: path
+          name: deal-id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      responses:
+        "200":
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+        "404":
+          description: Предложение не найдено
+        "409":
+          description: Недостаточно товара для покупки
+      security:
+        - BearerAuth: [ ]
+      summary: Купить предложение (Требуется Bearer-токен)
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /deal/list/{cfa-image-id}:
+    get:
+      tags:
+        - Deal
+      operationId: deal_list_cfa_image_id_get
+      parameters:
+        - explode: false
+          in: path
+          name: cfa-image-id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/deal_dto'
+                type: array
+          description: Успешный ответ
+        "404":
+          description: Изображение CFA не найдено
+      summary: Получить список предложений для изображения CFA
+      x-openapi-router-controller: openapi_server.controllers.default_controller
   /trade/{trade-id}:
     get:
       tags:
@@ -711,6 +837,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/create_desire_dto'
+      required: true
+    create_deal_dto:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/create_deal_dto'
       required: true
     create_cfa_image_dto:
       content:
@@ -897,6 +1029,23 @@ components:
         count:
           type: integer
       type: object
+    create_deal_dto:
+      properties:
+        initiator_items:
+          type: array
+        host_items:
+          type: array
+      type: object
+    deal_dto:
+      properties:
+        id:
+          type: integer
+        initiator:
+          $ref: '#/components/schemas/PublicUser'
+        initiator_items:
+          type: array
+        host_items:
+          type: array
     create_desire_dto:
       properties:
         cfa_image_id:

@@ -32,12 +32,12 @@ class TestDefaultController(BaseTestCase):
     correct_cfa_image_id = 1
     incorrect_cfa_image_id = -1
     correct_offer_id = 1
+    incorrect_offer_id = -1
+    correct_user_id = 1
+    incorrect_user_id = -1
 
     def setUp(self) -> None:
-        db_session.global_init('../db/test_db.db')
-
-        data_user1 = models.register_user_dto.RegisterUserDTO("mihail.")
-        user1 = user.register(models.register_user_dto.RegisterUserDTO("m@m.m", "skewb", "mihail", "qwerty"))
+        db_session.global_init('../db/db.db')
 
     def test_cfa_history_cfa_token_get(self):
         """Test case for cfa_history_cfa_token_get
@@ -104,64 +104,6 @@ class TestDefaultController(BaseTestCase):
         self.assert404(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_offer_buy_offer_id_post(self):
-        """Test case for offer_buy_offer_id_post
-
-        Купить предложение (Требуется Bearer-токен)
-        """
-        headers = {
-            'Accept': 'application/json',
-            'Authorization': f'Bearer {self.correct_bearer_token}',
-        }
-        data = AcceptOfferDTO(count=1)
-        response = self.client.open(
-            '/offer/buy/{offer_id}'.format(offer_id=self.correct_offer_id),
-            method='POST',
-            data=json.dumps(data),
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-        # проверка бд
-
-    def test_offer_cancel_offer_id_post(self):
-        """Test case for offer_cancel_offer_id_post
-
-        Удалить предложение (Требуется Bearer-токен)
-        """
-        headers = {
-            'Accept': 'application/json',
-            'Authorization': f'Bearer {self.correct_bearer_token}',
-        }
-        response = self.client.open(
-            '/offer/cancel/{offer_id}'.format(offer_id=self.correct_offer_id),
-            method='POST',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-        # проверка бд
-
-    def test_offer_create_post(self):
-        """Test case for offer_buy_offer_id_post
-
-        Купить предложение (Требуется Bearer-токен)
-        """
-        headers = {
-            'Accept': 'application/json',
-            'Authorization': f'Bearer {self.correct_bearer_token}',
-        }
-        data = CreateOfferDTO(self.correct_cfa_image_id, 5, 15)
-        response = self.client.open(
-            '/offer/create',
-            method='POST',
-            data=json.dumps(data),
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-        # проверка бд
-
     def test_offer_list_cfa_image_id_get(self):
         """Test case for offer_list_cfa_image_id_get
 
@@ -179,6 +121,83 @@ class TestDefaultController(BaseTestCase):
 
         response = self.client.open(
             '/offer/list/{cfa_image_id}'.format(cfa_image_id=self.incorrect_cfa_image_id),
+            method='GET',
+            headers=headers)
+        self.assert404(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_trade_list_get(self):
+        """Test case for trade_list_get
+
+        Получить список сделок
+        """
+        headers = {
+            'Accept': 'application/json',
+        }
+        response = self.client.open(
+            '/trade/list',
+            method='GET',
+            headers=headers)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_cfa_image_list_get(self):
+        """Test case for cfa_image_list_get
+
+        Получить список изображений CFA
+        """
+        headers = {
+            'Accept': 'application/json',
+        }
+        response = self.client.open(
+            '/cfa-image/list',
+            method='GET',
+            headers=headers)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_user_profile_get(self):
+        """Test case for user_profile_get
+
+        Получить информацию о своём пользователе
+        """
+        headers = {
+            'Accept': 'application/json',
+            'Authorization': f'Bearer {self.correct_bearer_token}',
+        }
+        response = self.client.open(
+            '/user/profile',
+            method='GET',
+            headers=headers)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        headers = {
+            'Accept': 'application/json',
+            'Authorization': f'Bearer {self.incorrect_bearer_token}',
+        }
+        response = self.client.open(
+            '/user/profile',
+            method='GET',
+            headers=headers)
+        self.assert401(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_user_user_id_get(self):
+        """Test case for user_user_id_get
+
+        Получить информацию о профиле другого человека
+        """
+        headers = {
+            'Accept': 'application/json',
+        }
+        response = self.client.open(
+            '/user/{user_id}'.format(user_id=self.correct_user_id),
+            method='GET',
+            headers=headers)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        response = self.client.open(
+            '/user/{user_id}'.format(user_id=self.incorrect_user_id),
             method='GET',
             headers=headers)
         self.assert404(response,
