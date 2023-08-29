@@ -38,25 +38,31 @@ def sell(desire_id: int, user_id: int, count: int):
         db_models.desire.Desire.id == desire_id).first()
 
     if desire is None:
+        db_sess.close()
         raise FileNotFoundError(f"Cannot find offer with id {desire}")
 
     if count < 0 or count > desire.count:
+        db_sess.close()
         raise ValueError("Wrong count value")
 
     if desire.buyer_id == user_id:
+        db_sess.close()
         raise ValueError("You cannot sell desires from yourself")
 
     user = db_sess.query(db_models.user.User).get(user_id)
     buyer = db_sess.query(db_models.user.User).get(desire.buyer_id)
 
     if user is None:
+        db_sess.close()
         raise FileNotFoundError(f"Cannot find user with id {user_id}")
     if buyer is None:
+        db_sess.close()
         raise FileNotFoundError(f"Cannot find user with id {desire.buyer_id}")
 
     calculated_price = desire.price * count
 
     if calculated_price > buyer.balance:
+        db_sess.close()
         raise ValueError("Buyer have not enough money")
 
     buyer.balance -= calculated_price
@@ -68,6 +74,7 @@ def sell(desire_id: int, user_id: int, count: int):
     ).limit(count).all()
 
     if len(cfas) < count:
+        db_sess.close()
         raise ValueError("User have not enough CFA")
 
     user.balance += calculated_price
@@ -107,12 +114,15 @@ def create(user_id, desire_create: CreateDesireDTO):
         db_models.cfa_image.CfaImage.id == desire_create.cfa_image_id).first()
 
     if cfa_image is None:
+        db_sess.close()
         raise ValueError(f"CfaImage with id: {desire_create.cfa_image_id} not exist")
 
     if desire_create.count <= 0:
+        db_sess.close()
         raise ValueError("Count should be positive")
 
     if desire_create.count > cfa_image.count:
+        db_sess.close()
         raise ValueError(f"Marketplace have only {cfa_image.count} CFAs, it is unreal to buy {desire_create.count}")
 
     desire = db_models.desire.Desire()
@@ -156,9 +166,11 @@ def cancel(user_id: int, desire_id: id):
         db_models.desire.Desire.id == desire_id).first()
 
     if desire is None:
+        db_sess.close()
         raise FileNotFoundError(f"Cannot find desire with id: {desire_id}")
 
     if desire.buyer_id != user_id:
+        db_sess.close()
         raise ValueError(f"You cannot cancel desire with id: {desire_id}")
 
     desire.count = 0

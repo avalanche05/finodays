@@ -17,6 +17,7 @@ def create(user_id, offer_create: CreateOfferDTO):
     ).all()
 
     if offer_create.count <= 0:
+        db_sess.close()
         raise ValueError("Count should be positive")
 
     if offer_create.count > len(cfas):
@@ -71,9 +72,11 @@ def cancel_offer(user_id: int, offer_id: id):
         db_models.offer.Offer.id == offer_id).first()
 
     if offer is None:
+        db_sess.close()
         raise FileNotFoundError(f"Cannot find offer with id: {offer_id}")
 
     if user_id != offer.seller_id:
+        db_sess.close()
         raise ValueError(f"You cannot cancel offer with id: {offer_id}")
 
     cfas = db_sess.query(db_models.cfa.Cfa).filter(
@@ -123,23 +126,28 @@ def buy(offer_id: int, user_id: int, count: int):
         db_models.offer.Offer.id == offer_id).first()
 
     if offer is None:
+        db_sess.close()
         raise FileNotFoundError(f"Cannot find offer with id {offer_id}")
 
     if count < 0 or count > offer.count:
+        db_sess.close()
         raise ValueError("Wrong count value")
 
     if offer.seller_id == user_id:
+        db_sess.close()
         raise ValueError("You cannot buy offers from yourself")
 
     user = db_sess.query(db_models.user.User).filter(
         db_models.user.User.id == user_id).first()
 
     if user is None:
+        db_sess.close()
         raise FileNotFoundError(f"Cannot find user with id {user_id}")
 
     calculated_price = offer.price * count
 
     if calculated_price > user.balance:
+        db_sess.close()
         raise ValueError("User have not enough money")
 
     user.balance -= calculated_price

@@ -13,9 +13,11 @@ def accept(user_id: int, deal_id: int):
     deal = entities.get_deal(deal_id)
 
     if deal is None:
+        db_sess.close()
         raise FileNotFoundError(f"Cannot find deal with id {deal_id}")
 
     if deal.host.id != user_id:
+        db_sess.close()
         raise ValueError(f"You cannot accept deal with id {deal_id}")
 
     host = entities.get_user(user_id)
@@ -33,6 +35,7 @@ def accept(user_id: int, deal_id: int):
         ).limit(count).all()
 
         if len(cfas) < count:
+            db_sess.close()
             raise ValueError("Initiator has not enough CFA")
 
         for cfa in cfas:
@@ -56,6 +59,7 @@ def accept(user_id: int, deal_id: int):
         ).limit(count).all()
 
         if len(cfas) < count:
+            db_sess.close()
             raise ValueError("Host has not enough CFA")
 
         for cfa in cfas:
@@ -105,9 +109,11 @@ def cancel(user_id: int, deal_id: id):
     deal = db_sess.query(db_models.deal.Deal).filter(db_models.deal.Deal.id == deal_id).first()
 
     if deal is None:
+        db_sess.close()
         raise FileNotFoundError(f"Cannot find desire with id: {deal_id}")
 
     if deal.initiator_id != user_id:
+        db_sess.close()
         raise ValueError(f"You cannot cancel desire with id: {deal_id}")
 
     deal.is_active = False

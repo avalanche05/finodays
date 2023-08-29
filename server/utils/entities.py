@@ -8,9 +8,11 @@ def get_user_by_token(token: str):
     db_sess = db_session.create_session()
     token = db_sess.query(db_models.token.Token).get(token)
     if not token or not token.is_alive:
+        db_sess.close()
         raise Exception("Invalid credentials")
     user = db_sess.query(db_models.user.User).get(token.user_id)
     if not user:
+        db_sess.close()
         raise FileNotFoundError("User not found")
     return User(user.id, user.email, user.username, user.name, user.balance)
 
@@ -20,6 +22,7 @@ def get_public_user(user_id: int):
     user = db_sess.query(db_models.user.User).get(user_id)
 
     if not user:
+        db_sess.close()
         raise FileNotFoundError("User not found")
 
     db_sess.close()
@@ -31,6 +34,7 @@ def get_user(user_id: int):
     user = db_sess.query(db_models.user.User).get(user_id)
 
     if not user:
+        db_sess.close()
         raise FileNotFoundError(f"Cannot find user with id {user_id}")
 
     db_sess.close()
@@ -42,6 +46,7 @@ def get_cfa(cfa_token: str):
     cfa = db_sess.query(db_models.cfa.Cfa).get(cfa_token)
 
     if not cfa:
+        db_sess.close()
         raise FileNotFoundError("CFA not found")
 
     db_sess.close()
