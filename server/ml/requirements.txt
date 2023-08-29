@@ -1,0 +1,7 @@
+pandas
+numpy
+plotly
+scikit-learn
+catboost
+pandas_datareader
+nbformat
