@@ -1,4 +1,7 @@
-# from data import trade, db_session
+from data import db_session, trade, cfa
+
+from data.cfa import Cfa
+from data.trade import Trade
 
 import numpy as np
 from sklearn import preprocessing
@@ -10,16 +13,15 @@ from catboost import CatBoostRegressor
 from datetime import datetime
 
 
-# db_session.global_init("../db/db.db")
-# db_sess = db_session.create_session()
-# trades = db_sess.query(trade.Trade).all()
+db_session.global_init("db/db.db")
+db_sess = db_session.create_session()
 
 
 min_max_scaler = preprocessing.MinMaxScaler()
 model = CatBoostRegressor().load_model("ml/ws/model_weights")
 
 
-def get_list_of_prices(cfa_token: str)->list:
+def get_list_of_prices(cfa_image_id)->list:
     '''
     It has to find prices in trades
     
@@ -27,23 +29,24 @@ def get_list_of_prices(cfa_token: str)->list:
     return: past price
     '''
     
-    sql_req = f'''
-    SELECT trade.price
-    FROM trade
-    WHERE trade.cfa_token = {cfa_token}
-    '''
+    x = []
     
-    stmt = select(trade.c.price).where(trade.c.cfa_token == cfa_token)
-    result = db_sess.execute(stmt)
-    trade_prices = [row[0] for row in result]
+    trades = db_sess.query(Trade).all()
+    cfas = db_sess.query(Cfa).filter(Cfa.cfa_image_id == cfa_image_id)
+
+    cfas_tokens = set()
     
-    x = trade_prices
-       
-    if not(any(x)) or x is None: #
-        logging.warning(f"stat.py-> {cfa_token}: When loading prices error occurred")
+    for _cfa in cfas:
+        cfas_tokens.add(_cfa.token)
+
+    for _trade in trades:
+        if _trade.cfa_token in cfas_tokens:
+            x.append(_trade.price)
+
+    if not(any(x)) or x is None: 
+        logging.warning(f"stat.py-> {cfa_image_id}: When loading prices error occurred")
 
     return x   
-
 
 
 def refit_model(list_of_prices, period: int=10):
@@ -91,12 +94,12 @@ def preprocess_list(list_of_prices, period: int=10)->list:
     return x
     
     
-def get_future_prices(cfa_token: str='', is_refit: bool=True, n_days: int=3)->list:
+def get_future_prices(cfa_image_id: str='', is_refit: bool=True, n_days: int=1)->list:
     '''
-    Return price(one element array) or prices depend on cfa_token
+    Return price(one element array) or prices depend on cfa_image_id
     
     cfa_id: id of cfa
-    refit: whether to train the model to new data (default=False)
+    refit: whether to train the model to new data (default=True)
     n_days: predict prices for a few days (default=1)
     
     return: list of prices
@@ -105,14 +108,12 @@ def get_future_prices(cfa_token: str='', is_refit: bool=True, n_days: int=3)->li
     
     period = 10
     
-    # list_of_prices = get_list_of_prices(cfa_token=cfa_token)
-    
-    fake_data = [0.3, 0.4, 0.412, 0.44, 0.42, 0.39, 0.35, 0.32, 0.29, 0.38, 0.330, 0.28, 0.38, 0.44]
-    
+    list_of_prices = get_list_of_prices(cfa_image_id=2)
+
     if is_refit:
-        refit_model(list_of_prices=fake_data, period=period)
+        refit_model(list_of_prices=list_of_prices, period=period)
         
-    list_of_prices = preprocess_list(fake_data)
+    list_of_prices = preprocess_list(list_of_prices)
     
     n_predicted_prices = []
     
@@ -125,5 +126,13 @@ def get_future_prices(cfa_token: str='', is_refit: bool=True, n_days: int=3)->li
         
     return n_predicted_prices
 
-print(get_future_prices())
-# db_sess.close()
+
+if __name__ == '__main__':
+    n_days = 1
+    
+    l = get_future_prices(cfa_image_id=2, is_refit=True, n_days=n_days)
+    
+    
+    
+db_sess.close()
+
