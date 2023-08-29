@@ -20,6 +20,7 @@ from openapi_server.models.trade_dto import TradeDTO  # noqa: E501
 from openapi_server.models.offer_dto import OfferDTO  # noqa: E501
 from openapi_server.test import BaseTestCase
 from data import db_session
+import models
 
 
 class TestDefaultController(BaseTestCase):
@@ -33,7 +34,10 @@ class TestDefaultController(BaseTestCase):
     correct_offer_id = 1
 
     def setUp(self) -> None:
-        db_session.global_init('../db/db.db')
+        db_session.global_init('../db/test_db.db')
+
+        data_user1 = models.register_user_dto.RegisterUserDTO("mihail.")
+        user1 = user.register(models.register_user_dto.RegisterUserDTO("m@m.m", "skewb", "mihail", "qwerty"))
 
     def test_cfa_history_cfa_token_get(self):
         """Test case for cfa_history_cfa_token_get

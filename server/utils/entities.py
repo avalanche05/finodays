@@ -11,7 +11,7 @@ def get_user_by_token(token: str):
     user = db_sess.query(db_models.user.User).get(token.user_id)
     if not user:
         raise FileNotFoundError("User not found")
-    return User(user.id, user.login, user.username, user.name, user.balance)
+    return User(user.id, user.email, user.username, user.name, user.balance)
 
 
 def get_public_user(user_id: int):
@@ -22,7 +22,7 @@ def get_public_user(user_id: int):
         raise FileNotFoundError("User not found")
 
     db_sess.close()
-    return PublicUser(user.id, user.login, user.username, user.name)
+    return PublicUser(user.id, user.email, user.username, user.name)
 
 
 def get_user(user_id: int):
@@ -33,7 +33,7 @@ def get_user(user_id: int):
         raise FileNotFoundError("User not found")
 
     db_sess.close()
-    return User(user.id, user.login, user.username, user.name, user.balance)
+    return User(user.id, user.email, user.username, user.name, user.balance)
 
 
 def get_cfa(cfa_token: str):

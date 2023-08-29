@@ -11,13 +11,13 @@ from utils import entities
 def register(register_user_dto: RegisterUserDTO):
     db_sess = db_session.create_session()
 
-    user = db_sess.query(db_models.user.User).filter(or_(db_models.user.User.login == register_user_dto.login,
+    user = db_sess.query(db_models.user.User).filter(or_(db_models.user.User.email == register_user_dto.email,
                                                          db_models.user.User.username == register_user_dto.username)).first()
 
     if user:
         return "Invalid request", 400
     new_user = db_models.user.User()
-    new_user.login = register_user_dto.login
+    new_user.email = register_user_dto.email
     new_user.set_password(register_user_dto.password)
     new_user.username = register_user_dto.username
     new_user.name = register_user_dto.name
@@ -32,7 +32,7 @@ def register(register_user_dto: RegisterUserDTO):
     db_sess.commit()
 
     response = LoginResponse200(User(id=new_user.id,
-                                     login=new_user.login,
+                                     email=new_user.email,
                                      username=new_user.username,
                                      name=new_user.name,
                                      balance=new_user.balance), token.value)
@@ -43,8 +43,8 @@ def register(register_user_dto: RegisterUserDTO):
 def login(login_user_dto: LoginUserDTO):
     db_sess = db_session.create_session()
 
-    user = db_sess.query(db_models.user.User).filter(or_(db_models.user.User.login == login_user_dto.login,
-                                                         db_models.user.User.username == login_user_dto.login)).first()
+    user = db_sess.query(db_models.user.User).filter(or_(db_models.user.User.email == login_user_dto.email,
+                                                         db_models.user.User.username == login_user_dto.email)).first()
     if not user:
         return "Invalid credentials", 401
     if user.check_password(login_user_dto.password):
@@ -54,7 +54,7 @@ def login(login_user_dto: LoginUserDTO):
         db_sess.commit()
 
         response = LoginResponse200(User(id=user.id,
-                                         login=user.login,
+                                         email=user.email,
                                          username=user.username,
                                          name=user.name,
                                          balance=user.balance), token.value)
