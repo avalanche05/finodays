@@ -1,12 +1,10 @@
 from datetime import datetime
 
-from sqlalchemy import desc
-
-from data import db_session
 import data.__all_models as db_models
-from utils import entities, emails
+from data import db_session
 from openapi_server.models.create_deal_dto import CreateDealDTO
 from openapi_server.models.deal_dto import DealDTO
+from utils import entities, emails
 
 
 def accept(user_id: int, deal_id: int):
@@ -71,12 +69,12 @@ def accept(user_id: int, deal_id: int):
 
             db_sess.add(trade)
 
-    email.send_email(receiver_email=initiator.email,
-                     message=email.generate_message_for_initiator(initiator_name=initiator.name,
-                                                                  initiator_username=initiator.username,
-                                                                  host_name=host.name,
-                                                                  host_username=host.username,
-                                                                  date=str(current_time)))
+    emails.send_email(receiver_email=initiator.email,
+                      message=emails.generate_message_for_initiator(initiator_name=initiator.name,
+                                                                    initiator_username=initiator.username,
+                                                                    host_name=host.name,
+                                                                    host_username=host.username,
+                                                                    date=str(current_time)))
 
     db_sess.commit()
     db_sess.close()
@@ -147,6 +145,7 @@ def get_all_in_deals(user_id: int):
                     initiator_items=initiator_items,
                     host_items=host_items)
         )
+    return result
 
 
 def get_all_out_deals(user_id: int):

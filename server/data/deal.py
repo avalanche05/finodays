@@ -1,5 +1,4 @@
 import sqlalchemy
-from sqlalchemy import orm
 from sqlalchemy_serializer import SerializerMixin
 
 from .db_session import SqlAlchemyBase
@@ -19,4 +18,3 @@ class Deal(SqlAlchemyBase, SerializerMixin):
     host_items = sqlalchemy.Column(sqlalchemy.JSON)
     is_active = sqlalchemy.Column(sqlalchemy.Boolean, default=sqlalchemy.True_)
     is_accepted = sqlalchemy.Column(sqlalchemy.Boolean, default=sqlalchemy.False_)
-

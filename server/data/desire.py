@@ -1,5 +1,4 @@
 import sqlalchemy
-from sqlalchemy import orm
 from sqlalchemy_serializer import SerializerMixin
 
 from .db_session import SqlAlchemyBase
@@ -16,4 +15,4 @@ class Desire(SqlAlchemyBase, SerializerMixin):
     count = sqlalchemy.Column(sqlalchemy.Integer)
     price = sqlalchemy.Column(sqlalchemy.Float)
     buyer_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                  sqlalchemy.ForeignKey("user.id"))
+                                 sqlalchemy.ForeignKey("user.id"))

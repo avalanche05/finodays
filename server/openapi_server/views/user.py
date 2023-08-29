@@ -1,11 +1,12 @@
-from openapi_server.models import RegisterUserDTO, LoginUserDTO, DepositValueDTO, WithdrawValueDTO, User, PublicUser, \
-    UserCfaDTO, CfaImage, OfferDTO, DesireDTO
-from data import db_session
-import data.__all_models as db_models
 from sqlalchemy import or_, and_
-from utils import generator
+
+import data.__all_models as db_models
+from data import db_session
 from openapi_server.models import LoginResponse200
+from openapi_server.models import RegisterUserDTO, LoginUserDTO, DepositValueDTO, WithdrawValueDTO, User, UserCfaDTO, \
+    CfaImage, OfferDTO, DesireDTO
 from utils import entities
+from utils import generator
 
 
 def register(register_user_dto: RegisterUserDTO):

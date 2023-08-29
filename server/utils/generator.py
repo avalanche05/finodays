@@ -2,8 +2,8 @@ import hashlib
 import random
 import string
 
-from data.user import User
 from data.token import Token
+from data.user import User
 
 
 def generate_bearer_token(user: User):

@@ -1,11 +1,10 @@
+import data.__all_models as db_models
 from data import db_session
-from openapi_server.models import User
 from openapi_server.models import CfaDTO
 from openapi_server.models import TradeDTO
-from utils import generator
-import data.__all_models as db_models
-import openapi_server.views as views
+from openapi_server.models import User
 from utils import entities
+from utils import generator
 
 
 def create_cfa(user_id: int, cfa_image_id: int):
@@ -30,6 +29,8 @@ def get_cfa(cfa_token: str):
 def get_cfa_history(cfa_token: str):
     db_sess = db_session.create_session()
 
+    cfa = entities.get_cfa(cfa_token)
+
     trades = db_sess.query(db_models.trade.Trade).filter(db_models.trade.Trade.cfa_token == cfa_token).order_by(
         db_models.trade.Trade.date).all()
 
@@ -47,10 +48,7 @@ def get_cfa_history(cfa_token: str):
 
     db_sess.close()
 
-    if history:
-        return history, 200
-    else:
-        return "CFA not found", 404
+    return history
 
 
 def get_cfa_list(cfa_image_id: int):

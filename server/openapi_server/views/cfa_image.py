@@ -1,15 +1,13 @@
 from typing import List
 
-import openapi_server.models as models
-from openapi_server.models import PublicUser
 import data.__all_models as db_models
+import openapi_server.models as models
 from data import db_session
-from openapi_server.views import cfa
-from openapi_server.models.cfa_image import CfaImage
-from utils import entities
-
-# 
+#
 from ml.__main__ import predict_price
+from openapi_server.models.cfa_image import CfaImage
+from openapi_server.views import cfa
+from utils import entities
 
 
 def create_cfa_image(user_id: int, create_cfo_image_dto: models.CreateCfaImageDTO):
@@ -72,7 +70,7 @@ def get_predicted_prices(cfa_image_id: int, n_days=3) -> list:
     return: n_days-lenght list of float
     '''
     db_sess = db_session.create_session()
-    l = predict_price(cfa_image_id=cfa_image_id, db_sess=db_sess , is_refit=True, n_days=n_days)
+    l = predict_price(cfa_image_id=cfa_image_id, db_sess=db_sess, is_refit=True, n_days=n_days)
     db_sess.close()
-    
+
     return l

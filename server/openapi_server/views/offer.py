@@ -1,9 +1,9 @@
 from datetime import datetime
 
+import data.__all_models as db_models
 from data import db_session
 from openapi_server.models.create_offer_dto import CreateOfferDTO
 from openapi_server.models.offer_dto import OfferDTO
-import data.__all_models as db_models
 from utils import entities, emails
 
 
@@ -95,6 +95,8 @@ def cancel_offer(user_id: int, offer_id: id):
 def get_all_by_cfa_image_id(cfa_image_id: int):
     db_sess = db_session.create_session()
 
+    cfa_image = entities.get_cfa_image(cfa_image_id)
+
     offers = db_sess.query(db_models.offer.Offer).filter(
         db_models.offer.Offer.cfa_image_id == cfa_image_id, db_models.offer.Offer.count > 0) \
         .order_by(db_models.offer.Offer.price).all()
@@ -170,13 +172,13 @@ def buy(offer_id: int, user_id: int, count: int):
         db_sess.commit()
 
     try:
-        email.send_email(receiver_email=seller.email,
-                     message=email.generate_message_for_seller(seller_name=seller.name,
-                                                               seller_username=seller.username,
-                                                               buyer_name=user.name,
-                                                               buyer_username=user.username,
-                                                               date=str(current_time),
-                                                               amount=calculated_price))
+        emails.send_email(receiver_email=seller.email,
+                          message=emails.generate_message_for_seller(seller_name=seller.name,
+                                                                     seller_username=seller.username,
+                                                                     buyer_name=user.name,
+                                                                     buyer_username=user.username,
+                                                                     date=str(current_time),
+                                                                     amount=calculated_price))
     except Exception as e:
         pass
 

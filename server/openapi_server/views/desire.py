@@ -2,11 +2,11 @@ from datetime import datetime
 
 from sqlalchemy import desc
 
-from data import db_session
 import data.__all_models as db_models
-from utils import entities, emails
+from data import db_session
 from openapi_server.models.create_desire_dto import CreateDesireDTO
 from openapi_server.models.desire_dto import DesireDTO
+from utils import entities, emails
 
 
 def get_all_by_cfa_image_id(cfa_image_id: int):
@@ -87,12 +87,12 @@ def sell(desire_id: int, user_id: int, count: int):
         db_sess.add(trade)
 
     try:
-        email.send_email(receiver_email=buyer.email, message=email.generate_message_for_seller(seller_name=user.name,
-                                                                                               seller_username=user.username,
-                                                                                               buyer_name=buyer.name,
-                                                                                               buyer_username=buyer.username,
-                                                                                               date=str(current_time),
-                                                                                               amount=calculated_price))
+        emails.send_email(receiver_email=buyer.email, message=emails.generate_message_for_seller(seller_name=user.name,
+                                                                                                 seller_username=user.username,
+                                                                                                 buyer_name=buyer.name,
+                                                                                                 buyer_username=buyer.username,
+                                                                                                 date=str(current_time),
+                                                                                                 amount=calculated_price))
     except Exception as e:
         pass
 
