@@ -4,7 +4,7 @@ from data import db_session
 from openapi_server.models.create_offer_dto import CreateOfferDTO
 from openapi_server.models.offer_dto import OfferDTO
 import data.__all_models as db_models
-from utils import entities, email
+from utils import entities, emails
 
 
 def create(user_id, offer_create: CreateOfferDTO):

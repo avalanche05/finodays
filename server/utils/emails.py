@@ -79,7 +79,7 @@ def send_email(receiver_email: str, message: str):
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message)
+        server.sendmail(sender_email, receiver_email, message.encode('utf-8'))
 
 
 def generate_message_for_seller(seller_name, seller_username, buyer_name, buyer_username, date, amount):
@@ -106,3 +106,7 @@ def generate_message_for_initiator(initiator_name, initiator_username, host_name
                                         host_name=host_name,
                                         host_username=host_username,
                                         date=date)
+
+
+if __name__ == '__main__':
+    send_email('mihail.glazov2015@yandex.ru', generate_message_for_seller('1', '1', '1', '1', '1', 1))

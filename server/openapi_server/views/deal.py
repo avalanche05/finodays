@@ -4,7 +4,7 @@ from sqlalchemy import desc
 
 from data import db_session
 import data.__all_models as db_models
-from utils import entities, email
+from utils import entities, emails
 from openapi_server.models.create_deal_dto import CreateDealDTO
 from openapi_server.models.deal_dto import DealDTO
 
