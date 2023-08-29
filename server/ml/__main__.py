@@ -1,16 +1,11 @@
-from data import db_session, trade, cfa
+import logging
+
+import numpy as np
+import pandas as pd
+from catboost import CatBoostRegressor
 
 from data.cfa import Cfa
 from data.trade import Trade
-
-import numpy as np
-from sklearn import preprocessing
-import pandas as pd
-from sqlalchemy import select
-
-import logging
-from catboost import CatBoostRegressor
-from datetime import datetime
 
 
 model = CatBoostRegressor().load_model("ml/ws/model_weights")
