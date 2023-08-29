@@ -70,9 +70,14 @@ python test_default_controller.py
 - [**server**](/server/) - содержит backend сервиса
 - [**frontend**](/frontend/) - содержит фронтенд сервиса
 
+## Структура системы
+
+<img width="660" alt="image" src="https://github.com/avalanche05/finodays/assets/21103882/b38f196f-10de-4cce-935b-b82b54802f7b">
+
+
 ## Архитектура
 
-На диаграмме ниже можно посмотреть на UML диаграмму сущностей.
+На диаграмме ниже можно посмотреть на диаграмму сущностей.
 <img width="599" alt="image" src="https://github.com/avalanche05/finodays/assets/21103882/6f3e0181-d584-4823-ab16-6b6e373e9db1">
 
 
