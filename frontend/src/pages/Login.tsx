@@ -13,6 +13,7 @@ const Login = () => {
 
     const onFinish = (loginForm: LoginBody) => {
         setLoading(true);
+        console.log('Success:', loginForm);
 
         AuthService.login(loginForm)
             .then(() => {
@@ -46,7 +47,7 @@ const Login = () => {
 
                     <Form style={{ marginTop: 50 }} name='login' onFinish={onFinish}>
                         <Form.Item
-                            name='login'
+                            name='email'
                             rules={[
                                 {
                                     required: true,
