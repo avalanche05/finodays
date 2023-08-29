@@ -28,6 +28,8 @@ from openapi_server.views import cfa_image
 from openapi_server.views import offer
 from openapi_server.views import desire
 from openapi_server.views import trade
+from openapi_server.views import deal
+from utils import entities
 
 
 def cfa_cfa_token_get(cfa_token):  # noqa: E501
@@ -70,7 +72,7 @@ def cfa_image_create_post():  # noqa: E501
         create_cfa_image = CreateCfaImageDTO.from_dict(connexion.request.get_json())  # noqa: E501
         try:
             token = connexion.request.headers.get('Authorization').split()[1]
-            user_id = user.get_profile(token).id
+            user_id = entities.get_user_by_token(token).id
         except Exception as e:
             return f"Bearer token is invalid", 401
 
@@ -181,7 +183,7 @@ def offer_buy_offer_id_post(offer_id):  # noqa: E501
         accept_offer_dto = AcceptOfferDTO.from_dict(connexion.request.get_json())
 
         token = connexion.request.headers.get('Authorization').split()[1]
-        user_id = user.get_profile(token).id
+        user_id = entities.get_user_by_token(token).id
 
         try:
             offer.buy(offer_id=offer_id,
@@ -204,7 +206,7 @@ def offer_create_post():  # noqa: E501
     if connexion.request.is_json:
         create_offer_dto = CreateOfferDTO.from_dict(connexion.request.get_json())  # noqa: E501
         token = connexion.request.headers.get('Authorization').split()[1]
-        user_id = user.get_profile(token).id
+        user_id = entities.get_user_by_token(token).id
 
         try:
             offer_id = offer.create(user_id, create_offer_dto)
@@ -285,7 +287,7 @@ def profile_get():
     token = connexion.request.headers.get('Authorization').split()[1]
 
     try:
-        return user.get_profile(token), 200
+        return entities.get_user_by_token(token), 200
     except Exception as e:
         return str(e), 401
 
@@ -369,7 +371,7 @@ def offer_cancel_offer_id_post(offer_id: int):  # noqa: E501
     """
     try:
         token = connexion.request.headers.get('Authorization').split()[1]
-        user_id = user.get_profile(token).id
+        user_id = entities.get_user_by_token(token).id
         offer.cancel_offer(user_id=user_id, offer_id=offer_id)
         return "Delete offer success", 201
     except Exception as e:
@@ -392,7 +394,7 @@ def desire_sell_desire_id_post(desire_id):  # noqa: E501
         accept_desire_dto = AcceptDesireDTO.from_dict(connexion.request.get_json())
 
         token = connexion.request.headers.get('Authorization').split()[1]
-        user_id = user.get_profile(token).id
+        user_id = entities.get_user_by_token(token).id
 
         try:
             desire.sell(desire_id=desire_id,
@@ -415,7 +417,7 @@ def desire_create_post():  # noqa: E501
     if connexion.request.is_json:
         create_desire_dto = CreateDesireDTO.from_dict(connexion.request.get_json())  # noqa: E501
         token = connexion.request.headers.get('Authorization').split()[1]
-        user_id = user.get_profile(token).id
+        user_id = entities.get_user_by_token(token).id
 
         try:
             desire_id = desire.create(user_id, create_desire_dto)
@@ -467,7 +469,7 @@ def desire_cancel_desire_id_post(desire_id):  # noqa: E501
     """
     try:
         token = connexion.request.headers.get('Authorization').split()[1]
-        user_id = user.get_profile(token).id
+        user_id = entities.get_user_by_token(token).id
         desire.cancel(user_id=user_id, desire_id=desire_id)
         return "Delete desire success", 201
     except Exception as e:
@@ -484,7 +486,12 @@ def deal_accept_deal_id_post(deal_id):  # noqa: E501
 
     :rtype: None
     """
-    pass
+    try:
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = entities.get_user_by_token(token).id
+        deal.accept(user_id=user_id, deal_id=deal_id)
+    except Exception as e:
+        return str(e), 401
 
 
 def deal_create_post():  # noqa: E501
@@ -523,11 +530,16 @@ def user_deal_out_get(user_id: int):
     pass
 
 
-def deal_cancel_deal_id_post(desire_id):  # noqa: E501
+def deal_cancel_deal_id_post(deal_id):  # noqa: E501
     """Удалить обмен (Требуется Bearer-токен)
 
      # noqa: E501
 
     :rtype: None
     """
-    pass
+    try:
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = entities.get_user_by_token(token).id
+        deal.cancel(user_id=user_id, deal_id=deal_id)
+    except Exception as e:
+        return str(e), 401

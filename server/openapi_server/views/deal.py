@@ -4,64 +4,54 @@ from sqlalchemy import desc
 
 from data import db_session
 import data.__all_models as db_models
-from openapi_server.models.deal_dto import DealDTO
 from utils import entities
 from openapi_server.models.create_deal_dto import CreateDealDTO
-from openapi_server.models.desire_dto import DesireDTO
+from openapi_server.models.deal_dto import DealDTO
 
 
-def accept(deal_id: int, user_id: int, count: int):
+def accept(user_id: int, deal_id: int):
     db_sess = db_session.create_session()
 
-    desire = db_sess.query(db_models.desire.Desire).filter(
-        db_models.desire.Desire.id == desire_id).first()
+    deal = entities.get_deal(deal_id)
 
-    if desire is None:
-        raise FileNotFoundError(f"Cannot find offer with id {desire}")
+    if deal is None:
+        raise FileNotFoundError(f"Cannot find deal with id {deal_id}")
 
-    if count < 0 or count > desire.count:
-        raise ValueError("Wrong count value")
+    if deal.host_id != user_id:
+        raise ValueError(f"You cannot accept deal with id {deal_id}")
 
-    if desire.buyer_id == user_id:
-        raise ValueError("You cannot sell desires from yourself")
+    host = entities.get_user(user_id)
+    initiator = entities.get_user(deal.initiator_id)
 
-    user = db_sess.query(db_models.user.User).get(user_id)
-    buyer = db_sess.query(db_models.user.User).get(desire.buyer_id)
+    for cfa_image_elem in deal.initiator_items:
+        cfa_image_id = cfa_image_elem['cfa_image_id']
+        count = cfa_image_elem['count']
+        cfas = db_sess.query(db_models.cfa.Cfa).filter(
+            db_models.cfa.Cfa.user_id == initiator.id,
+            db_models.cfa.Cfa.cfa_image_id == cfa_image_id,
+            db_models.cfa.Cfa.offer_id == 0
+        ).limit(count).all()
 
-    if user is None:
-        raise FileNotFoundError(f"Cannot find user with id {user_id}")
-    if buyer is None:
-        raise FileNotFoundError(f"Cannot find user with id {desire.buyer_id}")
+        if len(cfas) < count:
+            raise ValueError("Initiator has not enough CFA")
 
-    calculated_price = desire.price * count
+        for cfa in cfas:
+            cfa.user_id = host.id
 
-    if calculated_price > buyer.balance:
-        raise ValueError("Buyer have not enough money")
+    for cfa_image_elem in deal.host_items:
+        cfa_image_id = cfa_image_elem['cfa_image_id']
+        count = cfa_image_elem['count']
+        cfas = db_sess.query(db_models.cfa.Cfa).filter(
+            db_models.cfa.Cfa.user_id == host.id,
+            db_models.cfa.Cfa.cfa_image_id == cfa_image_id,
+            db_models.cfa.Cfa.offer_id == 0
+        ).limit(count).all()
 
-    buyer.balance -= calculated_price
-    desire.count -= count
+        if len(cfas) < count:
+            raise ValueError("Host has not enough CFA")
 
-    cfas = db_sess.query(db_models.cfa.Cfa).filter(
-        db_models.cfa.Cfa.user_id == user_id,
-        db_models.cfa.Cfa.cfa_image_id == desire.cfa_image_id,
-    ).limit(count).all()
-
-    if len(cfas) < count:
-        raise ValueError("User have not enough CFA")
-
-    user.balance += calculated_price
-
-    for cfa in cfas:
-        cfa.user_id = buyer.id
-
-        trade = db_models.trade.Trade()
-        trade.date = datetime.now()
-        trade.cfa_token = cfa.token
-        trade.price = desire.price
-        trade.buyer_id = desire.buyer_id
-        trade.seller_id = user_id
-
-        db_sess.add(trade)
+        for cfa in cfas:
+            cfa.user_id = initiator.id
 
     db_sess.commit()
     db_sess.close()
@@ -86,19 +76,18 @@ def create(initiator_id, create_deal: CreateDealDTO):
     return deal_id
 
 
-def cancel(user_id: int, desire_id: id):
+def cancel(user_id: int, deal_id: id):
     db_sess = db_session.create_session()
 
-    desire = db_sess.query(db_models.desire.Desire).filter(
-        db_models.desire.Desire.id == desire_id).first()
+    deal = db_sess.query(db_models.deal.Deal).filter(db_models.deal.Deal.id == deal_id).first()
 
-    if desire is None:
-        raise FileNotFoundError(f"Cannot find desire with id: {desire_id}")
+    if deal is None:
+        raise FileNotFoundError(f"Cannot find desire with id: {deal_id}")
 
-    if desire.buyer_id != user_id:
-        raise ValueError(f"You cannot cancel desire with id: {desire_id}")
+    if deal.initiator_id != user_id:
+        raise ValueError(f"You cannot cancel desire with id: {deal_id}")
 
-    desire.count = 0
+    deal.is_active = False
 
     db_sess.commit()
     db_sess.close()

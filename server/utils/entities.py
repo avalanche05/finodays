@@ -31,7 +31,7 @@ def get_user(user_id: int):
     user = db_sess.query(db_models.user.User).get(user_id)
 
     if not user:
-        raise FileNotFoundError("User not found")
+        raise FileNotFoundError(f"Cannot find user with id {user_id}")
 
     db_sess.close()
     return User(user.id, user.email, user.username, user.name, user.balance)
