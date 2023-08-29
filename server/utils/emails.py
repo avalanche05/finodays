@@ -106,7 +106,3 @@ def generate_message_for_initiator(initiator_name, initiator_username, host_name
                                         host_name=host_name,
                                         host_username=host_username,
                                         date=date)
-
-
-if __name__ == '__main__':
-    send_email('mihail.glazov2015@yandex.ru', generate_message_for_seller('1', '1', '1', '1', '1', 1))
