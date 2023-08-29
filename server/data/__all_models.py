@@ -6,3 +6,4 @@ from . import trade
 from . import offer
 from . import desire
 from . import desire
+from . import deal

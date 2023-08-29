@@ -15,26 +15,31 @@ class CreateDealDTO(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, initiator_items=None, host_items=None):  # noqa: E501
+    def __init__(self, initiator_items=None, host_items=None, host_id=None):  # noqa: E501
         """CreateDealDTO - a model defined in OpenAPI
 
         :param initiator_items: The initiator_items of this CreateDealDTO.  # noqa: E501
         :type initiator_items: list
         :param host_items: The host_items of this CreateDealDTO.  # noqa: E501
         :type host_items: list
+        :param host_id: The host_id of this CreateDealDTO.  # noqa: E501
+        :type host_items: int
         """
         self.openapi_types = {
             'initiator_items': list,
-            'host_items': list
+            'host_items': list,
+            'host_id': host_id
         }
 
         self.attribute_map = {
             'initiator_items': 'initiator_items',
-            'host_items': 'host_items'
+            'host_items': 'host_items',
+            'host_id': 'host_id'
         }
 
         self._initiator_items = initiator_items
         self._host_items = host_items
+        self._host_id = host_id
 
     @classmethod
     def from_dict(cls, dikt) -> 'CreateDealDTO':
@@ -109,3 +114,24 @@ class CreateDealDTO(Model):
         """
 
         self._price = price
+
+    @property
+    def host_id(self):
+        """Gets the host_id of this CreateDealDTO.
+
+
+        :return: The host_id of this CreateDealDTO.
+        :rtype: int
+        """
+        return self._host_id
+
+    @host_id.setter
+    def host_id(self, host_id):
+        """Sets the host_id of this CreateDealDTO.
+
+
+        :param host_id: The price of this CreateDealDTO.
+        :type host_id: int
+        """
+
+        self._host_id = host_id

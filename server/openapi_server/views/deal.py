@@ -5,7 +5,7 @@ from sqlalchemy import desc
 from data import db_session
 import data.__all_models as db_models
 from utils import entities
-from openapi_server.models.create_desire_dto import CreateDesireDTO
+from openapi_server.models.create_deal_dto import CreateDealDTO
 from openapi_server.models.desire_dto import DesireDTO
 
 
@@ -88,53 +88,19 @@ def accept(deal_id: int, user_id: int, count: int):
     db_sess.close()
 
 
-def create(user_id, desire_create: CreateDesireDTO):
+def create(initiator_id, host_id, create_deal: CreateDealDTO):
     db_sess = db_session.create_session()
 
-    cfa_image = db_sess.query(db_models.cfa_image.CfaImage).filter(
-        db_models.cfa_image.CfaImage.id == desire_create.cfa_image_id).first()
+    deal = db_models.deal.Deal()
+    deal.initiator_id = initiator_id
+    deal.host_id = host_id
+    initiator_items = create_deal.initiator_items
+    host_items = sqlalchemy.Column(sqlalchemy.JSON)
+    is_active = sqlalchemy.Column(sqlalchemy.Boolean, default=sqlalchemy.True_)
+    is_accepted
 
-    if cfa_image is None:
-        raise ValueError(f"CfaImage with id: {desire_create.cfa_image_id} not exist")
 
-    if desire_create.count <= 0:
-        raise ValueError("Count should be positive")
-
-    if desire_create.count > cfa_image.count:
-        raise ValueError(f"Marketplace have only {cfa_image.count} CFAs, it is unreal to buy {desire_create.count}")
-
-    desire = db_models.desire.Desire()
-    desire.cfa_image_id = desire_create.cfa_image_id
-    desire.count = desire_create.count
-    desire.price = desire_create.price
-    desire.buyer_id = user_id
-
-    db_sess.add(desire)
-    db_sess.commit()
-    desire_id = desire.id
-
-    offers = db_sess.query(db_models.offer.Offer).filter(
-        db_models.offer.Offer.cfa_image_id == desire.cfa_image_id,
-        db_models.offer.Offer.count > 0,
-        db_models.offer.Offer.price <= desire.price,
-        db_models.offer.Offer.seller_id != desire.buyer_id
-    ).all()
-
-    bought_count = 0
-    for offer in offers:
-        count = min(desire.count - bought_count, offer.count)
-        try:
-            sell(desire_id, offer.seller_id, count)
-            bought_count += count
-        except Exception:
-            pass
-
-        if bought_count == offer.count:
-            break
-
-    db_sess.close()
-
-    return desire_id
+    return deal_id
 
 
 def cancel(user_id: int, desire_id: id):
