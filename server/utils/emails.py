@@ -1,4 +1,5 @@
-import smtplib, ssl
+import smtplib
+import ssl
 
 port = 465
 smtp_server = "smtp.gmail.com"

@@ -1,7 +1,7 @@
-from data import db_session
 import data.__all_models as db_models
-from openapi_server.models.deal_dto import DealDTO
+from data import db_session
 from openapi_server.models import PublicUser, User, CfaDTO, CfaImage
+from openapi_server.models.deal_dto import DealDTO
 
 
 def get_user_by_token(token: str):

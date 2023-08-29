@@ -1,12 +1,10 @@
 from datetime import datetime
 
-from sqlalchemy import desc
-
-from data import db_session
 import data.__all_models as db_models
-from utils import entities, emails
+from data import db_session
 from openapi_server.models.create_deal_dto import CreateDealDTO
 from openapi_server.models.deal_dto import DealDTO
+from utils import entities, emails
 
 
 def accept(user_id: int, deal_id: int):

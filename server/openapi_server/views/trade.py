@@ -1,7 +1,7 @@
 import data.__all_models as db_models
+import openapi_server.views as views
 from data import db_session
 from openapi_server.models.trade_dto import TradeDTO
-import openapi_server.views as views
 
 
 def get_all():

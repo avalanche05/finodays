@@ -1,11 +1,10 @@
+import data.__all_models as db_models
 from data import db_session
-from openapi_server.models import User
 from openapi_server.models import CfaDTO
 from openapi_server.models import TradeDTO
-from utils import generator
-import data.__all_models as db_models
-import openapi_server.views as views
+from openapi_server.models import User
 from utils import entities
+from utils import generator
 
 
 def create_cfa(user_id: int, cfa_image_id: int):
