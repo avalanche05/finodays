@@ -85,6 +85,7 @@ def get_cfa_list(user_id: int):
     db_sess.close()
     return result
 
+
 def get_offer_list(user_id: int):
     db_sess = db_session.create_session()
 
@@ -113,9 +114,13 @@ def get_desire_list(user_id: int):
 
     result = []
     for desire in user_desires:
+        try:
+            cfa_image = entities.get_cfa_image(desire.cfa_image_id)
+        except Exception:
+            cfa_image = CfaImage(title="Cfa Not Founded")
         result.append(DesireDTO(
             id=desire.id,
-            cfa_image=entities.get_cfa_image(desire.cfa_image_id),
+            cfa_image=cfa_image,
             count=desire.count,
             price=desire.price,
             buyer=entities.get_public_user(desire.buyer_id)
