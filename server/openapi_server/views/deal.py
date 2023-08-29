@@ -160,17 +160,23 @@ def get_all_out_deals(user_id: int):
     for deal in deals:
         initiator_items = []
         for item in deal.initiator_items:
-            initiator_items.append({
-                "count": item["count"],
-                "cfa_image": entities.get_cfa_image(item["cfa_image_id"])
-            })
+            try:
+                initiator_items.append({
+                    "count": item["count"],
+                    "cfa_image": entities.get_cfa_image(item["cfa_image_id"])
+                })
+            except Exception:
+                pass
 
         host_items = []
         for item in deal.host_items:
-            host_items.append({
-                "count": item["count"],
-                "cfa_image": entities.get_cfa_image(item["cfa_image_id"])
-            })
+            try:
+                host_items.append({
+                    "count": item["count"],
+                    "cfa_image": entities.get_cfa_image(item["cfa_image_id"])
+                })
+            except Exception:
+                pass
         result.append(
             DealDTO(id=deal.id,
                     initiator=entities.get_public_user(deal.initiator_id),

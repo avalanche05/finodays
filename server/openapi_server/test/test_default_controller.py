@@ -37,7 +37,7 @@ class TestDefaultController(BaseTestCase):
     incorrect_user_id = -1
 
     def setUp(self) -> None:
-        db_session.global_init('../db/db.db')
+        db_session.global_init('../../db/db.db')
 
     def test_cfa_history_cfa_token_get(self):
         """Test case for cfa_history_cfa_token_get
