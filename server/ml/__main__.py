@@ -16,8 +16,7 @@ model = CatBoostRegressor().load_model("../ml/ws/model_weights")
 
 
 def predict_price(cfa_image_id, db_sess, is_refit=True, n_days=1):
-    l = get_future_prices(cfa_image_id=cfa_image_id, db_sess=db_sess, is_refit=is_refit, n_days=n_days)
-    return l
+    return get_future_prices(cfa_image_id=cfa_image_id, db_sess=db_sess, is_refit=is_refit, n_days=n_days)
 
 
 def get_future_prices(cfa_image_id, db_sess, is_refit: bool = True, n_days: int = 1) -> list:
@@ -127,5 +126,4 @@ def preprocess_list(list_of_prices, period: int = 10) -> list:
 if __name__ == '__main__':
     n_days = 2
 
-    l = get_future_prices(cfa_image_id=3, is_refit=True, n_days=n_days)
-    print(l)
+    print(get_future_prices(cfa_image_id=3, is_refit=True, n_days=n_days))
