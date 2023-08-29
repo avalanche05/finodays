@@ -17,11 +17,11 @@ def accept(user_id: int, deal_id: int):
     if deal is None:
         raise FileNotFoundError(f"Cannot find deal with id {deal_id}")
 
-    if deal.host_id != user_id:
+    if deal.host.id != user_id:
         raise ValueError(f"You cannot accept deal with id {deal_id}")
 
     host = entities.get_user(user_id)
-    initiator = entities.get_user(deal.initiator_id)
+    initiator = deal.initiator
 
     for cfa_image_elem in deal.initiator_items:
         cfa_image_id = cfa_image_elem['cfa_image_id']

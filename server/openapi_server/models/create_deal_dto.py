@@ -26,9 +26,9 @@ class CreateDealDTO(Model):
         :type host_items: int
         """
         self.openapi_types = {
-            'initiator_items': list,
-            'host_items': list,
-            'host_id': host_id
+            'initiator_items': List[Dict[str, int]],
+            'host_items': List[Dict[str, int]],
+            'host_id': int
         }
 
         self.attribute_map = {

@@ -504,7 +504,7 @@ def deal_create_post():  # noqa: E501
     :rtype: None
     """
     try:
-        create_deal_dto = CreateDealDTO.from_dict(connexion.request.get_json())  # noqa: E501
+        create_deal_dto = CreateDealDTO.from_dict(connexion.request.get_json())# noqa: E501
         token = connexion.request.headers.get('Authorization').split()[1]
         user_id = entities.get_user_by_token(token).id
         deal.create(initiator_id=user_id, create_deal=create_deal_dto)

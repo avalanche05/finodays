@@ -11,8 +11,5 @@ if __name__ == '__main__':
     user2 = user.register(models.register_user_dto.RegisterUserDTO("i@i.i", "buran", "ivan", "qwerty"))
 
     cfa_image.create_cfa_image(user1.user.id, CreateCfaImageDTO('coin1', 15, 'coin number 1'))
-    offer.create(1, CreateOfferDTO(1, 15, 100))
-    user.deposit_money(DepositValueDTO(1000), user2.bearer_token)
-    offer.buy(1, 2, 5)
-    desire.create(1, CreateDesireDTO(1, 2, 2))
-    desire.sell(1, 2, 2)
+    cfa_image.create_cfa_image(user2.user.id, CreateCfaImageDTO('coin2', 15, 'coin number 2'))
+    cfa_image.create_cfa_image(user2.user.id, CreateCfaImageDTO('coin3', 15, 'coin number 3'))
