@@ -15,13 +15,15 @@ class DealDTO(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, initiator=None, initiator_items=None, host_items=None, seller=None):  # noqa: E501
+    def __init__(self, id=None, initiator=None, host=None, initiator_items=None, host_items=None, seller=None):  # noqa: E501
         """DealDTO - a model defined in OpenAPI
 
         :param id: The id of this DealDTO.  # noqa: E501
         :type id: int
         :param initiator: The initiator of this DealDTO.  # noqa: E501
         :type initiator: PublicUser
+        :param host: The host of this DealDTO.  # noqa: E501
+        :type host: PublicUser
         :param initiator_items: The initiator_items of this DealDTO.  # noqa: E501
         :type initiator_items: list
         :param host_items: The host_items of this DealDTO.  # noqa: E501
@@ -30,6 +32,7 @@ class DealDTO(Model):
         self.openapi_types = {
             'id': int,
             'initiator': 'PublicUser',
+            'host': 'PublicUser',
             'initiator_items': list,
             'host_items': list
         }
@@ -37,12 +40,14 @@ class DealDTO(Model):
         self.attribute_map = {
             'id': 'id',
             'initiator': 'initiator',
+            'host': 'host',
             'initiator_items': 'initiator_items',
             'host_items': 'host_items'
         }
 
         self._id = id
         self._initiator = initiator
+        self._host = host
         self._initiator_items = initiator_items
         self._host_items = host_items
 
@@ -98,6 +103,27 @@ class DealDTO(Model):
         """
 
         self._initiator = initiator
+
+    @property
+    def host(self):
+        """Gets the host of this DealDTO.
+
+
+        :return: The host of this DealDTO.
+        :rtype: PublicUser
+        """
+        return self._host
+
+    @host.setter
+    def host(self, host):
+        """Sets the host of this DealDTO.
+
+
+        :param host: The host of this DealDTO.
+        :type host: PublicUser
+        """
+
+        self._host = host
 
     @property
     def initiator_items(self):
