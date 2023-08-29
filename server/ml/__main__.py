@@ -37,6 +37,7 @@ def get_future_prices(cfa_image_id, db_sess, is_refit: bool=True, n_days: int=1)
     list_of_prices = get_list_of_prices(cfa_image_id=cfa_image_id, db_sess=db_sess)
 
     if list_of_prices == []:
+        logging.warning("Data is null")
         return np.zeros(n_days).astype(list)
     
     if is_refit:

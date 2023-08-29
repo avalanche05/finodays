@@ -64,8 +64,9 @@ def get_predicted_prices(cfa_image_id: int, n_days=1)->list:
     
     return: n_days-lenght list of float
     '''
-   
-    l = predict_price(cfa_image_id=cfa_image_id, is_refit=True, n_days=n_days)
+    db_sess = db_session.create_session()
+    l = predict_price(cfa_image_id=cfa_image_id, db_sess=db_sess , is_refit=True, n_days=n_days)
+    db_sess.close()
     
     return l
 
