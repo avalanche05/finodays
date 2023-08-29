@@ -63,7 +63,7 @@ const SignUp = () => {
                             />
                         </Form.Item>
                         <Form.Item
-                            name='login'
+                            name='email'
                             rules={[
                                 {
                                     required: true,

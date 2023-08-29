@@ -1,4 +1,15 @@
-import { Button, Card, Col, InputNumber, Modal, Row, Statistic, Typography, message } from 'antd';
+import {
+    Alert,
+    Button,
+    Card,
+    Col,
+    InputNumber,
+    Modal,
+    Row,
+    Statistic,
+    Typography,
+    message,
+} from 'antd';
 import { useEffect, useState } from 'react';
 import { useStores } from '../hooks/useStores';
 import { valueType } from 'antd/es/statistic/utils';
@@ -8,6 +19,7 @@ import OwnCfaList from '../components/OwnCfaList';
 import OwnOffersList from '../components/OwnOffersList';
 import OwnDesiresList from '../components/OwnDesiresList';
 import { observer } from 'mobx-react-lite';
+import OwnDealsTabs from '../components/OwnDeals';
 
 const Profile = observer(() => {
     const [messageApi, contextHolder] = message.useMessage();
@@ -148,6 +160,23 @@ const Profile = observer(() => {
             </Typography.Paragraph>
 
             <OwnDesiresList desires={desires} />
+
+            <Typography.Title level={3} style={{ marginTop: 16 }}>
+                Мои сделки
+            </Typography.Title>
+
+            <Alert
+                message='В данный момент в ui реализован только просмотр и отклонение сделок. Полный функционал для работы со сделками доступен в API'
+                type='warning'
+            />
+
+            <Typography.Paragraph>
+                В этой таблице представлены все ваши сделки - входящие и исходящие. Сделки - это
+                предложения обмена между пользователями (обмен ЦФА на ЦФА). Вы можете отменить любую
+                из них.
+            </Typography.Paragraph>
+
+            <OwnDealsTabs />
 
             <Modal
                 title='Пополнить баланс'
