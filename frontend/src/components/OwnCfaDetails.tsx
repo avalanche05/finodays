@@ -1,16 +1,14 @@
 import { Button, Col, Form, InputNumber, List, Row, Typography, message } from 'antd';
 import { OwnCfaImage } from '../api/models';
 import { useStores } from '../hooks/useStores';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { valueType } from 'antd/es/statistic/utils';
 
 type Props = {
     ownCfaImage: OwnCfaImage;
-    trigger: Dispatch<SetStateAction<boolean>>;
-    triggerValue: boolean;
 };
 
-const OwnCfaDetails = ({ ownCfaImage, trigger, triggerValue }: Props) => {
+const OwnCfaDetails = ({ ownCfaImage }: Props) => {
     const { rootStore } = useStores();
     const [messageApi, contextHolder] = message.useMessage();
     const [form] = Form.useForm();
@@ -24,7 +22,7 @@ const OwnCfaDetails = ({ ownCfaImage, trigger, triggerValue }: Props) => {
             .createOffer(ownCfaImage.cfa_image.id, form.count, form.price)
             .then(() => {
                 messageApi.success('Оффер успешно создан');
-                trigger(!triggerValue);
+                rootStore.setTrigger();
             })
             .catch(() => {
                 messageApi.error('Ошибка создания оффера');

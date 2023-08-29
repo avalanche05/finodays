@@ -55,6 +55,7 @@ const OffersList = ({ offers }: Props) => {
             .buyOffer({ ...selectedOffer, count })
             .then(() => {
                 messageApi.success('ЦФА куплен');
+                rootStore.setTrigger();
             })
             .catch((error) => {
                 messageApi.error(error.response.data);

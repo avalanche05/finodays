@@ -54,6 +54,7 @@ const OwnDesiresList = ({ desires }: Props) => {
             .deleteDesire(selectedDesire.id)
             .then(() => {
                 messageApi.success('Заявка на покупку удалена');
+                rootStore.setTrigger();
             })
             .catch(() => {
                 messageApi.error('Ошибка удаления заявки на покупку');

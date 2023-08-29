@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { Avatar, Button, Drawer, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { UserOutlined } from '@ant-design/icons';
@@ -7,11 +7,9 @@ import OwnCfaDetails from './OwnCfaDetails';
 
 type Props = {
     cfas: OwnCfaImage[];
-    trigger: Dispatch<SetStateAction<boolean>>;
-    triggerValue: boolean;
 };
 
-const OwnCfaList = ({ cfas, trigger, triggerValue }: Props) => {
+const OwnCfaList = ({ cfas }: Props) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [selectedRowId, setSelectedRowId] = useState<number>(0);
 
@@ -89,11 +87,7 @@ const OwnCfaList = ({ cfas, trigger, triggerValue }: Props) => {
                 open={isDrawerOpen}
             >
                 {getCfaImageById(selectedRowId) && (
-                    <OwnCfaDetails
-                        trigger={trigger}
-                        triggerValue={triggerValue}
-                        ownCfaImage={getCfaImageById(selectedRowId) as OwnCfaImage}
-                    />
+                    <OwnCfaDetails ownCfaImage={getCfaImageById(selectedRowId) as OwnCfaImage} />
                 )}
             </Drawer>
         </>

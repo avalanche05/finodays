@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, observable, runInAction } from 'mobx';
 import { CreateCfaForm } from '../models/CreateCfaForm';
 import { CfaApiServiceInstanse } from '../api/CfaApiService';
 import { OffersApiServiceInstanse } from '../api/OffersApiService';
@@ -7,8 +7,18 @@ import { ProfileApiServiceInstanse } from '../api/ProfileApiService';
 import { DesiresApiServiceInstanse } from '../api/DesiresApiService';
 
 export class RootStore {
+    public trigger: boolean = false;
+
     constructor() {
-        makeAutoObservable(this, {});
+        makeAutoObservable(this, {
+            trigger: observable,
+        });
+    }
+
+    public setTrigger() {
+        runInAction(() => {
+            this.trigger = !this.trigger;
+        });
     }
 
     public async createCfa(createCfaForm: CreateCfaForm): Promise<void> {

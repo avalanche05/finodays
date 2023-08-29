@@ -7,8 +7,9 @@ import { Desire, Offer, OwnCfaImage } from '../api/models';
 import OwnCfaList from '../components/OwnCfaList';
 import OwnOffersList from '../components/OwnOffersList';
 import OwnDesiresList from '../components/OwnDesiresList';
+import { observer } from 'mobx-react-lite';
 
-const Profile = () => {
+const Profile = observer(() => {
     const [messageApi, contextHolder] = message.useMessage();
     const { rootStore } = useStores();
     const [openDepositModal, setOpenDepositModal] = useState(false);
@@ -22,7 +23,6 @@ const Profile = () => {
         name: '',
         username: '',
     });
-    const [profileTrigger, setProfileTrigger] = useState<boolean>(false);
     const [cfas, setCfas] = useState<OwnCfaImage[]>([]);
     const [offers, setOffers] = useState<Offer[]>([]);
     const [desires, setDesires] = useState<Desire[]>([]);
@@ -40,7 +40,7 @@ const Profile = () => {
             setDesires(userDesires);
         }
         fetchProfile();
-    }, [rootStore, profileTrigger]);
+    }, [rootStore, rootStore.trigger]);
 
     const deposit = () => {
         setConfirmLoading(true);
@@ -49,7 +49,7 @@ const Profile = () => {
             .deposit(moneyAmount)
             .then(() => {
                 messageApi.success('Баланс успешно пополнен');
-                setProfileTrigger(!profileTrigger);
+                rootStore.setTrigger();
             })
             .catch(() => {
                 messageApi.error('Ошибка пополнения баланса');
@@ -69,8 +69,8 @@ const Profile = () => {
         rootStore
             .withdraw(moneyAmount)
             .then(() => {
-                messageApi.success('Баланс успешно пополнен');
-                setProfileTrigger(!profileTrigger);
+                messageApi.success('Баланс успешно изменен');
+                rootStore.setTrigger();
             })
             .catch(() => {
                 messageApi.error('Ошибка изменения баланса');
@@ -125,7 +125,7 @@ const Profile = () => {
             <Typography.Title level={3} style={{ marginTop: 16 }}>
                 Мои ЦФА
             </Typography.Title>
-            <OwnCfaList cfas={cfas} trigger={setProfileTrigger} triggerValue={profileTrigger} />
+            <OwnCfaList cfas={cfas} />
 
             <Typography.Title level={3} style={{ marginTop: 16 }}>
                 Мои офферы
@@ -183,6 +183,6 @@ const Profile = () => {
             </Modal>
         </>
     );
-};
+});
 
 export default Profile;

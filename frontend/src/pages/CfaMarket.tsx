@@ -3,8 +3,9 @@ import CfaList from '../components/CfaList';
 import { useEffect, useState } from 'react';
 import { useStores } from '../hooks/useStores';
 import { CfaImage } from '../api/models';
+import { observer } from 'mobx-react-lite';
 
-const CfaMarket = () => {
+const CfaMarket = observer(() => {
     const { rootStore } = useStores();
     const [cfas, setCfas] = useState<CfaImage[]>([]);
 
@@ -14,7 +15,7 @@ const CfaMarket = () => {
             setCfas(cfas);
         }
         fetchCfas();
-    }, [rootStore]);
+    }, [rootStore, rootStore.trigger]);
 
     const items: TabsProps['items'] = [
         {
@@ -35,6 +36,6 @@ const CfaMarket = () => {
             </Row>
         </>
     );
-};
+});
 
 export default CfaMarket;

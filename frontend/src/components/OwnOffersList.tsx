@@ -54,6 +54,7 @@ const OwnOffersList = ({ offers }: Props) => {
             .deleteOffer(selectedOffer.id)
             .then(() => {
                 messageApi.success('Оффер удален');
+                rootStore.setTrigger();
             })
             .catch(() => {
                 messageApi.error('Ошибка удаления оффера');

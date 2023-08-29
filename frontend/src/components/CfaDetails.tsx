@@ -16,12 +16,13 @@ import OffersList from './OffersList';
 import { useEffect, useState } from 'react';
 import { useStores } from '../hooks/useStores';
 import DesiresList from './DesiresList';
+import { observer } from 'mobx-react-lite';
 
 type Props = {
     cfaImage: CfaImage;
 };
 
-const CfaDetails = ({ cfaImage }: Props) => {
+const CfaDetails = observer(({ cfaImage }: Props) => {
     const [messageApi, contextHolder] = message.useMessage();
     const { rootStore } = useStores();
     const [offers, setOffers] = useState<Offer[]>([]);
@@ -62,7 +63,7 @@ const CfaDetails = ({ cfaImage }: Props) => {
             setDesires(desires);
         }
         fetchOffers();
-    }, [rootStore, cfaImage]);
+    }, [rootStore, cfaImage, rootStore.trigger]);
 
     const handleOk = () => {
         setIsDesireCreating(true);
@@ -77,6 +78,7 @@ const CfaDetails = ({ cfaImage }: Props) => {
                 .createDesire(desire.cfa_image.id, desire.count, desire.price)
                 .then(() => {
                     messageApi.success('Заявка на покупку ЦФА создана');
+                    rootStore.setTrigger();
                 })
                 .catch((error) => {
                     console.log(error);
@@ -174,6 +176,6 @@ const CfaDetails = ({ cfaImage }: Props) => {
             </Modal>
         </>
     );
-};
+});
 
 export default CfaDetails;

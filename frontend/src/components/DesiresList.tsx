@@ -55,6 +55,7 @@ const DesiresList = ({ desires }: Props) => {
             .sellDesire(selectedDesire.id, count)
             .then(() => {
                 messageApi.success('ЦФА продан');
+                rootStore.setTrigger();
             })
             .catch((error) => {
                 messageApi.error(error.response.data);
