@@ -174,7 +174,7 @@ paths:
     get:
       tags:
         - User
-      operationId: cfa_user_id_get
+      operationId: user_cfa_user_id_get
       parameters:
         - explode: false
           in: path
@@ -200,7 +200,7 @@ paths:
     get:
       tags:
         - User
-      operationId: user_offer_get
+      operationId: user_offer_user_id_get
       parameters:
         - explode: false
           in: path
@@ -226,7 +226,7 @@ paths:
     get:
       tags:
         - User
-      operationId: user_desire_get
+      operationId: user_desire_user_id_get
       parameters:
         - explode: false
           in: path
@@ -248,11 +248,11 @@ paths:
           description: Пользователь не найден
       summary: Получить список всех своих предложений
       x-openapi-router-controller: openapi_server.controllers.default_controller
-  /user/deal/{user-id}:
+  /user/deal/in:
     get:
       tags:
         - User
-      operationId: user_deal_get
+      operationId: user_deal_in_get
       parameters:
         - explode: false
           in: path
@@ -270,9 +270,43 @@ paths:
                   $ref: '#/components/schemas/deal_dto'
                 type: array
           description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
         "404":
           description: Пользователь не найден
-      summary: Получить список всех своих предложений
+      security:
+        - BearerAuth: [ ]
+      summary: Получить список всех обменов, направленных пользователю
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/deal/out:
+    get:
+      tags:
+        - User
+      operationId: user_deal_out_get
+      parameters:
+        - explode: false
+          in: path
+          name: user-id
+          required: true
+          schema:
+            type: integer
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/deal_dto'
+                type: array
+          description: Успешный ответ
+        "401":
+          description: Неверный Bearer-токен
+        "404":
+          description: Пользователь не найден
+      security:
+        - BearerAuth: [ ]
+      summary: Получить список всех обменов, созданных пользователем
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /cfa-image/create:
     post:
@@ -454,7 +488,7 @@ paths:
     post:
       tags:
         - Offer
-      operationId: offer_cancel_post
+      operationId: offer_cancel_offer_id_post
       parameters:
         - explode: false
           in: path
@@ -566,7 +600,7 @@ paths:
     post:
       tags:
         - Desire
-      operationId: desire_cancel_post
+      operationId: desire_cancel_desire_id_post
       parameters:
         - explode: false
           in: path
@@ -672,13 +706,13 @@ paths:
           description: Неверный Bearer-токен
       security:
         - BearerAuth: [ ]
-      summary: Создать новое предложение (Требуется Bearer-токен)
+      summary: Создать новый обмен (Требуется Bearer-токен)
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /deal/cancel/{deal-id}:
     post:
       tags:
         - Deal
-      operationId: deal_cancel_post
+      operationId: deal_cancel_deal_id_post
       parameters:
         - explode: false
           in: path
@@ -694,7 +728,7 @@ paths:
           description: Неверный Bearer-токен
       security:
         - BearerAuth: [ ]
-      summary: Удалить предложение (Требуется Bearer-токен)
+      summary: Удалить обмен (Требуется Bearer-токен)
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /deal/accept/{deal-id}:
     post:
@@ -720,33 +754,7 @@ paths:
           description: Недостаточно товара для покупки
       security:
         - BearerAuth: [ ]
-      summary: Купить предложение (Требуется Bearer-токен)
-      x-openapi-router-controller: openapi_server.controllers.default_controller
-  /deal/list/{cfa-image-id}:
-    get:
-      tags:
-        - Deal
-      operationId: deal_list_cfa_image_id_get
-      parameters:
-        - explode: false
-          in: path
-          name: cfa-image-id
-          required: true
-          schema:
-            type: integer
-          style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/deal_dto'
-                type: array
-          description: Успешный ответ
-        "404":
-          description: Изображение CFA не найдено
-      summary: Получить список предложений для изображения CFA
+      summary: Согласиться на обмен (Требуется Bearer-токен)
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /trade/{trade-id}:
     get:
@@ -1031,6 +1039,8 @@ components:
       type: object
     create_deal_dto:
       properties:
+        host_id:
+          type: integer
         initiator_items:
           type: array
         host_items:
@@ -1041,6 +1051,8 @@ components:
         id:
           type: integer
         initiator:
+          $ref: '#/components/schemas/PublicUser'
+        host:
           $ref: '#/components/schemas/PublicUser'
         initiator_items:
           type: array

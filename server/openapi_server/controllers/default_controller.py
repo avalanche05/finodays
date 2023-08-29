@@ -133,7 +133,7 @@ def cfa_list_cfa_image_id_get(cfa_image_id):  # noqa: E501
         return str(e), 404
 
 
-def cfa_user_id_get(user_id):  # noqa: E501
+def user_cfa_user_id_get(user_id):  # noqa: E501
     """Получить список CFA для пользователя
 
      # noqa: E501
@@ -346,7 +346,7 @@ def user_withdraw_post():
     return "Invalid credentials", 401
 
 
-def user_offer_get(user_id: int):
+def user_offer_user_id_get(user_id: int):
     """Получить список всех своих предложений
 
     # noqa: E501
@@ -360,7 +360,7 @@ def user_offer_get(user_id: int):
         return str(e), 400
 
 
-def offer_cancel_post(offer_id: int):  # noqa: E501
+def offer_cancel_offer_id_post(offer_id: int):  # noqa: E501
     """Удалить предложение (Требуется Bearer-токен)
 
      # noqa: E501
@@ -396,8 +396,8 @@ def desire_sell_desire_id_post(desire_id):  # noqa: E501
 
         try:
             desire.sell(desire_id=desire_id,
-                       user_id=user_id,
-                       count=accept_desire_dto.count)
+                        user_id=user_id,
+                        count=accept_desire_dto.count)
             return "desire buy success", 201
         except Exception as e:
             return str(e), 400
@@ -444,7 +444,7 @@ def desire_list_cfa_image_id_get(cfa_image_id):  # noqa: E501
         return str(e), 400
 
 
-def user_desire_get(user_id: int):
+def user_desire_user_id_get(user_id: int):
     """Получить список всех своих предложений
 
     # noqa: E501
@@ -458,7 +458,7 @@ def user_desire_get(user_id: int):
         return str(e), 400
 
 
-def desire_cancel_post(desire_id):  # noqa: E501
+def desire_cancel_desire_id_post(desire_id):  # noqa: E501
     """Удалить предложение (Требуется Bearer-токен)
 
      # noqa: E501
@@ -472,3 +472,62 @@ def desire_cancel_post(desire_id):  # noqa: E501
         return "Delete desire success", 201
     except Exception as e:
         return str(e), 400
+
+
+def deal_accept_deal_id_post(deal_id):  # noqa: E501
+    """Согласиться на обмен (Требуется Bearer-токен)
+
+     # noqa: E501
+
+    :param deal_id:
+    :type deal_id: int
+
+    :rtype: None
+    """
+    pass
+
+
+def deal_create_post():  # noqa: E501
+    """Создать новый обмен (Требуется Bearer-токен)
+
+     # noqa: E501
+
+    :rtype: None
+    """
+    pass
+
+
+def user_deal_in_get(user_id: int):
+    """Получить список всех обменов, направленных пользователю
+
+    # noqa: E501
+
+    :param user_id:
+    :type user_id: int
+
+    :rtype: List[DealDTO]
+    """
+    pass
+
+
+def user_deal_out_get(user_id: int):
+    """Получить список всех обменов, созданных пользователем
+
+    # noqa: E501
+
+    :param user_id:
+    :type user_id: int
+
+    :rtype: List[DealDTO]
+    """
+    pass
+
+
+def deal_cancel_deal_id_post(desire_id):  # noqa: E501
+    """Удалить обмен (Требуется Bearer-токен)
+
+     # noqa: E501
+
+    :rtype: None
+    """
+    pass
