@@ -13,7 +13,7 @@ from catboost import CatBoostRegressor
 from datetime import datetime
 
 
-model = CatBoostRegressor().load_model("ml/ws/model_weights")
+model = CatBoostRegressor().load_model("../ml/ws/model_weights")
 
 
 

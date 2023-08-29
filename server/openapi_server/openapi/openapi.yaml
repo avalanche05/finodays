@@ -955,7 +955,7 @@ components:
           type: string
     login_user_dto:
       properties:
-        login:
+        email:
           type: string
         password:
           type: string
