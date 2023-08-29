@@ -6,6 +6,7 @@ import { Offer } from '../api/models';
 import { ProfileApiServiceInstanse } from '../api/ProfileApiService';
 import { DesiresApiServiceInstanse } from '../api/DesiresApiService';
 import { PredictionApiServiceInstanse } from '../api/PredictionApiService';
+import { DealApiServiceInstanse } from '../api/DealApiService';
 
 export class RootStore {
     public trigger: boolean = false;
@@ -106,5 +107,17 @@ export class RootStore {
 
     public async getCfaPricePrediction(cfaImageId: number): Promise<number[]> {
         return await PredictionApiServiceInstanse.fetchCfaPricePrediction(cfaImageId);
+    }
+
+    public async getIncomingDeals() {
+        return await DealApiServiceInstanse.fetchIncomingDeals();
+    }
+
+    public async getOutgoingDeals() {
+        return await DealApiServiceInstanse.fetchOutgoingDeals();
+    }
+
+    public async cancelDeal(dealId: number) {
+        return await DealApiServiceInstanse.cancelDeal(dealId);
     }
 }
