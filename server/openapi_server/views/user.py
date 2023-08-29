@@ -16,6 +16,7 @@ def register(register_user_dto: RegisterUserDTO):
                                                          db_models.user.User.username == register_user_dto.username)).first()
 
     if user:
+        db_sess.close()
         return "Invalid request", 400
     new_user = db_models.user.User()
     new_user.email = register_user_dto.email
@@ -47,6 +48,7 @@ def login(login_user_dto: LoginUserDTO):
     user = db_sess.query(db_models.user.User).filter(or_(db_models.user.User.email == login_user_dto.email,
                                                          db_models.user.User.username == login_user_dto.email)).first()
     if not user:
+        db_sess.close()
         return "Invalid credentials", 401
     if user.check_password(login_user_dto.password):
         token = generator.generate_bearer_token(user)
@@ -139,6 +141,7 @@ def deposit_money(deposit_value_dto: DepositValueDTO, token: str):
     user.balance += deposit_value_dto.value
 
     db_sess.commit()
+    db_sess.close()
 
 
 def withdraw_money(withdraw_value_dto: WithdrawValueDTO, token: str):
@@ -150,6 +153,7 @@ def withdraw_money(withdraw_value_dto: WithdrawValueDTO, token: str):
     assert user.balance >= 0
 
     db_sess.commit()
+    db_sess.close()
 
 
 def get_profile(token: str):

@@ -61,16 +61,16 @@ def get_lower_price(cfa_image_id: int):
 
 
 def get_predicted_prices(cfa_image_id: int, n_days=3) -> list:
-    '''
+    """
     Predict prices for cfa depend on last prices
-    
+
     cfa_image_id: Cfa_id model will looking for
     n_days: Number of day, period. When n_days > 1 you can see dynamic
-    
+
     return: n_days-lenght list of float
-    '''
+    """
     db_sess = db_session.create_session()
-    l = predict_price(cfa_image_id=cfa_image_id, db_sess=db_sess, is_refit=True, n_days=n_days)
+    price = predict_price(cfa_image_id=cfa_image_id, db_sess=db_sess, is_refit=True, n_days=n_days)
     db_sess.close()
 
-    return l
+    return price
