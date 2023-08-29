@@ -6,6 +6,10 @@ from data import db_session
 from openapi_server.views import cfa
 from openapi_server.models.cfa_image import CfaImage
 
+# 
+from ml import predict_price
+
+
 
 def create_cfa_image(user_id: int, create_cfo_image_dto: models.CreateCfaImageDTO):
     cfa_image = db_models.cfa_image.CfaImage()
@@ -49,3 +53,21 @@ def get_lower_price(cfa_image_id: int):
         db_models.offer.Offer.cfa_image_id == cfa_image_id).order_by(db_models.offer.Offer.price).first()
 
     return cheapest_order.price
+
+
+def get_predicted_prices(cfa_image_id: int, n_days=1)->list:
+    '''
+    Predict prices for cfa depend on last prices
+    
+    cfa_image_id: Cfa_id model will looking for
+    n_days: Number of day, period. When n_days > 1 you can see dynamic
+    
+    return: n_days-lenght list of float
+    '''
+   
+    l = predict_price(cfa_image_id=cfa_image_id, is_refit=True, n_days=n_days)
+    
+    return l
+
+
+
