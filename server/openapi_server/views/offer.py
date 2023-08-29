@@ -16,6 +16,9 @@ def create(user_id, offer_create: CreateOfferDTO):
         db_models.cfa.Cfa.offer_id == 0
     ).all()
 
+    if offer_create.count <= 0:
+        raise ValueError("Count should be positive")
+
     if offer_create.count > len(cfas):
         db_sess.close()
         raise ValueError("User have not enough cfas to sell")
@@ -34,6 +37,14 @@ def create(user_id, offer_create: CreateOfferDTO):
     offer_id = offer.id
 
     db_sess.commit()
+
+    # Проверяем существуют ли заявки на покупку которым удовлетворяет созданное предложение
+
+    desires = db_sess.query(db_models.desire.Desire).filter(
+        db_models.desire.Desire.count > 0,
+        db_models.desire.Desire.buyer_id != offer.seller_id
+    )
+
     db_sess.close()
 
     return offer_id
@@ -71,7 +82,8 @@ def get_all_by_cfa_image_id(cfa_image_id: int):
     db_sess = db_session.create_session()
 
     offers = db_sess.query(db_models.offer.Offer).filter(
-        db_models.offer.Offer.cfa_image_id == cfa_image_id, db_models.offer.Offer.count > 0).all()
+        db_models.offer.Offer.cfa_image_id == cfa_image_id, db_models.offer.Offer.count > 0) \
+        .order_by(db_models.offer.Offer.price).all()
 
     result = []
     for offer in offers:

@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from sqlalchemy import desc
+
 from data import db_session
 import data.__all_models as db_models
 from utils import entities
@@ -11,7 +13,8 @@ def get_all_by_cfa_image_id(cfa_image_id: int):
     db_sess = db_session.create_session()
 
     desires = db_sess.query(db_models.desire.Desire).filter(
-        db_models.desire.Desire.cfa_image_id == cfa_image_id, db_models.desire.Desire.count > 0).all()
+        db_models.desire.Desire.cfa_image_id == cfa_image_id, db_models.desire.Desire.count > 0) \
+        .order_by(desc(db_models.offer.Offer.price)).all()
 
     result = []
     for desire in desires:
@@ -87,6 +90,18 @@ def sell(desire_id: int, user_id: int, count: int):
 
 def create(user_id, desire_create: CreateDesireDTO):
     db_sess = db_session.create_session()
+
+    cfa_image = db_sess.query(db_models.cfa_image.CfaImage).filter(
+        db_models.cfa_image.CfaImage.id == desire_create.cfa_image_id).first()
+
+    if cfa_image is None:
+        raise ValueError(f"CfaImage with id: {desire_create.cfa_image_id} not exist")
+
+    if desire_create.count <= 0:
+        raise ValueError("Count should be positive")
+
+    if desire_create.count > cfa_image.count:
+        raise ValueError(f"Marketplace have only {cfa_image.count} CFAs, it is unreal to buy {desire_create.count}")
 
     desire = db_models.desire.Desire()
     desire.cfa_image_id = desire_create.cfa_image_id
