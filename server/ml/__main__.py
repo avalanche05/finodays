@@ -13,7 +13,7 @@ from catboost import CatBoostRegressor
 from datetime import datetime
 
 
-model = CatBoostRegressor().load_model("ml/ws/model_weights")
+model = CatBoostRegressor()
 
 
 def predict_price(cfa_image_id, db_sess, is_refit=True, n_days=1):
@@ -116,8 +116,8 @@ def refit_model(list_of_prices, period: int=10):
     
     logging.warning(y)
     model.fit(X, y, verbose=1000)
-    model.save_model(f"ml/ws/model_weights:refit")
-    model = CatBoostRegressor().load_model("ml/ws/model_weights:refit")
+    model.save_model(f"ml/ws/model_weights")
+    model = CatBoostRegressor().load_model("ml/ws/model_weights")
 
 
 def preprocess_list(list_of_prices, period: int=10)->list:
