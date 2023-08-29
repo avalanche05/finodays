@@ -5,11 +5,11 @@ type Props = {
     children: React.ReactNode;
 };
 
-function UnauthorizedOnlyRoute({ isSignedIn, children }: Props) {
+function UnauthorizedOnlyRoute({ isSignedIn, children }: Props): JSX.Element {
     if (isSignedIn) {
         return <Navigate to='/dashboard' replace />;
     }
-    return children;
+    return children as JSX.Element;
 }
 
 export default UnauthorizedOnlyRoute;

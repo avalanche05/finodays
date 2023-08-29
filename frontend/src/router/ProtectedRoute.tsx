@@ -5,11 +5,11 @@ type Props = {
     children: React.ReactNode;
 };
 
-function ProtectedRoute({ isSignedIn, children }: Props) {
+function ProtectedRoute({ isSignedIn, children }: Props): JSX.Element {
     if (!isSignedIn) {
         return <Navigate to='/login' replace />;
     }
-    return children;
+    return children as JSX.Element;
 }
 
 export default ProtectedRoute;
