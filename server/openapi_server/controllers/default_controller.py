@@ -17,6 +17,7 @@ from openapi_server.models.offer_dto import OfferDTO  # noqa: E501
 from openapi_server.models.accept_desire_dto import AcceptDesireDTO  # noqa: E501
 from openapi_server.models.desire_dto import DesireDTO  # noqa: E501
 from openapi_server.models.create_desire_dto import CreateDesireDTO  # noqa: E501
+from openapi_server.models.create_deal_dto import CreateDealDTO  # noqa: E501
 from openapi_server.models.user import User
 from openapi_server.models.public_user import PublicUser
 from openapi_server.models.deposit_value_dto import DepositValueDTO
@@ -490,6 +491,7 @@ def deal_accept_deal_id_post(deal_id):  # noqa: E501
         token = connexion.request.headers.get('Authorization').split()[1]
         user_id = entities.get_user_by_token(token).id
         deal.accept(user_id=user_id, deal_id=deal_id)
+        return None, 200
     except Exception as e:
         return str(e), 401
 
@@ -501,33 +503,46 @@ def deal_create_post():  # noqa: E501
 
     :rtype: None
     """
-    pass
+    try:
+        create_deal_dto = CreateDealDTO.from_dict(connexion.request.get_json())  # noqa: E501
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = entities.get_user_by_token(token).id
+        deal.create(initiator_id=user_id, create_deal=create_deal_dto)
+        return None, 200
+    except Exception as e:
+        return str(e), 401
 
 
-def user_deal_in_get(user_id: int):
+def user_deal_in_get():
     """Получить список всех обменов, направленных пользователю
 
     # noqa: E501
 
-    :param user_id:
-    :type user_id: int
-
     :rtype: List[DealDTO]
     """
-    pass
+    try:
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = entities.get_user_by_token(token).id
+        deals = deal.get_all_in_deals(user_id=user_id)
+        return deals, 200
+    except Exception as e:
+        return str(e), 401
 
 
-def user_deal_out_get(user_id: int):
+def user_deal_out_get():
     """Получить список всех обменов, созданных пользователем
 
     # noqa: E501
 
-    :param user_id:
-    :type user_id: int
-
     :rtype: List[DealDTO]
     """
-    pass
+    try:
+        token = connexion.request.headers.get('Authorization').split()[1]
+        user_id = entities.get_user_by_token(token).id
+        deals = deal.get_all_out_deals(user_id=user_id)
+        return deals, 200
+    except Exception as e:
+        return str(e), 401
 
 
 def deal_cancel_deal_id_post(deal_id):  # noqa: E501
@@ -541,5 +556,6 @@ def deal_cancel_deal_id_post(deal_id):  # noqa: E501
         token = connexion.request.headers.get('Authorization').split()[1]
         user_id = entities.get_user_by_token(token).id
         deal.cancel(user_id=user_id, deal_id=deal_id)
+        return None, 200
     except Exception as e:
         return str(e), 401
