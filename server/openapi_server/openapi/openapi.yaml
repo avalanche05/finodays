@@ -253,14 +253,6 @@ paths:
       tags:
         - User
       operationId: user_deal_in_get
-      parameters:
-        - explode: false
-          in: path
-          name: user-id
-          required: true
-          schema:
-            type: integer
-          style: simple
       responses:
         "200":
           content:
@@ -283,14 +275,6 @@ paths:
       tags:
         - User
       operationId: user_deal_out_get
-      parameters:
-        - explode: false
-          in: path
-          name: user-id
-          required: true
-          schema:
-            type: integer
-          style: simple
       responses:
         "200":
           content:
@@ -1056,8 +1040,12 @@ components:
           $ref: '#/components/schemas/PublicUser'
         initiator_items:
           type: array
+          items:
+            type: object
         host_items:
           type: array
+          items:
+            type: object
     create_desire_dto:
       properties:
         cfa_image_id:
