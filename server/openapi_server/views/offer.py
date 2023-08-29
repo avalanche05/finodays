@@ -169,13 +169,16 @@ def buy(offer_id: int, user_id: int, count: int):
         db_sess.add(trade)
         db_sess.commit()
 
-    email.send_email(receiver_email=seller.email,
+    try:
+        email.send_email(receiver_email=seller.email,
                      message=email.generate_message_for_seller(seller_name=seller.name,
                                                                seller_username=seller.username,
                                                                buyer_name=user.name,
                                                                buyer_username=user.username,
                                                                date=str(current_time),
                                                                amount=calculated_price))
+    except Exception as e:
+        pass
 
     db_sess.commit()
     db_sess.close()
