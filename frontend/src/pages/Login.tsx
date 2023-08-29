@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Form, Input, message, Row, Typography } from 'antd';
+import { Alert, Button, Checkbox, Col, Form, Input, message, Row, Typography } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -13,6 +13,7 @@ const Login = () => {
 
     const onFinish = (loginForm: LoginBody) => {
         setLoading(true);
+        console.log('Success:', loginForm);
 
         AuthService.login(loginForm)
             .then(() => {
@@ -39,9 +40,14 @@ const Login = () => {
                     <Typography.Paragraph type='secondary' style={{ textAlign: 'center' }}>
                         Начните работу с ЦФА вместе с нами!
                     </Typography.Paragraph>
+                    <Alert
+                        message=' Тестовый пользователь для входа. Login: 1, Password: 1'
+                        type='info'
+                    />
+
                     <Form style={{ marginTop: 50 }} name='login' onFinish={onFinish}>
                         <Form.Item
-                            name='login'
+                            name='email'
                             rules={[
                                 {
                                     required: true,
