@@ -44,8 +44,6 @@ class ProfileApiService {
     }
 
     public async getDesiresByUser(userId: number): Promise<Desire[]> {
-        console.log(userId);
-
         const response = await axios.get<Desire[]>(`${API_URL}/user/desire/${userId}`, {
             headers: authHeader(),
         });
