@@ -30,6 +30,8 @@ def get_cfa(cfa_token: str):
 def get_cfa_history(cfa_token: str):
     db_sess = db_session.create_session()
 
+    cfa = entities.get_cfa(cfa_token)
+
     trades = db_sess.query(db_models.trade.Trade).filter(db_models.trade.Trade.cfa_token == cfa_token).order_by(
         db_models.trade.Trade.date).all()
 
@@ -47,10 +49,7 @@ def get_cfa_history(cfa_token: str):
 
     db_sess.close()
 
-    if history:
-        return history, 200
-    else:
-        return "CFA not found", 404
+    return history
 
 
 def get_cfa_list(cfa_image_id: int):

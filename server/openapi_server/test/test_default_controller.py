@@ -25,9 +25,9 @@ import models
 
 class TestDefaultController(BaseTestCase):
     """DefaultController integration test stubs"""
-    correct_cfa_token = 'cd33b12ca181fe2d1e60029ecb9689f19690d7d71cc6d8d1a62b1130d40f9593'
+    correct_cfa_token = 'c6741b9aafff4c991c0658e03e730fb6d35b1812d939548e95aca9b7e5c9aaa1'
     incorrect_cfa_token = 'abcdefg'
-    correct_bearer_token = 'CGvVeabRxhUmdlRReIJF'
+    correct_bearer_token = 'SrcAdlIJlfsLYCOepIyO'
     incorrect_bearer_token = 'abcdefg'
     correct_cfa_image_id = 1
     incorrect_cfa_image_id = -1

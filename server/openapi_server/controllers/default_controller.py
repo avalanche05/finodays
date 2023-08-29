@@ -1,35 +1,29 @@
 import connexion
-import six
 
-from openapi_server.models.register_user_dto import RegisterUserDTO  # noqa: E501
-from openapi_server.models.login_user_dto import LoginUserDTO  # noqa: E501
-from openapi_server.models.create_cfa_image_dto import CreateCfaImageDTO  # noqa: E501
-from openapi_server.models.create_offer_dto import CreateOfferDTO  # noqa: E501
-from openapi_server.models.accept_offer_dto import AcceptOfferDTO  # noqa: E501
-from openapi_server.models.user_cfa_dto import UserCfaDTO  # noqa: E501
-from openapi_server.models.login_response_200 import LoginResponse200  # noqa: E501
-from openapi_server.models.cfa_image_dto import CfaImageDTO  # noqa: E501
-from openapi_server.models.cfa_price_dto import CfaPriceDTO  # noqa: E501
-from openapi_server.models.cfa_image_id_dto import CfaImageIdDTO  # noqa: E501
-from openapi_server.models.cfa_dto import CfaDTO  # noqa: E501
-from openapi_server.models.trade_dto import TradeDTO  # noqa: E501
-from openapi_server.models.offer_dto import OfferDTO  # noqa: E501
 from openapi_server.models.accept_desire_dto import AcceptDesireDTO  # noqa: E501
-from openapi_server.models.desire_dto import DesireDTO  # noqa: E501
-from openapi_server.models.create_desire_dto import CreateDesireDTO  # noqa: E501
+from openapi_server.models.accept_offer_dto import AcceptOfferDTO  # noqa: E501
+from openapi_server.models.cfa_dto import CfaDTO  # noqa: E501
+from openapi_server.models.cfa_image_id_dto import CfaImageIdDTO  # noqa: E501
+from openapi_server.models.cfa_price_dto import CfaPriceDTO  # noqa: E501
+from openapi_server.models.create_cfa_image_dto import CreateCfaImageDTO  # noqa: E501
 from openapi_server.models.create_deal_dto import CreateDealDTO  # noqa: E501
-from openapi_server.models.user import User
-from openapi_server.models.public_user import PublicUser
+from openapi_server.models.create_desire_dto import CreateDesireDTO  # noqa: E501
+from openapi_server.models.create_offer_dto import CreateOfferDTO  # noqa: E501
 from openapi_server.models.deposit_value_dto import DepositValueDTO
+from openapi_server.models.login_response_200 import LoginResponse200  # noqa: E501
+from openapi_server.models.login_user_dto import LoginUserDTO  # noqa: E501
+from openapi_server.models.public_user import PublicUser
+from openapi_server.models.register_user_dto import RegisterUserDTO  # noqa: E501
+from openapi_server.models.trade_dto import TradeDTO  # noqa: E501
+from openapi_server.models.user import User
 from openapi_server.models.withdraw_value_dto import WithdrawValueDTO
-from openapi_server import util
-from openapi_server.views import user
 from openapi_server.views import cfa
 from openapi_server.views import cfa_image
-from openapi_server.views import offer
-from openapi_server.views import desire
-from openapi_server.views import trade
 from openapi_server.views import deal
+from openapi_server.views import desire
+from openapi_server.views import offer
+from openapi_server.views import trade
+from openapi_server.views import user
 from utils import entities
 
 
@@ -59,7 +53,11 @@ def cfa_history_cfa_token_get(cfa_token):  # noqa: E501
 
     :rtype: List[TradeDTO]
     """
-    return cfa.get_cfa_history(cfa_token)
+    try:
+        cfa_history = cfa.get_cfa_history(cfa_token)
+        return cfa_history, 200
+    except Exception as e:
+        return str(e), 404
 
 
 def cfa_image_create_post():  # noqa: E501
@@ -504,7 +502,7 @@ def deal_create_post():  # noqa: E501
     :rtype: None
     """
     try:
-        create_deal_dto = CreateDealDTO.from_dict(connexion.request.get_json())# noqa: E501
+        create_deal_dto = CreateDealDTO.from_dict(connexion.request.get_json())  # noqa: E501
         token = connexion.request.headers.get('Authorization').split()[1]
         user_id = entities.get_user_by_token(token).id
         deal.create(initiator_id=user_id, create_deal=create_deal_dto)

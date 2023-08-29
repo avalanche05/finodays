@@ -1,5 +1,4 @@
 import sqlalchemy
-from sqlalchemy import orm
 from sqlalchemy_serializer import SerializerMixin
 
 from .db_session import SqlAlchemyBase
@@ -20,4 +19,3 @@ class Trade(SqlAlchemyBase, SerializerMixin):
                                  sqlalchemy.ForeignKey("user.id"))
     seller_id = sqlalchemy.Column(sqlalchemy.Integer,
                                   sqlalchemy.ForeignKey("user.id"))
-

@@ -170,8 +170,8 @@ def buy(offer_id: int, user_id: int, count: int):
         db_sess.commit()
 
     try:
-        email.send_email(receiver_email=seller.email,
-                     message=email.generate_message_for_seller(seller_name=seller.name,
+        emails.send_email(receiver_email=seller.email,
+                     message=emails.generate_message_for_seller(seller_name=seller.name,
                                                                seller_username=seller.username,
                                                                buyer_name=user.name,
                                                                buyer_username=user.username,

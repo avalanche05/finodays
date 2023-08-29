@@ -87,7 +87,7 @@ def sell(desire_id: int, user_id: int, count: int):
         db_sess.add(trade)
 
     try:
-        email.send_email(receiver_email=buyer.email, message=email.generate_message_for_seller(seller_name=user.name,
+        emails.send_email(receiver_email=buyer.email, message=emails.generate_message_for_seller(seller_name=user.name,
                                                                                                seller_username=user.username,
                                                                                                buyer_name=buyer.name,
                                                                                                buyer_username=buyer.username,

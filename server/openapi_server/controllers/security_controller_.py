@@ -13,5 +13,3 @@ def info_from_BearerAuth(token):
     :rtype: dict | None
     """
     return {'uid': 'user_id'}
-
-
