@@ -7,9 +7,12 @@ from openapi_server import models
 if __name__ == '__main__':
     db_session.global_init("db.db")
 
-    user1 = user.register(models.register_user_dto.RegisterUserDTO("m@m.m", "skewb", "mihail", "qwerty"))
-    user2 = user.register(models.register_user_dto.RegisterUserDTO("i@i.i", "buran", "ivan", "qwerty"))
+    user1 = user.register(models.register_user_dto.RegisterUserDTO("mihail.glazov2015@yandex.ru", "skewb", "mihail", "qwerty"))
+    user2 = user.register(models.register_user_dto.RegisterUserDTO("mihail.glazov2015@gmail.com", "buran", "ivan", "qwerty"))
 
     cfa_image.create_cfa_image(user1.user.id, CreateCfaImageDTO('coin1', 15, 'coin number 1'))
     cfa_image.create_cfa_image(user2.user.id, CreateCfaImageDTO('coin2', 15, 'coin number 2'))
     cfa_image.create_cfa_image(user2.user.id, CreateCfaImageDTO('coin3', 15, 'coin number 3'))
+
+    # user.deposit_money(DepositValueDTO(1000), )
+    # offer.create(1, CreateOfferDTO(1, 5, 15))

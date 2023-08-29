@@ -4,7 +4,7 @@ from sqlalchemy import desc
 
 from data import db_session
 import data.__all_models as db_models
-from utils import entities
+from utils import entities, email
 from openapi_server.models.create_deal_dto import CreateDealDTO
 from openapi_server.models.deal_dto import DealDTO
 
@@ -23,6 +23,8 @@ def accept(user_id: int, deal_id: int):
     host = entities.get_user(user_id)
     initiator = deal.initiator
 
+    current_time = datetime.now()
+
     for cfa_image_elem in deal.initiator_items:
         cfa_image_id = cfa_image_elem['cfa_image_id']
         count = cfa_image_elem['count']
@@ -38,6 +40,14 @@ def accept(user_id: int, deal_id: int):
         for cfa in cfas:
             cfa.user_id = host.id
 
+            trade = db_models.trade.Trade()
+            trade.date = current_time
+            trade.cfa_token = cfa.token
+            trade.buyer_id = host.id
+            trade.seller_id = initiator.id
+
+            db_sess.add(trade)
+
     for cfa_image_elem in deal.host_items:
         cfa_image_id = cfa_image_elem['cfa_image_id']
         count = cfa_image_elem['count']
@@ -52,6 +62,21 @@ def accept(user_id: int, deal_id: int):
 
         for cfa in cfas:
             cfa.user_id = initiator.id
+
+            trade = db_models.trade.Trade()
+            trade.date = current_time
+            trade.cfa_token = cfa.token
+            trade.buyer_id = initiator.id
+            trade.seller_id = host.id
+
+            db_sess.add(trade)
+
+    email.send_email(receiver_email=initiator.email,
+                     message=email.generate_message_for_initiator(initiator_name=initiator.name,
+                                                                  initiator_username=initiator.username,
+                                                                  host_name=host.name,
+                                                                  host_username=host.username,
+                                                                  date=str(current_time)))
 
     db_sess.commit()
     db_sess.close()

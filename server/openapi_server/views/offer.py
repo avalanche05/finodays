@@ -4,7 +4,7 @@ from data import db_session
 from openapi_server.models.create_offer_dto import CreateOfferDTO
 from openapi_server.models.offer_dto import OfferDTO
 import data.__all_models as db_models
-from utils import entities
+from utils import entities, email
 
 
 def create(user_id, offer_create: CreateOfferDTO):
@@ -153,12 +153,14 @@ def buy(offer_id: int, user_id: int, count: int):
         db_models.user.User.id == offer.seller_id).first()
     seller.balance += calculated_price
 
+    current_time = datetime.now()
+
     for cfa in cfas:
         cfa.user_id = user_id
         cfa.offer_id = 0
 
         trade = db_models.trade.Trade()
-        trade.date = datetime.now()
+        trade.date = current_time
         trade.cfa_token = cfa.token
         trade.price = offer.price
         trade.buyer_id = user_id
@@ -166,6 +168,14 @@ def buy(offer_id: int, user_id: int, count: int):
 
         db_sess.add(trade)
         db_sess.commit()
+
+    email.send_email(receiver_email=seller.email,
+                     message=email.generate_message_for_seller(seller_name=seller.name,
+                                                               seller_username=seller.username,
+                                                               buyer_name=user.name,
+                                                               buyer_username=user.username,
+                                                               date=str(current_time),
+                                                               amount=calculated_price))
 
     db_sess.commit()
     db_sess.close()

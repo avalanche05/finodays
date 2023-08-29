@@ -4,7 +4,7 @@ from sqlalchemy import desc
 
 from data import db_session
 import data.__all_models as db_models
-from utils import entities
+from utils import entities, email
 from openapi_server.models.create_desire_dto import CreateDesireDTO
 from openapi_server.models.desire_dto import DesireDTO
 
@@ -72,17 +72,26 @@ def sell(desire_id: int, user_id: int, count: int):
 
     user.balance += calculated_price
 
+    current_time = datetime.now()
+
     for cfa in cfas:
         cfa.user_id = buyer.id
 
         trade = db_models.trade.Trade()
-        trade.date = datetime.now()
+        trade.date = current_time
         trade.cfa_token = cfa.token
         trade.price = desire.price
         trade.buyer_id = desire.buyer_id
         trade.seller_id = user_id
 
         db_sess.add(trade)
+
+    email.send_email(receiver_email=buyer.email, message=email.generate_message_for_seller(seller_name=user.name,
+                                                                                           seller_username=user.username,
+                                                                                           buyer_name=buyer.name,
+                                                                                           buyer_username=buyer.username,
+                                                                                           date=str(current_time),
+                                                                                           amount=calculated_price))
 
     db_sess.commit()
     db_sess.close()
