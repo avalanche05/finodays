@@ -40,6 +40,9 @@ def sell(desire_id: int, user_id: int, count: int):
     if count < 0 or count > desire.count:
         raise ValueError("Wrong count value")
 
+    if desire.buyer_id == user_id:
+        raise ValueError("You cannot sell desires from yourself")
+
     user = db_sess.query(db_models.user.User).get(user_id)
     buyer = db_sess.query(db_models.user.User).get(desire.buyer_id)
 

@@ -3,7 +3,7 @@ info:
   title: CFA API
   version: 1.0.0
 servers:
-- url: /
+  - url: /
 tags:
   - name: User
     description: Пользователь в системе
@@ -93,7 +93,7 @@ paths:
         "401":
           description: Неверный Bearer-токен
       security:
-      - BearerAuth: []
+        - BearerAuth: [ ]
       summary: Получить информацию о своём профиле
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /user/{user-id}:
@@ -174,13 +174,13 @@ paths:
         - User
       operationId: cfa_user_id_get
       parameters:
-      - explode: false
-        in: path
-        name: user-id
-        required: true
-        schema:
-          type: integer
-        style: simple
+        - explode: false
+          in: path
+          name: user-id
+          required: true
+          schema:
+            type: integer
+          style: simple
       responses:
         "200":
           content:
@@ -199,6 +199,14 @@ paths:
       tags:
         - User
       operationId: user_offer_get
+      parameters:
+        - explode: false
+          in: path
+          name: user-id
+          required: true
+          schema:
+            type: integer
+          style: simple
       responses:
         "200":
           content:
@@ -219,6 +227,14 @@ paths:
       tags:
         - User
       operationId: user_desire_get
+      parameters:
+        - explode: false
+          in: path
+          name: user-id
+          required: true
+          schema:
+            type: integer
+          style: simple
       responses:
         "200":
           content:
@@ -263,7 +279,7 @@ paths:
         "401":
           description: Неверный Bearer-токен
       security:
-      - BearerAuth: []
+        - BearerAuth: [ ]
       summary: Создать новый CFA Image (Требуется Bearer-токен)
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /cfa-image/list:
@@ -288,13 +304,13 @@ paths:
         - CfaImage
       operationId: cfa_image_price_cfa_image_id_get
       parameters:
-      - explode: false
-        in: path
-        name: cfa-image-id
-        required: true
-        schema:
-          type: integer
-        style: simple
+        - explode: false
+          in: path
+          name: cfa-image-id
+          required: true
+          schema:
+            type: integer
+          style: simple
       responses:
         "200":
           content:
@@ -312,13 +328,13 @@ paths:
         - Cfa
       operationId: cfa_cfa_token_get
       parameters:
-      - explode: false
-        in: path
-        name: cfa-token
-        required: true
-        schema:
-          type: string
-        style: simple
+        - explode: false
+          in: path
+          name: cfa-token
+          required: true
+          schema:
+            type: string
+          style: simple
       responses:
         "200":
           content:
@@ -336,13 +352,13 @@ paths:
         - Cfa
       operationId: cfa_list_cfa_image_id_get
       parameters:
-      - explode: false
-        in: path
-        name: cfa-image-id
-        required: true
-        schema:
-          type: integer
-        style: simple
+        - explode: false
+          in: path
+          name: cfa-image-id
+          required: true
+          schema:
+            type: integer
+          style: simple
       responses:
         "200":
           content:
@@ -362,13 +378,13 @@ paths:
         - Cfa
       operationId: cfa_history_cfa_token_get
       parameters:
-      - explode: false
-        in: path
-        name: cfa-token
-        required: true
-        schema:
-          type: string
-        style: simple
+        - explode: false
+          in: path
+          name: cfa-token
+          required: true
+          schema:
+            type: string
+          style: simple
       responses:
         "200":
           content:
@@ -407,7 +423,7 @@ paths:
         "401":
           description: Неверный Bearer-токен
       security:
-      - BearerAuth: []
+        - BearerAuth: [ ]
       summary: Создать новое предложение (Требуется Bearer-токен)
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /offer/cancel/{offer-id}:
@@ -416,13 +432,13 @@ paths:
         - Offer
       operationId: offer_cancel_post
       parameters:
-      - explode: false
-        in: path
-        name: offer-id
-        required: true
-        schema:
-          type: integer
-        style: simple
+        - explode: false
+          in: path
+          name: offer-id
+          required: true
+          schema:
+            type: integer
+          style: simple
       responses:
         "200":
           description: Успешный ответ
@@ -438,13 +454,13 @@ paths:
         - Offer
       operationId: offer_buy_offer_id_post
       parameters:
-      - explode: false
-        in: path
-        name: offer-id
-        required: true
-        schema:
-          type: integer
-        style: simple
+        - explode: false
+          in: path
+          name: offer-id
+          required: true
+          schema:
+            type: integer
+          style: simple
       requestBody:
         $ref: '#/components/requestBodies/accept_offer_dto'
         content:
@@ -465,7 +481,7 @@ paths:
         "409":
           description: Недостаточно товара для покупки
       security:
-      - BearerAuth: []
+        - BearerAuth: [ ]
       summary: Купить предложение (Требуется Bearer-токен)
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /offer/list/{cfa-image-id}:
@@ -474,13 +490,13 @@ paths:
         - Offer
       operationId: offer_list_cfa_image_id_get
       parameters:
-      - explode: false
-        in: path
-        name: cfa-image-id
-        required: true
-        schema:
-          type: integer
-        style: simple
+        - explode: false
+          in: path
+          name: cfa-image-id
+          required: true
+          schema:
+            type: integer
+          style: simple
       responses:
         "200":
           content:
@@ -612,13 +628,13 @@ paths:
         - Trade
       operationId: trade_trade_id_get
       parameters:
-      - explode: false
-        in: path
-        name: trade-id
-        required: true
-        schema:
-          type: integer
-        style: simple
+        - explode: false
+          in: path
+          name: trade-id
+          required: true
+          schema:
+            type: integer
+          style: simple
       responses:
         "200":
           content:

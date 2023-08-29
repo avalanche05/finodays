@@ -100,6 +100,9 @@ def buy(offer_id: int, user_id: int, count: int):
     if count < 0 or count > offer.count:
         raise ValueError("Wrong count value")
 
+    if offer.seller_id == user_id:
+        raise ValueError("You cannot buy offers from yourself")
+
     user = db_sess.query(db_models.user.User).filter(
         db_models.user.User.id == user_id).first()
 
