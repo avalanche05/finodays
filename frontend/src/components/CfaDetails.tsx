@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { useStores } from '../hooks/useStores';
 import DesiresList from './DesiresList';
 import { observer } from 'mobx-react-lite';
+import CfaPricePredictionBlock from './CfaPricePredictionBlock';
 
 type Props = {
     cfaImage: CfaImage;
@@ -119,6 +120,21 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
                     items={items}
                     tabBarExtraContent={<Button onClick={createDesire}>Создать заявку</Button>}
                 />
+            </Row>
+
+            <Row>
+                <Typography.Title level={3}>Прогноз цены</Typography.Title>
+            </Row>
+
+            <Row>
+                <Typography.Paragraph>
+                    Прогноз цены ЦФА на основе предыдущих сделок. По горизонтали - 3 ближайших дня,
+                    по вертикали - цена в рублях.
+                </Typography.Paragraph>
+            </Row>
+
+            <Row>
+                <CfaPricePredictionBlock cfaImageId={cfaImage.id} />
             </Row>
 
             <Modal
