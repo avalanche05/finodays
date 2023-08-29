@@ -22,12 +22,6 @@ const CfaMarket = () => {
             label: 'Все ЦФА',
             children: <CfaList cfas={cfas} />,
         },
-        {
-            key: '2',
-            label: 'Мои ЦФА',
-            children: 'Мои ЦФА',
-            disabled: true,
-        },
     ];
 
     return (

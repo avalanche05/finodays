@@ -6,3 +6,4 @@ export * from './Offer';
 export * from './CreateCfaResponse';
 export * from './Balance';
 export * from './OwnCfaImage';
+export * from './Desire';

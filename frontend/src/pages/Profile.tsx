@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import { useStores } from '../hooks/useStores';
 import { valueType } from 'antd/es/statistic/utils';
 import { IProfile } from '../api/models/Profile';
-import { Offer, OwnCfaImage } from '../api/models';
+import { Desire, Offer, OwnCfaImage } from '../api/models';
 import OwnCfaList from '../components/OwnCfaList';
 import OwnOffersList from '../components/OwnOffersList';
+import OwnDesiresList from '../components/OwnDesiresList';
 
 const Profile = () => {
     const [messageApi, contextHolder] = message.useMessage();
@@ -24,16 +25,19 @@ const Profile = () => {
     const [profileTrigger, setProfileTrigger] = useState<boolean>(false);
     const [cfas, setCfas] = useState<OwnCfaImage[]>([]);
     const [offers, setOffers] = useState<Offer[]>([]);
+    const [desires, setDesires] = useState<Desire[]>([]);
 
     useEffect(() => {
         async function fetchProfile() {
             const profile = await rootStore.getProfileInfo();
-            const userCfas = await rootStore.getUserCfas(profile.id);
-            const userOffers = await rootStore.getOffersByUser(profile.id);
+            const userCfas = await rootStore.getUserCfas(profile.id).catch(() => []);
+            const userOffers = await rootStore.getOffersByUser(profile.id).catch(() => []);
+            const userDesires = await rootStore.getDesiresByUser(profile.id).catch(() => []);
 
             setProfile(profile);
             setCfas(userCfas);
             setOffers(userOffers);
+            setDesires(userDesires);
         }
         fetchProfile();
     }, [rootStore, profileTrigger]);
@@ -127,7 +131,23 @@ const Profile = () => {
                 Мои офферы
             </Typography.Title>
 
+            <Typography.Paragraph>
+                В этой таблице представлены все ваши предложения на продажу ЦФА. Вы можете отменить
+                любое из них.
+            </Typography.Paragraph>
+
             <OwnOffersList offers={offers} />
+
+            <Typography.Title level={3} style={{ marginTop: 16 }}>
+                Мои заявки
+            </Typography.Title>
+
+            <Typography.Paragraph>
+                В этой таблице представлены все ваши заявки на покупку ЦФА. Как только кто-то
+                создаст оффер с ЦФА по вашей цене, они будут автоматически куплены.
+            </Typography.Paragraph>
+
+            <OwnDesiresList desires={desires} />
 
             <Modal
                 title='Пополнить баланс'

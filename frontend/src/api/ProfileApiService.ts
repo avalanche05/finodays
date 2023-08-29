@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_URL } from '../config';
 import authHeader from '../utils/authHeader';
-import { Balance, Offer } from './models';
+import { Balance, Desire, Offer } from './models';
 import { IProfile } from './models/Profile';
 
 class ProfileApiService {
@@ -37,6 +37,16 @@ class ProfileApiService {
 
     public async getOffersByUser(userId: number): Promise<Offer[]> {
         const response = await axios.get<Offer[]>(`${API_URL}/user/offer/${userId}`, {
+            headers: authHeader(),
+        });
+
+        return response.data;
+    }
+
+    public async getDesiresByUser(userId: number): Promise<Desire[]> {
+        console.log(userId);
+
+        const response = await axios.get<Desire[]>(`${API_URL}/user/desire/${userId}`, {
             headers: authHeader(),
         });
 
