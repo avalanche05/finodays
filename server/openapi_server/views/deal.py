@@ -114,7 +114,31 @@ def get_all_in_deals(user_id: int):
     result = []
     for deal in deals:
         result.append(
-            DealDTO()
+            DealDTO(id=deal.id,
+                    initiator=entities.get_public_user(deal.initiator_id),
+                    host=entities.get_public_user(deal.initiator_id),
+                    initiator_items=deal.initiator_items,
+                    host_items=deal.host_items)
         )
 
+    return result
 
+
+def get_all_out_deals(user_id: int):
+    db_sess = db_session.create_session()
+
+    deals = db_sess.query(db_models.deal.Deal).filter(
+        db_models.deal.Deal.initiator_id == user_id,
+        db_models.deal.Deal.is_active == True).all()
+
+    result = []
+    for deal in deals:
+        result.append(
+            DealDTO(id=deal.id,
+                    initiator=entities.get_public_user(deal.initiator_id),
+                    host=entities.get_public_user(deal.initiator_id),
+                    initiator_items=deal.initiator_items,
+                    host_items=deal.host_items)
+        )
+
+    return result
