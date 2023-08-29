@@ -10,4 +10,4 @@ class Cfa(SqlAlchemyBase, SerializerMixin):
     token = sqlalchemy.Column(sqlalchemy.String, unique=True, primary_key=True)
     cfa_image_id = sqlalchemy.Column(sqlalchemy.Integer)
     user_id = sqlalchemy.Column(sqlalchemy.Integer)
-
+    offer_id = sqlalchemy.Column(sqlalchemy.Integer, default=0)

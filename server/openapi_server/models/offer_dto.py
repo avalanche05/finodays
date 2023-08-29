@@ -15,41 +15,41 @@ class OfferDTO(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, cfa_image_id=None, count=None, price=None, seller_id=None):  # noqa: E501
+    def __init__(self, id=None, cfa_image=None, count=None, price=None, seller=None):  # noqa: E501
         """OfferDTO - a model defined in OpenAPI
 
         :param id: The id of this OfferDTO.  # noqa: E501
         :type id: int
-        :param cfa_image_id: The cfa_image_id of this OfferDTO.  # noqa: E501
-        :type cfa_image_id: int
+        :param cfa_image: The cfa_image of this OfferDTO.  # noqa: E501
+        :type cfa_image: CfaImage
         :param count: The count of this OfferDTO.  # noqa: E501
         :type count: int
         :param price: The price of this OfferDTO.  # noqa: E501
-        :type price: int
-        :param seller_id: The seller_id of this OfferDTO.  # noqa: E501
-        :type seller_id: int
+        :type price: float
+        :param seller: The seller of this OfferDTO.  # noqa: E501
+        :type seller: PublicUser
         """
         self.openapi_types = {
             'id': int,
-            'cfa_image_id': int,
+            'cfa_image': 'CfaImage',
             'count': int,
-            'price': int,
-            'seller_id': int
+            'price': float,
+            'seller': 'PublicUser'
         }
 
         self.attribute_map = {
             'id': 'id',
-            'cfa_image_id': 'cfa_image_id',
+            'cfa_image': 'cfa_image',
             'count': 'count',
             'price': 'price',
-            'seller_id': 'seller_id'
+            'seller': 'seller'
         }
 
         self._id = id
-        self._cfa_image_id = cfa_image_id
+        self._cfa_image = cfa_image
         self._count = count
         self._price = price
-        self._seller_id = seller_id
+        self._seller = seller
 
     @classmethod
     def from_dict(cls, dikt) -> 'OfferDTO':
@@ -84,25 +84,25 @@ class OfferDTO(Model):
         self._id = id
 
     @property
-    def cfa_image_id(self):
-        """Gets the cfa_image_id of this OfferDTO.
+    def cfa_image(self):
+        """Gets the cfa_image of this OfferDTO.
 
 
-        :return: The cfa_image_id of this OfferDTO.
-        :rtype: int
+        :return: The cfa_image of this OfferDTO.
+        :rtype: CfaImage
         """
-        return self._cfa_image_id
+        return self._cfa_image
 
-    @cfa_image_id.setter
-    def cfa_image_id(self, cfa_image_id):
-        """Sets the cfa_image_id of this OfferDTO.
+    @cfa_image.setter
+    def cfa_image(self, cfa_image):
+        """Sets the cfa_image of this OfferDTO.
 
 
-        :param cfa_image_id: The cfa_image_id of this OfferDTO.
-        :type cfa_image_id: int
+        :param cfa_image: The cfa_image of this OfferDTO.
+        :type cfa_image: CfaImage
         """
 
-        self._cfa_image_id = cfa_image_id
+        self._cfa_image = cfa_image
 
     @property
     def count(self):
@@ -147,22 +147,22 @@ class OfferDTO(Model):
         self._price = price
 
     @property
-    def seller_id(self):
-        """Gets the seller_id of this OfferDTO.
+    def seller(self):
+        """Gets the seller of this OfferDTO.
 
 
-        :return: The seller_id of this OfferDTO.
+        :return: The seller of this OfferDTO.
         :rtype: int
         """
-        return self._seller_id
+        return self._seller
 
-    @seller_id.setter
-    def seller_id(self, seller_id):
-        """Sets the seller_id of this OfferDTO.
+    @seller.setter
+    def seller(self, seller):
+        """Sets the seller of this OfferDTO.
 
 
-        :param seller_id: The seller_id of this OfferDTO.
-        :type seller_id: int
+        :param seller: The seller of this OfferDTO.
+        :type seller: int
         """
 
-        self._seller_id = seller_id
+        self._seller = seller

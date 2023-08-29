@@ -4,3 +4,6 @@ from . import cfa_image
 from . import cfa
 from . import trade
 from . import offer
+from . import desire
+from . import desire
+from . import deal
