@@ -47,7 +47,12 @@ const DashboardLayout: React.FC = () => {
                 <Col>
                     <Avatar style={{ backgroundColor: '#666' }} icon={<UserOutlined />} />
 
-                    <span style={{ marginLeft: 10, color: '#fff' }}>АО Ромашка</span>
+                    <span style={{ marginLeft: 10, color: '#fff' }}>
+                        {`${
+                            AuthService.getCurrentUser()?.user?.name ??
+                            AuthService.getCurrentUser()?.user.name
+                        }`}
+                    </span>
 
                     <Link
                         onClick={() => {

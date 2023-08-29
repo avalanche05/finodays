@@ -130,7 +130,7 @@ const CfaDetails = ({ cfaImage }: Props) => {
             >
                 <Typography.Paragraph>
                     Вы можете задать цену и количество ЦФА, которые вы хотите купить. Как только
-                    кто-то создаст оффер с ЦФА по вашей цене, они будут автоматически куплены.
+                    кто-то создаст оффер с ЦФА по вашей цене, они будут автоматически исполнены.
                 </Typography.Paragraph>
                 <Form layout={'vertical'} form={form} style={{ width: '100%', maxWidth: 800 }}>
                     <Row gutter={[8, 24]}>
