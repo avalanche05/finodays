@@ -568,4 +568,4 @@ def cfa_image_predict_price(cfa_image_id: int):
 
         :rtype: List[int]
         """
-    return [103, 91, 112], 200
+    return {"predictions": [103, 91, 112]}, 200
