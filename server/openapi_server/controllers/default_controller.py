@@ -354,8 +354,6 @@ def user_offer_get(user_id: int):
     :rtype: List[OfferDTO]
     """
     try:
-        token = connexion.request.headers.get('Authorization').split()[1]
-        user_id = user.get_profile(token).id
         offers = user.get_offer_list(user_id)
         return offers, 201
     except Exception as e:
@@ -454,8 +452,6 @@ def user_desire_get(user_id: int):
     :rtype: List[DesireDTO]
     """
     try:
-        token = connexion.request.headers.get('Authorization').split()[1]
-        user_id = user.get_profile(token).id
         desires = user.get_desire_list(user_id)
         return desires, 201
     except Exception as e:

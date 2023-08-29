@@ -42,8 +42,22 @@ def create(user_id, offer_create: CreateOfferDTO):
 
     desires = db_sess.query(db_models.desire.Desire).filter(
         db_models.desire.Desire.count > 0,
-        db_models.desire.Desire.buyer_id != offer.seller_id
-    )
+        db_models.desire.Desire.buyer_id != offer.seller_id,
+        db_models.desire.Desire.cfa_image_id == offer.cfa_image_id,
+        db_models.desire.Desire.price >= offer.price
+    ).all()
+
+    selled_count = 0
+    for desire in desires:
+        count = min(desire.count, offer.count - selled_count)
+        try:
+            buy(offer.id, desire.buyer_id, count)
+            selled_count += count
+        except Exception:
+            pass
+
+        if selled_count == offer.count:
+            break
 
     db_sess.close()
 
