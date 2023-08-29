@@ -559,3 +559,17 @@ def deal_cancel_deal_id_post(deal_id):  # noqa: E501
         return None, 200
     except Exception as e:
         return str(e), 401
+
+
+def cfa_image_predict_price(cfa_image_id: int):
+    """Получить список предполагаемых цен CfaImage на ближайшие 3 дня
+
+         # noqa: E501
+
+        :rtype: List[int]
+        """
+    try:
+        result = cfa_image.get_predicted_prices(cfa_image_id)
+        return result, 200
+    except Exception as e:
+        return str(e), 401

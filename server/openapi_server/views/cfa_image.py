@@ -9,8 +9,7 @@ from openapi_server.models.cfa_image import CfaImage
 from utils import entities
 
 # 
-from ml import predict_price
-
+from ml.__main__ import predict_price
 
 
 def create_cfa_image(user_id: int, create_cfo_image_dto: models.CreateCfaImageDTO):
@@ -63,7 +62,7 @@ def get_lower_price(cfa_image_id: int):
     return cheapest_order.price
 
 
-def get_predicted_prices(cfa_image_id: int, n_days=1)->list:
+def get_predicted_prices(cfa_image_id: int, n_days=3) -> list:
     '''
     Predict prices for cfa depend on last prices
     
@@ -72,10 +71,7 @@ def get_predicted_prices(cfa_image_id: int, n_days=1)->list:
     
     return: n_days-lenght list of float
     '''
-   
-    l = predict_price(cfa_image_id=cfa_image_id, is_refit=True, n_days=n_days)
-    
-    return l
+    db_sess = db_session.create_session()
+    result = predict_price(cfa_image_id=cfa_image_id, is_refit=True, n_days=n_days, db_sess=db_sess)
 
-
-
+    return result
