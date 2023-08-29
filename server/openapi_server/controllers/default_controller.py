@@ -566,4 +566,8 @@ def cfa_image_predict_price(cfa_image_id: int):
 
         :rtype: List[int]
         """
-    return {"predictions": [103, 91, 112]}, 200
+    try:
+        result = cfa_image.get_predicted_prices(cfa_image_id)
+        return result, 200
+    except Exception as e:
+        return [0, 0, 0], 200
