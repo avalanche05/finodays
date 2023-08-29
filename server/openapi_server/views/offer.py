@@ -48,7 +48,7 @@ def cancel_offer(user_id: int, offer_id: id):
     if offer is None:
         raise FileNotFoundError(f"Cannot find offer with id: {offer_id}")
 
-    if user_id != offer.id:
+    if user_id != offer.seller_id:
         raise ValueError(f"You cannot cancel offer with id: {offer_id}")
 
     cfas = db_sess.query(db_models.cfa.Cfa).filter(

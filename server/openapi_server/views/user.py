@@ -118,7 +118,7 @@ def get_desire_list(user_id: int):
             cfa_image=entities.get_cfa_image(desire.cfa_image_id),
             count=desire.count,
             price=desire.price,
-            buyer=entities.get_public_user(desire.seller_id)
+            buyer=entities.get_public_user(desire.buyer_id)
         ))
 
     db_sess.close()
