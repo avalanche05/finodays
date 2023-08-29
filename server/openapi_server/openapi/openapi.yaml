@@ -1027,8 +1027,12 @@ components:
           type: integer
         initiator_items:
           type: array
+          items:
+            type: object
         host_items:
           type: array
+          items:
+            type: object
       type: object
     deal_dto:
       properties:
