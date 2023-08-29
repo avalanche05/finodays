@@ -131,11 +131,11 @@ def preprocess_list(list_of_prices, period: int=10)->list:
     
     
 
-if __name__ == '__main__':
-    n_days = 2
-    db_session.global_init("db/db.db")
-    db_sess = db_session.create_session()
+# if __name__ == '__main__':
+#     n_days = 2
+#     db_session.global_init("db/db.db")
+#     db_sess = db_session.create_session()
 
-    l = get_future_prices(cfa_image_id=3, db_sess=db_sess, is_refit=True, n_days=n_days)
-    print(l)
+#     l = get_future_prices(cfa_image_id=3, db_sess=db_sess, is_refit=True, n_days=n_days)
+#     print(l)
 
