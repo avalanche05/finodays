@@ -6,5 +6,5 @@ export interface Desire {
     count: number;
     id: number;
     price: number;
-    seller: User;
+    buyer: User;
 }

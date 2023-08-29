@@ -29,9 +29,9 @@ const DesiresList = ({ desires }: Props) => {
             key: 'count',
         },
         {
-            title: 'Продавец',
-            dataIndex: 'sellerName',
-            key: 'sellerName',
+            title: 'Покупатель',
+            dataIndex: 'buyerName',
+            key: 'buyerName',
         },
         {
             title: '',
@@ -82,7 +82,7 @@ const DesiresList = ({ desires }: Props) => {
                 dataSource={desires.map((row) => ({
                     ...row,
                     key: row.id,
-                    sellerName: row.buyer?.name,
+                    buyerName: row.buyer?.name,
                 }))}
             />
 
