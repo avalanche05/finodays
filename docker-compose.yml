@@ -4,17 +4,7 @@ services:
     build: ./frontend/
     ports:
       - "46875:3000"
-  web:
+  api:
     build: ./server/
     ports:
       - "46874:46874"
-    depends_on:
-      - db
-  db:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dfadb
-    ports:
-      - "5432:5432"
