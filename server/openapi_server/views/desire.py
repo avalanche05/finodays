@@ -14,7 +14,7 @@ def get_all_by_cfa_image_id(cfa_image_id: int):
 
     desires = db_sess.query(db_models.desire.Desire).filter(
         db_models.desire.Desire.cfa_image_id == cfa_image_id, db_models.desire.Desire.count > 0) \
-        .order_by(desc(db_models.offer.Offer.price)).all()
+        .order_by(desc(db_models.desire.Desire.price)).all()
 
     result = []
     for desire in desires:
@@ -112,6 +112,26 @@ def create(user_id, desire_create: CreateDesireDTO):
     db_sess.add(desire)
     db_sess.commit()
     desire_id = desire.id
+
+    offers = db_sess.query(db_models.offer.Offer).filter(
+        db_models.offer.Offer.cfa_image_id == desire.cfa_image_id,
+        db_models.offer.Offer.count > 0,
+        db_models.offer.Offer.price <= desire.price,
+        db_models.offer.Offer.seller_id != desire.buyer_id
+    ).all()
+
+    bought_count = 0
+    for offer in offers:
+        count = min(desire.count - bought_count, offer.count)
+        try:
+            sell(desire_id, offer.seller_id, count)
+            bought_count += count
+        except Exception:
+            pass
+
+        if bought_count == offer.count:
+            break
+
     db_sess.close()
 
     return desire_id
