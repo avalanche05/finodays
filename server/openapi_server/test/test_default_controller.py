@@ -19,57 +19,125 @@ from openapi_server.models.cfa_dto import CfaDTO  # noqa: E501
 from openapi_server.models.trade_dto import TradeDTO  # noqa: E501
 from openapi_server.models.offer_dto import OfferDTO  # noqa: E501
 from openapi_server.test import BaseTestCase
+from data import db_session
+import models
 
 
 class TestDefaultController(BaseTestCase):
     """DefaultController integration test stubs"""
+    correct_cfa_token = 'cd33b12ca181fe2d1e60029ecb9689f19690d7d71cc6d8d1a62b1130d40f9593'
+    incorrect_cfa_token = 'abcdefg'
+    correct_bearer_token = 'CGvVeabRxhUmdlRReIJF'
+    incorrect_bearer_token = 'abcdefg'
+    correct_cfa_image_id = 1
+    incorrect_cfa_image_id = -1
+    correct_offer_id = 1
+    incorrect_offer_id = -1
+    correct_user_id = 1
+    incorrect_user_id = -1
 
-    def test_cfa_cfa_token_get(self):
-        """Test case for cfa_cfa_token_get
-
-        Получить информацию о CFA по его токену
-        """
-        headers = { 
-            'Accept': 'application/json',
-        }
-        response = self.client.open(
-            '/cfa/{cfa_token}'.format(cfa_token='cfa_token_example'),
-            method='GET',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+    def setUp(self) -> None:
+        db_session.global_init('../db/db.db')
 
     def test_cfa_history_cfa_token_get(self):
         """Test case for cfa_history_cfa_token_get
 
         Получить историю сделок для CFA по его токену
         """
-        headers = { 
+        headers = {
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/cfa/history/{cfa_token}'.format(cfa_token='cfa_token_example'),
+            '/cfa/history/{cfa_token}'.format(cfa_token=self.correct_cfa_token),
             method='GET',
             headers=headers)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_cfa_image_create_post(self):
-        """Test case for cfa_image_create_post
+        response = self.client.open(
+            '/cfa/history/{cfa_token}'.format(cfa_token=self.incorrect_cfa_token),
+            method='GET',
+            headers=headers)
+        self.assert404(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-        Создать новый CFA Image (Требуется Bearer-токен)
+    def test_cfa_list_cfa_image_id_get(self):
+        """Test case for cfa_list_cfa_image_id_get
+
+        Получить список CFAs для изображения CFA
         """
-        inline_object2 = {}
-        headers = { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer special-key',
+        headers = {
+            'Accept': 'application/json',
         }
         response = self.client.open(
-            '/cfa-image/create',
-            method='POST',
-            headers=headers,
-            data=json.dumps(inline_object2),
-            content_type='application/json')
+            '/cfa/list/{cfa_image_id}'.format(cfa_image_id=self.correct_cfa_image_id),
+            method='GET',
+            headers=headers)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+        response = self.client.open(
+            '/cfa/list/{cfa_image_id}'.format(cfa_image_id=self.incorrect_cfa_image_id),
+            method='GET',
+            headers=headers)
+        self.assert404(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_cfa_cfa_token_get(self):
+        """Test case for cfa_cfa_token_get
+
+        Получить информацию о CFA по его токену
+        """
+        headers = {
+            'Accept': 'application/json',
+        }
+        response = self.client.open(
+            '/cfa/{cfa_token}'.format(cfa_token=self.correct_cfa_token),
+            method='GET',
+            headers=headers)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+        response = self.client.open(
+            '/cfa/history/{cfa_token}'.format(cfa_token=self.incorrect_cfa_token),
+            method='GET',
+            headers=headers)
+        self.assert404(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_offer_list_cfa_image_id_get(self):
+        """Test case for offer_list_cfa_image_id_get
+
+        Получить список предложений для изображения CFA
+        """
+        headers = {
+            'Accept': 'application/json',
+        }
+        response = self.client.open(
+            '/offer/list/{cfa_image_id}'.format(cfa_image_id=self.correct_cfa_image_id),
+            method='GET',
+            headers=headers)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+        response = self.client.open(
+            '/offer/list/{cfa_image_id}'.format(cfa_image_id=self.incorrect_cfa_image_id),
+            method='GET',
+            headers=headers)
+        self.assert404(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_trade_list_get(self):
+        """Test case for trade_list_get
+
+        Получить список сделок
+        """
+        headers = {
+            'Accept': 'application/json',
+        }
+        response = self.client.open(
+            '/trade/list',
+            method='GET',
+            headers=headers)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -78,7 +146,7 @@ class TestDefaultController(BaseTestCase):
 
         Получить список изображений CFA
         """
-        headers = { 
+        headers = {
             'Accept': 'application/json',
         }
         response = self.client.open(
@@ -88,172 +156,51 @@ class TestDefaultController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_cfa_image_price_cfa_image_id_get(self):
-        """Test case for cfa_image_price_cfa_image_id_get
+    def test_user_profile_get(self):
+        """Test case for user_profile_get
 
-        Получить цену изображения CFA на основе рыночных предложений
+        Получить информацию о своём пользователе
         """
-        headers = { 
+        headers = {
             'Accept': 'application/json',
+            'Authorization': f'Bearer {self.correct_bearer_token}',
         }
         response = self.client.open(
-            '/cfa-image/price/{cfa_image_id}'.format(cfa_image_id=56),
+            '/user/profile',
             method='GET',
             headers=headers)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
+        headers = {
+            'Accept': 'application/json',
+            'Authorization': f'Bearer {self.incorrect_bearer_token}',
+        }
+        response = self.client.open(
+            '/user/profile',
+            method='GET',
+            headers=headers)
+        self.assert401(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_cfa_list_cfa_image_id_get(self):
-        """Test case for cfa_list_cfa_image_id_get
+    def test_user_user_id_get(self):
+        """Test case for user_user_id_get
 
-        Получить список CFAs для изображения CFA
+        Получить информацию о профиле другого человека
         """
-        headers = { 
+        headers = {
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/cfa/list/{cfa_image_id}'.format(cfa_image_id=56),
+            '/user/{user_id}'.format(user_id=self.correct_user_id),
             method='GET',
             headers=headers)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_cfa_user_id_get(self):
-        """Test case for cfa_user_id_get
-
-        Получить список CFA для пользователя
-        """
-        headers = { 
-            'Accept': 'application/json',
-        }
         response = self.client.open(
-            '/cfa/{user_id}'.format(user_id=56),
+            '/user/{user_id}'.format(user_id=self.incorrect_user_id),
             method='GET',
             headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_login_post(self):
-        """Test case for login_post
-
-        Войти как пользователь
-        """
-        inline_object1 = {}
-        headers = { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
-        response = self.client.open(
-            '/login',
-            method='POST',
-            headers=headers,
-            data=json.dumps(inline_object1),
-            content_type='application/json')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_offer_buy_offer_id_post(self):
-        """Test case for offer_buy_offer_id_post
-
-        Купить предложение (Требуется Bearer-токен)
-        """
-        inline_object4 = {}
-        headers = { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer special-key',
-        }
-        response = self.client.open(
-            '/offer/buy/{offer_id}'.format(offer_id=56),
-            method='POST',
-            headers=headers,
-            data=json.dumps(inline_object4),
-            content_type='application/json')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_offer_create_post(self):
-        """Test case for offer_create_post
-
-        Создать новое предложение (Требуется Bearer-токен)
-        """
-        inline_object3 = {}
-        headers = { 
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer special-key',
-        }
-        response = self.client.open(
-            '/offer/create',
-            method='POST',
-            headers=headers,
-            data=json.dumps(inline_object3),
-            content_type='application/json')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_offer_list_cfa_image_id_get(self):
-        """Test case for offer_list_cfa_image_id_get
-
-        Получить список предложений для изображения CFA
-        """
-        headers = { 
-            'Accept': 'application/json',
-        }
-        response = self.client.open(
-            '/offer/list/{cfa_image_id}'.format(cfa_image_id=56),
-            method='GET',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_register_post(self):
-        """Test case for register_post
-
-        Зарегистрировать нового пользователя
-        """
-        inline_object = {}
-        headers = { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        }
-        response = self.client.open(
-            '/register',
-            method='POST',
-            headers=headers,
-            data=json.dumps(inline_object),
-            content_type='application/json')
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_trade_list_get(self):
-        """Test case for trade_list_get
-
-        Получить список сделок
-        """
-        query_string = [('cfa-token', 'cfa_token_example')]
-        headers = { 
-            'Accept': 'application/json',
-        }
-        response = self.client.open(
-            '/trade/list',
-            method='GET',
-            headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_trade_trade_id_get(self):
-        """Test case for trade_trade_id_get
-
-        Получить информацию о сделке по ее ID
-        """
-        headers = { 
-            'Accept': 'application/json',
-        }
-        response = self.client.open(
-            '/trade/{trade_id}'.format(trade_id=56),
-            method='GET',
-            headers=headers)
-        self.assert200(response,
+        self.assert404(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
 

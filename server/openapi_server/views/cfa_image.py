@@ -1,14 +1,15 @@
 from typing import List
 
 import openapi_server.models as models
+from openapi_server.models import PublicUser
 import data.__all_models as db_models
 from data import db_session
 from openapi_server.views import cfa
 from openapi_server.models.cfa_image import CfaImage
+from utils import entities
 
 # 
-from ml import predict_price
-
+from ml.__main__ import predict_price
 
 
 def create_cfa_image(user_id: int, create_cfo_image_dto: models.CreateCfaImageDTO):
@@ -24,7 +25,9 @@ def create_cfa_image(user_id: int, create_cfo_image_dto: models.CreateCfaImageDT
 
     for _ in range(create_cfo_image_dto.count):
         cfa.create_cfa(user_id, cfa_image.id)
-    return True
+
+    db_sess.close()
+    return cfa_image.id
 
 
 def get_cfa_images_list() -> List[CfaImage]:
@@ -33,15 +36,18 @@ def get_cfa_images_list() -> List[CfaImage]:
 
     result = []
     for cfa_image in cfa_images:
+        user = entities.get_public_user(cfa_image.user_id)
         result.append(
             CfaImage(
                 id=cfa_image.id,
                 title=cfa_image.title,
                 count=cfa_image.count,
                 description=cfa_image.description,
-                user_id=cfa_image.user_id
+                user=user
             )
         )
+
+    db_sess.close()
 
     return result
 
@@ -52,10 +58,11 @@ def get_lower_price(cfa_image_id: int):
     cheapest_order = db_sess.query(db_models.offer.Offer).filter(
         db_models.offer.Offer.cfa_image_id == cfa_image_id).order_by(db_models.offer.Offer.price).first()
 
+    db_sess.close()
     return cheapest_order.price
 
 
-def get_predicted_prices(cfa_image_id: int, n_days=1)->list:
+def get_predicted_prices(cfa_image_id: int, n_days=3) -> list:
     '''
     Predict prices for cfa depend on last prices
     
@@ -69,6 +76,3 @@ def get_predicted_prices(cfa_image_id: int, n_days=1)->list:
     db_sess.close()
     
     return l
-
-
-

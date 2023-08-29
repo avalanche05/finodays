@@ -20,7 +20,7 @@ def get_all():
                 seller=views.user.get_user(trade.seller_id)
             )
         )
-
+    db_sess.close()
     return result
 
 
@@ -39,5 +39,5 @@ def get_by_id(trade_id: int):
         buyer=views.user.get_user(trade.buyer_id),
         seller=views.user.get_user(trade.seller_id)
     )
-
+    db_sess.close()
     return trade_dto

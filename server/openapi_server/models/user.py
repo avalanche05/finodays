@@ -15,13 +15,13 @@ class User(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, login=None, username=None, name=None, balance=None, **_):  # noqa: E501
+    def __init__(self, id=None, email=None, username=None, name=None, balance=None, **_):  # noqa: E501
         """User - a model defined in OpenAPI
 
         :param id: The id of this User.  # noqa: E501
         :type id: int
-        :param login: The login of this User.  # noqa: E501
-        :type login: str
+        :param email: The email of this User.  # noqa: E501
+        :type email: str
         :param username: The username of this User.  # noqa: E501
         :type username: str
         :param name: The name of this User.  # noqa: E501
@@ -31,7 +31,7 @@ class User(Model):
         """
         self.openapi_types = {
             'id': int,
-            'login': str,
+            'email': str,
             'username': str,
             'name': str,
             'balance': float
@@ -39,14 +39,14 @@ class User(Model):
 
         self.attribute_map = {
             'id': 'id',
-            'login': 'login',
+            'email': 'email',
             'username': 'username',
             'name': 'name',
             'balance': 'balance'
         }
 
         self._id = id
-        self._login = login
+        self._email = email
         self._username = username
         self._name = name
         self._balance = balance
@@ -84,25 +84,25 @@ class User(Model):
         self._id = id
 
     @property
-    def login(self):
-        """Gets the login of this User.
+    def email(self):
+        """Gets the email of this User.
 
 
-        :return: The login of this User.
+        :return: The email of this User.
         :rtype: str
         """
-        return self._login
+        return self._email
 
-    @login.setter
-    def login(self, login):
-        """Sets the login of this User.
+    @email.setter
+    def email(self, email):
+        """Sets the email of this User.
 
 
-        :param login: The login of this User.
-        :type login: str
+        :param email: The email of this User.
+        :type email: str
         """
 
-        self._login = login
+        self._email = email
 
     @property
     def username(self):

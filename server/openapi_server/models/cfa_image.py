@@ -6,6 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
+from openapi_server.models.public_user import PublicUser
 from openapi_server import util
 
 
@@ -15,7 +16,7 @@ class CfaImage(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, title=None, count=None, description=None, user_id=None):  # noqa: E501
+    def __init__(self, id=None, title=None, count=None, description=None, user=None):  # noqa: E501
         """CfaImage - a model defined in OpenAPI
 
         :param id: The id of this CfaImage.  # noqa: E501
@@ -31,21 +32,23 @@ class CfaImage(Model):
             'id': int,
             'title': str,
             'count': int,
-            'description': str
+            'description': str,
+            'user': PublicUser
         }
 
         self.attribute_map = {
             'id': 'id',
             'title': 'title',
             'count': 'count',
-            'description': 'description'
+            'description': 'description',
+            'user': 'user'
         }
 
         self._id = id
         self._title = title
         self._count = count
         self._description = description
-        self._user_id = user_id
+        self._user = user
 
     @classmethod
     def from_dict(cls, dikt) -> 'CfaImage':
@@ -143,23 +146,23 @@ class CfaImage(Model):
         self._description = description
 
     @property
-    def user_id(self):
-        """Gets the user_id of this CfaImage.
+    def user(self):
+        """Gets the user of this CfaImage.
 
 
-        :return: The user_id of this CfaImage.
-        :rtype: str
+        :return: The user of this CfaImage.
+        :rtype: PublicUser
         """
-        return self._user_id
+        return self._user
 
-    @user_id.setter
-    def user_id(self, user_id):
-        """Sets the user_id of this CfaImage.
+    @user.setter
+    def user(self, user):
+        """Sets the user of this CfaImage.
 
 
-        :param user_id: The title of this CfaImage.
-        :type user_id: str
+        :param user: The title of this CfaImage.
+        :type user: PublicUser
         """
 
-        self._user_id = user_id
+        self._user = user
 

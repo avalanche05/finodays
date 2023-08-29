@@ -15,11 +15,11 @@ class RegisterUserDTO(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, login=None, username=None, name=None, password=None):  # noqa: E501
+    def __init__(self, email=None, username=None, name=None, password=None):  # noqa: E501
         """RegisterUserDTO - a model defined in OpenAPI
 
-        :param login: The login of this RegisterUserDTO.  # noqa: E501
-        :type login: str
+        :param email: The email of this RegisterUserDTO.  # noqa: E501
+        :type email: str
         :param username: The username of this RegisterUserDTO.  # noqa: E501
         :type username: str
         :param name: The name of this RegisterUserDTO.  # noqa: E501
@@ -28,20 +28,20 @@ class RegisterUserDTO(Model):
         :type password: str
         """
         self.openapi_types = {
-            'login': str,
+            'email': str,
             'username': str,
             'name': str,
             'password': str
         }
 
         self.attribute_map = {
-            'login': 'login',
+            'email': 'email',
             'username': 'username',
             'name': 'name',
             'password': 'password'
         }
 
-        self._login = login
+        self._email = email
         self._username = username
         self._name = name
         self._password = password
@@ -58,25 +58,25 @@ class RegisterUserDTO(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def login(self):
-        """Gets the login of this RegisterUserDTO.
+    def email(self):
+        """Gets the email of this RegisterUserDTO.
 
 
-        :return: The login of this RegisterUserDTO.
+        :return: The email of this RegisterUserDTO.
         :rtype: str
         """
-        return self._login
+        return self._email
 
-    @login.setter
-    def login(self, login):
-        """Sets the login of this RegisterUserDTO.
+    @email.setter
+    def email(self, email):
+        """Sets the email of this RegisterUserDTO.
 
 
-        :param login: The login of this RegisterUserDTO.
-        :type login: str
+        :param email: The email of this RegisterUserDTO.
+        :type email: str
         """
 
-        self._login = login
+        self._email = email
 
     @property
     def username(self):

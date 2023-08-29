@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+}
+
+.auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.dashboard-layout {
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .logo {
+        color: #fff;
+        margin-bottom: 0;
+    }
+    min-height: 100vh;
+}

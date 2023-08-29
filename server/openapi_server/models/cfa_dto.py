@@ -15,30 +15,30 @@ class CfaDTO(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, token=None, cfa_image_id=None, user=None):  # noqa: E501
+    def __init__(self, token=None, cfa_image=None, user=None):  # noqa: E501
         """CfaDTO - a model defined in OpenAPI
 
         :param token: The token of this CfaDTO.  # noqa: E501
         :type token: str
-        :param cfa_image_id: The cfa_image_id of this CfaDTO.  # noqa: E501
-        :type cfa_image_id: int
+        :param cfa_image: The cfa_image of this CfaDTO.  # noqa: E501
+        :type cfa_image: int
         :param user: The user of this CfaDTO.  # noqa: E501
-        :type user: int
+        :type user: 'PublicUser'
         """
         self.openapi_types = {
             'token': str,
-            'cfa_image_id': int,
-            'user': 'User'
+            'cfa_image': 'CfaImage',
+            'user': 'PublicUser'
         }
 
         self.attribute_map = {
             'token': 'token',
-            'cfa_image_id': 'cfa_image_id',
+            'cfa_image': 'cfa_image',
             'user': 'user'
         }
 
         self._token = token
-        self._cfa_image_id = cfa_image_id
+        self._cfa_image = cfa_image
         self._user = user
 
     @classmethod
@@ -74,25 +74,25 @@ class CfaDTO(Model):
         self._token = token
 
     @property
-    def cfa_image_id(self):
-        """Gets the cfa_image_id of this CfaDTO.
+    def cfa_image(self):
+        """Gets the cfa_image of this CfaDTO.
 
 
-        :return: The cfa_image_id of this CfaDTO.
+        :return: The cfa_image of this CfaDTO.
         :rtype: int
         """
-        return self._cfa_image_id
+        return self._cfa_image
 
-    @cfa_image_id.setter
-    def cfa_image_id(self, cfa_image_id):
-        """Sets the cfa_image_id of this CfaDTO.
+    @cfa_image.setter
+    def cfa_image(self, cfa_image):
+        """Sets the cfa_image of this CfaDTO.
 
 
-        :param cfa_image_id: The cfa_image_id of this CfaDTO.
-        :type cfa_image_id: int
+        :param cfa_image: The cfa_image of this CfaDTO.
+        :type cfa_image: int
         """
 
-        self._cfa_image_id = cfa_image_id
+        self._cfa_image = cfa_image
 
     @property
     def user(self):
