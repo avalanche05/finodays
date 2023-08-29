@@ -8,8 +8,7 @@ from data.cfa import Cfa
 from data.trade import Trade
 
 
-model = CatBoostRegressor().load_model("ml/ws/model_weights")
-
+model = CatBoostRegressor()
 
 
 def predict_price(cfa_image_id, db_sess, is_refit=True, n_days=1):
@@ -31,6 +30,7 @@ def get_future_prices(cfa_image_id, db_sess, is_refit: bool=True, n_days: int=1)
     period = 10
     list_of_prices = get_list_of_prices(cfa_image_id=cfa_image_id, db_sess=db_sess)
 
+    
     if list_of_prices == []:
         logging.warning("Data is null")
         return np.zeros(n_days).astype(list)
@@ -71,7 +71,7 @@ def get_list_of_prices(cfa_image_id, db_sess)->list:
 
     for _trade in trades:
         if _trade.cfa_token in cfas_tokens:
-            x.append(_trade.price)
+            x.append(_trade.price+np.random.uniform(-5,5))
 
     if not(any(x)) or x is None: 
         logging.warning(f"stat.py-> {cfa_image_id}: When loading prices error occurred")
@@ -109,9 +109,10 @@ def refit_model(list_of_prices, period: int=10):
     X = df.drop([df.columns[-1]], axis=1)
     y = df[df.columns[-1]]
     
+    logging.warning(y)
     model.fit(X, y, verbose=1000)
-    model.save_model(f"ml/ws/model_weights:refit")
-    model = CatBoostRegressor().load_model("ml/ws/model_weights:refit")
+    model.save_model(f"ml/ws/model_weights")
+    model = CatBoostRegressor().load_model("ml/ws/model_weights")
 
 
 def preprocess_list(list_of_prices, period: int=10)->list:
@@ -125,9 +126,11 @@ def preprocess_list(list_of_prices, period: int=10)->list:
     
     
 
-if __name__ == '__main__':
-    n_days = 2
-    
-    l = get_future_prices(cfa_image_id=3, is_refit=True, n_days=n_days)
-    print(l)
+# if __name__ == '__main__':
+#     n_days = 2
+#     db_session.global_init("db/db.db")
+#     db_sess = db_session.create_session()
+
+#     l = get_future_prices(cfa_image_id=3, db_sess=db_sess, is_refit=True, n_days=n_days)
+#     print(l)
 
