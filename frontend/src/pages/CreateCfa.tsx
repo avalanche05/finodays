@@ -71,7 +71,7 @@ const CreateCfa = () => {
                     style={{ width: '100%', maxWidth: 800 }}
                 >
                     <Row>
-                        <Col span={12}>
+                        <Col span={12} xs={{ span: 24 }} md={{ span: 12 }}>
                             <Form.Item
                                 name={'title'}
                                 rules={[
@@ -115,15 +115,15 @@ const CreateCfa = () => {
                         </Form.Item>
                     </Row>
 
-                    <Row gutter={[8, 24]}>
+                    <Row gutter={[8, 8]}>
                         {isInitialOfferActive && (
-                            <Col span={8}>
+                            <Col span={8} xs={{ span: 24 }} md={{ span: 8 }}>
                                 <Form.Item
                                     name={'price'}
                                     rules={[
                                         {
                                             required: true,
-                                            message: 'Пожалуйста, введите количество ЦФА',
+                                            message: 'Пожалуйста, введите цену размещения',
                                         },
                                     ]}
                                     label='Цена размещения'
@@ -140,7 +140,7 @@ const CreateCfa = () => {
                             </Col>
                         )}
 
-                        <Col span={8}>
+                        <Col span={8} xs={{ span: 24 }} md={{ span: 8 }}>
                             <Form.Item
                                 name={'count'}
                                 rules={[
@@ -159,7 +159,7 @@ const CreateCfa = () => {
                             </Form.Item>
                         </Col>
                         {isInitialOfferActive && (
-                            <Col span={8}>
+                            <Col span={8} xs={{ span: 24 }} md={{ span: 8 }}>
                                 <Form.Item label='Объем выпуска'>
                                     <InputNumber
                                         disabled
