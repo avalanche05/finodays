@@ -126,10 +126,18 @@ paths:
     get:
       tags:
         - User
+      responses:
+        200:
+          description: Успешный ответ
+        404:
+          description: Неверный Bearer-токен
       operationId: user_statistic_user_id_get
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /statistic:
     get:
+      responses:
+        200:
+          description: Успешный ответ
       operationId: statistic_get
       x-openapi-router-controller: openapi_server.controllers.default_controller
   /user/deposit:
