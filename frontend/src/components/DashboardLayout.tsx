@@ -1,5 +1,5 @@
-import { Avatar, Col, Layout, Menu, theme, Typography } from 'antd';
-import React from 'react';
+import { Avatar, Button, Col, Drawer, Layout, Menu, Row, theme, Typography } from 'antd';
+import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import {
@@ -8,11 +8,22 @@ import {
     LogoutOutlined,
     PlusCircleOutlined,
     ShoppingOutlined,
+    MenuOutlined,
 } from '@ant-design/icons';
 
 import type { MenuProps } from 'antd';
+import MediaQuery from 'react-responsive';
 import AuthService from '../api/AuthService';
+
 const { Header, Content, Sider } = Layout;
+
+const logout = () => {
+    AuthService.logout();
+
+    setTimeout(() => {
+        window.location.href = '/login';
+    }, 100);
+};
 
 const menuItems: MenuProps['items'] = [
     {
@@ -32,10 +43,43 @@ const menuItems: MenuProps['items'] = [
     },
 ];
 
+const mobileMenuItems = menuItems.concat([
+    {
+        label: (
+            <Link
+                onClick={() => {
+                    AuthService.logout();
+
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 100);
+                }}
+                to='/login'
+            >
+                Выйти
+            </Link>
+        ),
+        icon: React.createElement(LogoutOutlined),
+        key: 'logout',
+    },
+]);
+
+const desktopSize = '(min-width: 1024px)';
+const mobileSize = '(max-width: 1024px)';
+
 const DashboardLayout: React.FC = () => {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    const [open, setOpen] = useState(false);
+
+    const showDrawer = () => {
+        setOpen(true);
+    };
+
+    const onClose = () => {
+        setOpen(false);
+    };
 
     return (
         <Layout className='dashboard-layout'>
@@ -45,40 +89,69 @@ const DashboardLayout: React.FC = () => {
                 </Typography.Title>
 
                 <Col>
-                    <Avatar style={{ backgroundColor: '#666' }} icon={<UserOutlined />} />
+                    <MediaQuery query={desktopSize}>
+                        <Avatar style={{ backgroundColor: '#666' }} icon={<UserOutlined />} />
 
-                    <span style={{ marginLeft: 10, color: '#fff' }}>
-                        {`${
-                            AuthService.getCurrentUser()?.user?.name ??
-                            AuthService.getCurrentUser()?.user.name
-                        }`}
-                    </span>
+                        <span style={{ marginLeft: 10, marginRight: 20, color: '#fff' }}>
+                            {`${
+                                AuthService.getCurrentUser()?.user?.name ??
+                                AuthService.getCurrentUser()?.user.name
+                            }`}
+                        </span>
 
-                    <Link
-                        onClick={() => {
-                            AuthService.logout();
-
-                            setTimeout(() => {
-                                window.location.href = '/login';
-                            }, 100);
-                        }}
-                        to='/login'
-                        style={{ marginLeft: 20 }}
-                    >
-                        <LogoutOutlined style={{ color: '#fff' }} />
-                    </Link>
+                        <Link onClick={logout} to='/login' style={{ color: '#fff' }}>
+                            Выйти <LogoutOutlined style={{ color: '#fff' }} />
+                        </Link>
+                    </MediaQuery>
+                    <MediaQuery query={mobileSize}>
+                        <Button
+                            type='primary'
+                            onClick={showDrawer}
+                            icon={<MenuOutlined />}
+                        ></Button>
+                    </MediaQuery>
                 </Col>
             </Header>
             <Layout>
-                <Sider width={200} style={{ background: colorBgContainer }}>
-                    <Menu
-                        mode='inline'
-                        defaultSelectedKeys={['profile']}
-                        defaultOpenKeys={['profile']}
-                        style={{ height: '100%', borderRight: 0 }}
-                        items={menuItems}
-                    />
-                </Sider>
+                <MediaQuery query={desktopSize}>
+                    <Sider width={200} style={{ background: colorBgContainer }}>
+                        <Menu
+                            mode='inline'
+                            defaultSelectedKeys={['profile']}
+                            defaultOpenKeys={['profile']}
+                            style={{ height: '100%', borderRight: 0 }}
+                            items={menuItems}
+                        />
+                    </Sider>
+                </MediaQuery>
+                <MediaQuery query={mobileSize}>
+                    <Drawer title='Меню' placement='right' onClose={onClose} open={open}>
+                        <Row align={'middle'} style={{ marginBottom: 20 }}>
+                            <Avatar
+                                style={{ backgroundColor: '#666', marginLeft: 20 }}
+                                icon={<UserOutlined />}
+                            />
+
+                            <span style={{ marginLeft: 10 }}>
+                                {`${
+                                    AuthService.getCurrentUser()?.user?.name ??
+                                    AuthService.getCurrentUser()?.user.name
+                                }`}
+                            </span>
+                        </Row>
+
+                        <Menu
+                            mode='inline'
+                            defaultSelectedKeys={['profile']}
+                            defaultOpenKeys={['profile']}
+                            style={{ height: '100%', borderRight: 0 }}
+                            items={mobileMenuItems}
+                            onSelect={() => {
+                                setOpen(false);
+                            }}
+                        />
+                    </Drawer>
+                </MediaQuery>
                 <Layout style={{ padding: '24px 24px 24px' }}>
                     <Content
                         style={{

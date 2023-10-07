@@ -16,7 +16,7 @@ class CfaApiService {
         return response.data;
     }
 
-    public async getCfaImages() {
+    public async getCfaImages(): Promise<CfaImage[]> {
         const response = await axios.get<CfaImage[]>(`${API_URL}/cfa-image/list`);
 
         return response.data;
