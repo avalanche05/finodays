@@ -122,6 +122,16 @@ paths:
           description: Пользователь не найден
       summary: Получить информацию о профиле другого пользователя
       x-openapi-router-controller: openapi_server.controllers.default_controller
+  /user/statistic/{user_id}:
+    get:
+      tags:
+        - User
+      operationId: user_statistic_user_id_get
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /statistic:
+    get:
+      operationId: statistic_get
+      x-openapi-router-controller: openapi_server.controllers.default_controller
   /user/deposit:
     post:
       tags:

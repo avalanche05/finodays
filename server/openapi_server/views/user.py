@@ -164,3 +164,9 @@ def get_profile(token: str):
 def get_user(user_id: int):
     user = entities.get_public_user(user_id)
     return user
+
+
+def get_user_statistic(user_id: int):
+    object = {}
+
+    pass

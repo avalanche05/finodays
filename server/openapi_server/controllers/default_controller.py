@@ -24,6 +24,7 @@ from openapi_server.views import desire
 from openapi_server.views import offer
 from openapi_server.views import trade
 from openapi_server.views import user
+from openapi_server.views import statistic
 from utils import entities
 
 
@@ -292,20 +293,24 @@ def profile_get():
 
 
 def user_user_id_get(user_id):
-    """Получить информацию о профиле другого пользователя
-
-    # noqa: E501
-
-    :param user_id:
-    :type user_id: int
-
-    :rtype: PublicUser
-    """
     try:
         return user.get_user(user_id), 200
     except Exception as e:
         return str(e), 404
 
+
+def user_statistic_user_id_get(user_id):
+    try:
+        return user.get_user_statistic(user_id), 200
+    except Exception as e:
+        return str(e), 404
+
+
+def statistic_get():
+    try:
+        return statistic.get_statistic(), 200
+    except Exception as e:
+        return str(e), 404
 
 def user_deposit_post():
     """Получить информацию о профиле другого пользователя
