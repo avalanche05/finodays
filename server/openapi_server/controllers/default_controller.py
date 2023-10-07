@@ -306,6 +306,13 @@ def user_statistic_user_id_get(user_id):
         return str(e), 404
 
 
+def user_statistic_get():
+    try:
+        return user.get_users_statistic(), 200
+    except Exception as e:
+        return str(e), 404
+
+
 def statistic_get():
     try:
         return statistic.get_statistic(), 200

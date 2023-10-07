@@ -1,4 +1,4 @@
-from sqlalchemy import or_, and_
+from sqlalchemy import or_, and_, func
 
 import data.__all_models as db_models
 from data import db_session
@@ -167,6 +167,61 @@ def get_user(user_id: int):
 
 
 def get_user_statistic(user_id: int):
-    object = {}
+    db_sess = db_session.create_session()
 
-    pass
+    result = {
+        "transactions": {
+            "count": 0,
+            "history": [
+            ]
+        },
+        "deals": {
+            "count": 0,
+            "history": [
+            ]
+        }
+    }
+
+    user = entities.get_public_user(user_id)
+
+    trades = db_sess.query(db_models.trade.Trade, func.count(db_models.trade.Trade.id).label('count')).filter(
+        or_(db_models.trade.Trade.seller_id == user.id,
+            db_models.trade.Trade.buyer_id == user.id)).group_by(db_models.trade.Trade.date).all()
+
+    for trade, count in trades:
+
+        if trade.price == 0:
+            result["deals"]["count"] += 1
+            result["deals"]["history"].append({
+                "cfa_image": entities.get_cfa_image(entities.get_cfa(trade.cfa_token).cfa_image),
+                "count": count,
+                "price": trade.price * count
+            })
+        else:
+            result["transactions"]["count"] += 1
+            result["transactions"]["history"].append({
+                "cfa_image": entities.get_cfa_image(entities.get_cfa(trade.cfa_token).cfa_image),
+                "count": count,
+                "initiator": entities.get_user(trade.seller_id),
+                "host": entities.get_user(trade.buyer_id)
+            })
+
+    db_sess.close()
+
+    return result
+
+
+def get_users_statistic():
+    result = []
+
+    db_sess = db_session.create_session()
+
+    users = db_sess.query(db_models.user.User).all()
+
+    for user in users:
+        result.append({
+            "user": entities.get_user(user.id),
+            "statistic": get_user_statistic(user.id)
+        })
+
+    return result
