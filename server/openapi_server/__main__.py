@@ -18,5 +18,5 @@ def main():
 
 
 if __name__ == '__main__':
-    db_session.global_init("../db/db.db")
+    db_session.global_init("db/db.db")
     main()
