@@ -13,9 +13,8 @@ def register(register_user_dto: RegisterUserDTO):
     db_sess = db_session.create_session()
 
     user = db_sess.query(db_models.user.User).filter(or_(db_models.user.User.email == register_user_dto.email,
-                                                         db_models.user.User.username == register_user_dto.username)).first()
-
-    if user:
+                                                     db_models.user.User.username == register_user_dto.username)).first()
+    if user and user.email:
         db_sess.close()
         return "Invalid request", 400
     new_user = db_models.user.User()

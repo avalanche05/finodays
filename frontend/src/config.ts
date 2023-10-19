@@ -1,1 +1,1 @@
-export const API_URL = 'http://94.45.223.241:46874';
+export const API_URL = 'http:///chat.nlogn.info:8088';

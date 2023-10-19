@@ -1,5 +1,5 @@
 # Use the official Python image based on Debian
-FROM python:3
+FROM python:3.11-bullseye
 
 # Set environment variables for Python
 ENV PYTHONDONTWRITEBYTECODE 1
