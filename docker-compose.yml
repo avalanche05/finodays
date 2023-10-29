@@ -2,13 +2,9 @@ version: "3"
 services:
   app:
     build: ./frontend/
-    environment:
-      - VITE_API_URL=http://api:10003
     ports:
       - "10002:3000"
-    depends_on: 
-      - api
   api:
     build: ./server/
     ports:
-      - "10003:46874"
+      - "10001:46874"
