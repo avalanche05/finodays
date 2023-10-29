@@ -1,1 +1,1 @@
-export const API_URL = 'http:///chat.nlogn.info:8088';
+export const API_URL = import.meta.env.VITE_API_URL || 'http://chat.nlogn1.info:46874';
