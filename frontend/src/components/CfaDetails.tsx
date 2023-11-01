@@ -164,6 +164,7 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
                                 label='Цена покупки'
                             >
                                 <InputNumber
+                                    min={0}
                                     style={{ width: '100%' }}
                                     placeholder='1000 ₽'
                                     formatter={(value) =>
@@ -184,7 +185,7 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
                                 ]}
                                 label='Количество ЦФА'
                             >
-                                <InputNumber style={{ width: '100%' }} placeholder='100' />
+                                <InputNumber min={0} style={{ width: '100%' }} placeholder='100' />
                             </Form.Item>
                         </Col>
                     </Row>

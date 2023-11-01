@@ -192,6 +192,7 @@ const Profile = observer(() => {
                     onChange={onMoneyAmountChange}
                     style={{ width: '100%' }}
                     placeholder='Введите сумму'
+                    min={0}
                 />
             </Modal>
             <Modal
@@ -208,6 +209,7 @@ const Profile = observer(() => {
                     onChange={onMoneyAmountChange}
                     style={{ width: '100%' }}
                     placeholder='Введите сумму'
+                    min={0}
                 />
             </Modal>
         </>
