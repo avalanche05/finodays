@@ -85,6 +85,7 @@ const OwnCfaDetails = ({ ownCfaImage }: Props) => {
                                         ` ${value} ₽`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                                     }
                                     onChange={(e) => handlePriceChange(e)}
+                                    min={0}
                                 />
                             </Form.Item>
                         </Col>
@@ -105,6 +106,7 @@ const OwnCfaDetails = ({ ownCfaImage }: Props) => {
                                     onChange={(e) => handleCountChange(e)}
                                     style={{ width: '100%' }}
                                     placeholder='100'
+                                    min={0}
                                 />
                             </Form.Item>
                         </Col>
@@ -117,6 +119,7 @@ const OwnCfaDetails = ({ ownCfaImage }: Props) => {
                                     style={{ width: '100%' }}
                                     placeholder='100000 ₽'
                                     formatter={(value) => `${value} ₽`}
+                                    min={0}
                                 />
                             </Form.Item>
                         </Col>
