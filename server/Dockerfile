@@ -1,32 +1,80 @@
-# Use the official Python image based on Debian
-FROM python:3.11-bullseye
+# `python-base` sets up all our shared environment variables
+FROM python:3.11.6-bullseye as python-base
 
-# Set environment variables for Python
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+    # python
+ENV PYTHONUNBUFFERED=1 \
+    # prevents python creating .pyc files
+    PYTHONDONTWRITEBYTECODE=1 \
+    \
+    # pip
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 \
+    \
+    # poetry
+    # https://python-poetry.org/docs/configuration/#using-environment-variables
+    POETRY_VERSION=1.6.1 \
+    # make poetry install to this location
+    POETRY_HOME="/opt/poetry" \
+    # make poetry create the virtual environment in the project's root
+    # it gets named `.venv`
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    # do not ask any interactive question
+    POETRY_NO_INTERACTION=1 \
+    \
+    # paths
+    # this is where our requirements + virtual environment will live
+    PYSETUP_PATH="/opt/pysetup" \
+    VENV_PATH="/opt/pysetup/.venv"
 
-# Create and set the working directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
 
-# Copy the requirements file into the container
-COPY requirements.txt /usr/src/app/
+# prepend poetry and venv to path
+ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
-# Install pipenv (a tool for managing Python virtual environments)
-RUN pip install pipenv
 
-# Create and activate a virtual environment
-RUN python -m venv venv
-RUN . venv/bin/activate
+# `builder-base` stage is used to build deps + create our virtual environment
+FROM python-base as builder-base
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+        # deps for installing poetry
+        curl \
+        # deps for building python deps
+        build-essential
 
-# Install project dependencies inside the virtual environment
-RUN pip install --no-cache-dir -r requirements.txt
+# install poetry - respects $POETRY_VERSION & $POETRY_HOME
+RUN curl -sSL https://install.python-poetry.org | python
 
-# Copy the rest of the application code into the container
-COPY . /usr/src/app
+# copy project requirement files here to ensure they will be cached.
+WORKDIR $PYSETUP_PATH
+COPY poetry.lock pyproject.toml ./
 
-# Expose the port your application will run on
-EXPOSE 46874
+# install runtime deps - uses $POETRY_VIRTUALENVS_IN_PROJECT internally
+RUN poetry install --no-dev
 
-# Set the entry point for the container
-CMD ["python", "-m", "openapi_server"]
+
+# `development` image is used during development / testing
+FROM python-base as development
+ENV FASTAPI_ENV=development
+WORKDIR $PYSETUP_PATH
+
+# copy in our built poetry + venv
+COPY --from=builder-base $POETRY_HOME $POETRY_HOME
+COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
+
+# quicker install as runtime deps are already installed
+RUN poetry install
+
+# will become mountpoint of our code
+WORKDIR /app
+
+EXPOSE 8000
+CMD ["uvicorn", "app.main:app"]
+
+
+# `production` image used for runtime
+FROM python-base as production
+ENV FASTAPI_ENV=production
+COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
+COPY app ./app/app
+WORKDIR /app
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "--workers", "4", "-b", "0.0.0.0:8000", "app.main:app"]

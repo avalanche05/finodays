@@ -1,0 +1,2 @@
+,name,ticker,class_code,figi,uid,type,min_price_increment,scale,lot,trading_status,api_trade_available_flag,currency,exchange,buy_available_flag,sell_available_flag,short_enabled_flag,klong,kshort
+1689,ЛУКОЙЛ,LKOH,TQBR,BBG004731032,02cfdf61-6298-4c0f-a9ca-9cabc82afaf3,shares,0.50000000,1,1,SECURITY_TRADING_STATUS_NORMAL_TRADING,True,rub,MOEX_EVENING_WEEKEND,True,True,True,2.00000000,2.00000000
