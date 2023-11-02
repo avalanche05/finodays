@@ -7,4 +7,4 @@ services:
   api:
     build: ./server/
     ports:
-      - "10001:46874"
+      - "10001:8000"
