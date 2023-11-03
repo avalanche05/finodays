@@ -101,6 +101,8 @@ def get_user_statistic(db: Session, sort_by="count", limit=None) -> list[models.
         db_users = db.query(models.User).order_by(desc(models.User.buy_value)).limit(limit).all()
     elif sort_by == "sell_value":
         db_users = db.query(models.User).order_by(desc(models.User.sell_value)).limit(limit).all()
+    elif sort_by == "balance":
+        db_users = db.query(models.User).order_by(desc(models.User.balance)).limit(limit).all()
     else:
         db_users = db.query(models.User).limit(limit).all()
 
