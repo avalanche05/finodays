@@ -1,7 +1,7 @@
 import itertools
 from typing import List
 
-from fastapi import APIRouter, Body, Depends, HTTPException, Response
+from fastapi import APIRouter, Body, Depends, HTTPException, Response, Query
 from requests import Session
 
 from app import schemas, crud, serializers, errors, models
@@ -35,3 +35,12 @@ def statistic(db: Session = Depends(get_db)) -> schemas.CountStatistic:
             result.turn += trade.price * len(grouped_trades)
 
     return result
+
+
+@statistic_router.get(path="/score")
+def get_score(sort_by: str = Query("count", description="Sort type"),
+              limit: int = Query(None, description="Number of users to return"),
+              db: Session = Depends(get_db)) -> List[schemas.StatisticUser]:
+    db_users = crud.get_user_statistic(db, sort_by, limit)
+
+    return serializers.get_statistic_users(db_users)

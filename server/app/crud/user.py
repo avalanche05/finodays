@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import desc
 from app import models, schemas, errors
 from .token import read_token
 
@@ -83,3 +84,24 @@ def read_users(db: Session):
     users = db.query(models.User).all()
 
     return users
+
+
+def get_user_statistic(db: Session, sort_by="count", limit=None) -> list[models.User]:
+    if sort_by == "count":
+        db_users = db.query(models.User).order_by(desc(models.User.buy_count + models.User.sell_count)).limit(
+            limit).all()
+    elif sort_by == "buy_count":
+        db_users = db.query(models.User).order_by(desc(models.User.buy_count)).limit(limit).all()
+    elif sort_by == "sell_count":
+        db_users = db.query(models.User).order_by(desc(models.User.sell_count)).limit(limit).all()
+    elif sort_by == "value":
+        db_users = db.query(models.User).order_by(desc(models.User.buy_value + models.User.sell_value)).limit(
+            limit).all()
+    elif sort_by == "buy_value":
+        db_users = db.query(models.User).order_by(desc(models.User.buy_value)).limit(limit).all()
+    elif sort_by == "sell_value":
+        db_users = db.query(models.User).order_by(desc(models.User.sell_value)).limit(limit).all()
+    else:
+        db_users = db.query(models.User).limit(limit).all()
+
+    return db_users

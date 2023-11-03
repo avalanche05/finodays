@@ -70,7 +70,17 @@ def buy_offer(db: Session, offer_buy: schemas.OfferBuyRequest, offer_id: int, db
         ))
 
     db_offer.count -= offer_buy.count
+
     db_user.balance -= db_offer.price * offer_buy.count
+    db_offer.seller.balance += db_offer.price * offer_buy.count
+
+    if db_user.id != db_offer.seller.id:
+        db_user.buy_count += offer_buy.count
+        db_user.buy_value += offer_buy.count * db_offer.count
+
+        db_offer.seller.sell_count += offer_buy.count
+        db_offer.seller.sell_value += offer_buy.count * db_offer.count
+
     db.add(db_offer)
     db.add(db_user)
 

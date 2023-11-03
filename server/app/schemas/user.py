@@ -19,6 +19,13 @@ class PublicUser(BaseModel):
     name: str
 
 
+class StatisticUser(PublicUser):
+    buy_count: int
+    buy_value: float
+    sell_count: int
+    sell_value: float
+
+
 class UserCreateRequest(BaseModel):
     email: str
     password: str

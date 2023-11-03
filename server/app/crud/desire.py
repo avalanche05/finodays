@@ -51,6 +51,14 @@ def sell_desire(db: Session, desire_sell: schemas.DesireSellRequest, desire_id: 
         })
 
     db_desire.count -= desire_sell.count
+
+    if db_user.id != db_buyer.id:
+        db_user.sell_count += desire_sell.count
+        db_user.sell_value += db_desire.price * desire_sell.count
+
+        db_buyer.buy_count += desire_sell.count
+        db_buyer.buy_value += db_desire.price * desire_sell.count
+
     db_user.balance += db_desire.price * desire_sell.count
     db_buyer.balance -= db_desire.price * desire_sell.count
 

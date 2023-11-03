@@ -18,6 +18,10 @@ class User(BaseSqlModel):
     username: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String, nullable=False)
     balance: Mapped[float] = mapped_column(Float, default=0)
+    buy_count: Mapped[int] = mapped_column(Integer, default=0)
+    sell_count: Mapped[int] = mapped_column(Integer, default=0)
+    buy_value: Mapped[float] = mapped_column(Float, default=0.0)
+    sell_value: Mapped[float] = mapped_column(Float, default=0.0)
 
     cfa_images: Mapped[List['CfaImage']] = relationship(back_populates='user')
     offers: Mapped[List['Offer']] = relationship(back_populates='seller')

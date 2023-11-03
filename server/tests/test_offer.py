@@ -24,6 +24,8 @@ def test_offer_create_get(client: TestClient, db: Session):
 
 
 def test_offer_buy(client: TestClient, seller_bearer_token: str):
+    seller_balance_before = \
+    client.get("/user/profile", headers={"Authorization": f"Bearer {seller_bearer_token}"}).json()["balance"]
     cfa_image_id = client.post("/cfa-image/create", json={
         "count": 100,
         "description": "test cfa-image",
@@ -42,6 +44,9 @@ def test_offer_buy(client: TestClient, seller_bearer_token: str):
     assert response.is_success
     after_user = client.get("user/profile").json()
     assert pre_user["balance"] - 100 * 100 == after_user["balance"]
+    seller_balance_after = \
+        client.get("/user/profile", headers={"Authorization": f"Bearer {seller_bearer_token}"}).json()["balance"]
+    assert seller_balance_before + 100 * 100 == seller_balance_after
 
 
 def test_offer_cancel(client: TestClient, seller_bearer_token):
