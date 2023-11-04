@@ -1,0 +1,2188 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/user/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Register User",
+        "operationId": "register_user_user_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Login User",
+        "operationId": "login_user_user_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/profile": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Profile User",
+        "operationId": "profile_user_user_profile_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/user/statistic": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Statistic User",
+        "operationId": "statistic_user_user_statistic_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AllStatistic"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{user_id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "User Id User",
+        "operationId": "user_id_user_user__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicUser"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/deposit": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Deposit User",
+        "operationId": "deposit_user_user_deposit_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDepositRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/user/withdraw": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Withdraw User",
+        "operationId": "withdraw_user_user_withdraw_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserWithdrawRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/user/cfa/{user_id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Cfa User Id User",
+        "operationId": "cfa_user_id_user_user_cfa__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserCfa"
+                  },
+                  "title": "Response Cfa User Id User User Cfa  User Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/offer/{user_id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Offer User Id User",
+        "operationId": "offer_user_id_user_user_offer__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Offer"
+                  },
+                  "title": "Response Offer User Id User User Offer  User Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/desire/{user_id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Desire User Id User",
+        "operationId": "desire_user_id_user_user_desire__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Desire"
+                  },
+                  "title": "Response Desire User Id User User Desire  User Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/deal/in": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Deal In User",
+        "operationId": "deal_in_user_user_deal_in_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Deal"
+                  },
+                  "type": "array",
+                  "title": "Response Deal In User User Deal In Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/user/deal/out": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Deal Out User",
+        "operationId": "deal_out_user_user_deal_out_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Deal"
+                  },
+                  "type": "array",
+                  "title": "Response Deal Out User User Deal Out Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/user/statistic/{user_id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Statistic User Id User",
+        "operationId": "statistic_user_id_user_user_statistic__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Statistic"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cfa-image/create": {
+      "post": {
+        "tags": [
+          "CfaImage"
+        ],
+        "summary": "Create Cfa Image",
+        "operationId": "create_cfa_image_cfa_image_create_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CfaImageCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CfaImage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/cfa-image/list": {
+      "get": {
+        "tags": [
+          "CfaImage"
+        ],
+        "summary": "List Cfa Images",
+        "operationId": "list_cfa_images_cfa_image_list_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CfaImage"
+                  },
+                  "type": "array",
+                  "title": "Response List Cfa Images Cfa Image List Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cfa-image/price/{cfa_image_id}": {
+      "get": {
+        "tags": [
+          "CfaImage"
+        ],
+        "summary": "Cfa Image Price",
+        "operationId": "cfa_image_price_cfa_image_price__cfa_image_id__get",
+        "parameters": [
+          {
+            "name": "cfa_image_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Cfa Image Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CfaImagePrice"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cfa-image/price-history/{cfa_image_id}": {
+      "get": {
+        "tags": [
+          "CfaImage"
+        ],
+        "summary": "Cfa Image Price History",
+        "operationId": "cfa_image_price_history_cfa_image_price_history__cfa_image_id__get",
+        "parameters": [
+          {
+            "name": "cfa_image_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Cfa Image Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CfaImagePrice"
+                  },
+                  "title": "Response Cfa Image Price History Cfa Image Price History  Cfa Image Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cfa-image/buy-advice/{cfa_image_id}": {
+      "get": {
+        "tags": [
+          "CfaImage"
+        ],
+        "summary": "Cfa Image Buy Advice",
+        "operationId": "cfa_image_buy_advice_cfa_image_buy_advice__cfa_image_id__get",
+        "parameters": [
+          {
+            "name": "cfa_image_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Cfa Image Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CfaImageBuyAdvice"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cfa/list/{cfa_image_id}": {
+      "get": {
+        "tags": [
+          "Cfa"
+        ],
+        "summary": "Create Cfa Image",
+        "operationId": "create_cfa_image_cfa_list__cfa_image_id__get",
+        "parameters": [
+          {
+            "name": "cfa_image_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Cfa Image Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cfa"
+                  },
+                  "title": "Response Create Cfa Image Cfa List  Cfa Image Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cfa/{cfa_token}": {
+      "get": {
+        "tags": [
+          "Cfa"
+        ],
+        "summary": "Get Cfa By Token",
+        "operationId": "get_cfa_by_token_cfa__cfa_token__get",
+        "parameters": [
+          {
+            "name": "cfa_token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Cfa Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cfa"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cfa/history/{cfa_token}": {
+      "get": {
+        "tags": [
+          "Cfa"
+        ],
+        "summary": "Get Cfa History",
+        "operationId": "get_cfa_history_cfa_history__cfa_token__get",
+        "parameters": [
+          {
+            "name": "cfa_token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Cfa Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Trade"
+                  },
+                  "title": "Response Get Cfa History Cfa History  Cfa Token  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offer/create": {
+      "post": {
+        "tags": [
+          "Offer"
+        ],
+        "summary": "Offer Create",
+        "operationId": "offer_create_offer_create_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfferCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Offer"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/offer/buy/{offer_id}": {
+      "post": {
+        "tags": [
+          "Offer"
+        ],
+        "summary": "Buy Offer",
+        "operationId": "buy_offer_offer_buy__offer_id__post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "offer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Offer Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfferBuyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offer/list/{cfa_image_id}": {
+      "get": {
+        "tags": [
+          "Offer"
+        ],
+        "summary": "Offer List",
+        "operationId": "offer_list_offer_list__cfa_image_id__get",
+        "parameters": [
+          {
+            "name": "cfa_image_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Cfa Image Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Offer"
+                  },
+                  "title": "Response Offer List Offer List  Cfa Image Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offer/cancel/{offer_id}": {
+      "post": {
+        "tags": [
+          "Offer"
+        ],
+        "summary": "Offer Cancel",
+        "operationId": "offer_cancel_offer_cancel__offer_id__post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "offer_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Offer Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/desire/list/{cfa_image_id}": {
+      "get": {
+        "tags": [
+          "Desire"
+        ],
+        "summary": "Desire List",
+        "operationId": "desire_list_desire_list__cfa_image_id__get",
+        "parameters": [
+          {
+            "name": "cfa_image_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Cfa Image Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Desire"
+                  },
+                  "title": "Response Desire List Desire List  Cfa Image Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/desire/create": {
+      "post": {
+        "tags": [
+          "Desire"
+        ],
+        "summary": "Create Desire",
+        "operationId": "create_desire_desire_create_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DesireCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Desire"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/desire/cancel/{desire_id}": {
+      "post": {
+        "tags": [
+          "Desire"
+        ],
+        "summary": "Cancel Desire",
+        "operationId": "cancel_desire_desire_cancel__desire_id__post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "desire_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Desire Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/desire/sell/{desire_id}": {
+      "post": {
+        "tags": [
+          "Desire"
+        ],
+        "summary": "Sell Desire",
+        "operationId": "sell_desire_desire_sell__desire_id__post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "desire_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Desire Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DesireSellRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deal/create": {
+      "post": {
+        "tags": [
+          "Deal"
+        ],
+        "summary": "Deal Create",
+        "operationId": "deal_create_deal_create_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DealCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deal"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/deal/cancel/{deal_id}": {
+      "post": {
+        "tags": [
+          "Deal"
+        ],
+        "summary": "Cancel Deal",
+        "operationId": "cancel_deal_deal_cancel__deal_id__post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "deal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Deal Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/deal/accept/{deal_id}": {
+      "post": {
+        "tags": [
+          "Deal"
+        ],
+        "summary": "Accept Deal",
+        "operationId": "accept_deal_deal_accept__deal_id__post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "deal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Deal Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/statistic/": {
+      "get": {
+        "tags": [
+          "Statistic"
+        ],
+        "summary": "Statistic",
+        "operationId": "statistic_statistic__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountStatistic"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trade/list": {
+      "get": {
+        "tags": [
+          "Trade"
+        ],
+        "summary": "Trade List",
+        "operationId": "trade_list_trade_list_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Trade"
+                  },
+                  "type": "array",
+                  "title": "Response Trade List Trade List Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trade/{trade_id}": {
+      "get": {
+        "tags": [
+          "Trade"
+        ],
+        "summary": "Get Trade By Trade Id",
+        "operationId": "get_trade_by_trade_id_trade__trade_id__get",
+        "parameters": [
+          {
+            "name": "trade_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Trade Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trade"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AllStatistic": {
+        "properties": {
+          "user_statistics": {
+            "items": {
+              "$ref": "#/components/schemas/UserStatistic"
+            },
+            "type": "array",
+            "title": "User Statistics"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_statistics"
+        ],
+        "title": "AllStatistic"
+      },
+      "Cfa": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "cfa_image": {
+            "$ref": "#/components/schemas/CfaImage"
+          },
+          "user": {
+            "$ref": "#/components/schemas/PublicUser"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token",
+          "cfa_image",
+          "user"
+        ],
+        "title": "Cfa"
+      },
+      "CfaImage": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "count",
+          "description"
+        ],
+        "title": "CfaImage"
+      },
+      "CfaImageBuyAdvice": {
+        "properties": {
+          "is_buy": {
+            "type": "boolean",
+            "title": "Is Buy"
+          },
+          "why": {
+            "type": "string",
+            "title": "Why"
+          }
+        },
+        "type": "object",
+        "required": [
+          "is_buy",
+          "why"
+        ],
+        "title": "CfaImageBuyAdvice"
+      },
+      "CfaImageCreateRequest": {
+        "properties": {
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          }
+        },
+        "type": "object",
+        "required": [
+          "count",
+          "description",
+          "title"
+        ],
+        "title": "CfaImageCreateRequest"
+      },
+      "CfaImagePrice": {
+        "properties": {
+          "price": {
+            "type": "number",
+            "title": "Price"
+          }
+        },
+        "type": "object",
+        "required": [
+          "price"
+        ],
+        "title": "CfaImagePrice"
+      },
+      "CountStatistic": {
+        "properties": {
+          "transactions_count": {
+            "type": "integer",
+            "title": "Transactions Count"
+          },
+          "deals_count": {
+            "type": "integer",
+            "title": "Deals Count"
+          },
+          "turn": {
+            "type": "number",
+            "title": "Turn"
+          }
+        },
+        "type": "object",
+        "required": [
+          "transactions_count",
+          "deals_count",
+          "turn"
+        ],
+        "title": "CountStatistic"
+      },
+      "Deal": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "initiator": {
+            "$ref": "#/components/schemas/PublicUser"
+          },
+          "host": {
+            "$ref": "#/components/schemas/PublicUser"
+          },
+          "initiator_items": {
+            "items": {},
+            "type": "array",
+            "title": "Initiator Items"
+          },
+          "host_items": {
+            "items": {},
+            "type": "array",
+            "title": "Host Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "initiator",
+          "host",
+          "initiator_items",
+          "host_items"
+        ],
+        "title": "Deal"
+      },
+      "DealCreateRequest": {
+        "properties": {
+          "initiator_items": {
+            "items": {},
+            "type": "array",
+            "title": "Initiator Items"
+          },
+          "host_items": {
+            "items": {},
+            "type": "array",
+            "title": "Host Items"
+          },
+          "host_id": {
+            "type": "integer",
+            "title": "Host Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "initiator_items",
+          "host_items",
+          "host_id"
+        ],
+        "title": "DealCreateRequest"
+      },
+      "DealsList": {
+        "properties": {
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/StatisticDeal"
+            },
+            "type": "array",
+            "title": "History"
+          }
+        },
+        "type": "object",
+        "required": [
+          "count",
+          "history"
+        ],
+        "title": "DealsList"
+      },
+      "Desire": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "cfa_image": {
+            "$ref": "#/components/schemas/CfaImage"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "price": {
+            "type": "number",
+            "title": "Price"
+          },
+          "buyer": {
+            "$ref": "#/components/schemas/PublicUser"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "cfa_image",
+          "count",
+          "price",
+          "buyer"
+        ],
+        "title": "Desire"
+      },
+      "DesireCreateRequest": {
+        "properties": {
+          "cfa_image_id": {
+            "type": "integer",
+            "title": "Cfa Image Id"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "price": {
+            "type": "integer",
+            "title": "Price"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cfa_image_id",
+          "count",
+          "price"
+        ],
+        "title": "DesireCreateRequest"
+      },
+      "DesireSellRequest": {
+        "properties": {
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "count"
+        ],
+        "title": "DesireSellRequest"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Offer": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "cfa_image": {
+            "$ref": "#/components/schemas/CfaImage"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "price": {
+            "type": "number",
+            "title": "Price"
+          },
+          "seller": {
+            "$ref": "#/components/schemas/PublicUser"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "cfa_image",
+          "count",
+          "price",
+          "seller"
+        ],
+        "title": "Offer"
+      },
+      "OfferBuyRequest": {
+        "properties": {
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "count"
+        ],
+        "title": "OfferBuyRequest"
+      },
+      "OfferCreateRequest": {
+        "properties": {
+          "cfa_image_id": {
+            "type": "integer",
+            "title": "Cfa Image Id"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "price": {
+            "type": "integer",
+            "title": "Price"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cfa_image_id",
+          "count",
+          "price"
+        ],
+        "title": "OfferCreateRequest"
+      },
+      "PublicUser": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "username",
+          "name"
+        ],
+        "title": "PublicUser"
+      },
+      "Statistic": {
+        "properties": {
+          "transactions": {
+            "$ref": "#/components/schemas/TransactionsList"
+          },
+          "deals": {
+            "$ref": "#/components/schemas/DealsList"
+          }
+        },
+        "type": "object",
+        "required": [
+          "transactions",
+          "deals"
+        ],
+        "title": "Statistic"
+      },
+      "StatisticDeal": {
+        "properties": {
+          "cfa_image": {
+            "type": "integer",
+            "title": "Cfa Image"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "initiator": {
+            "type": "integer",
+            "title": "Initiator"
+          },
+          "host": {
+            "type": "integer",
+            "title": "Host"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cfa_image",
+          "count",
+          "initiator",
+          "host"
+        ],
+        "title": "StatisticDeal"
+      },
+      "StatisticTransaction": {
+        "properties": {
+          "cfa_image": {
+            "type": "integer",
+            "title": "Cfa Image"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "price": {
+            "type": "number",
+            "title": "Price"
+          },
+          "initiator": {
+            "type": "integer",
+            "title": "Initiator"
+          },
+          "host": {
+            "type": "integer",
+            "title": "Host"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cfa_image",
+          "count",
+          "price",
+          "initiator",
+          "host"
+        ],
+        "title": "StatisticTransaction"
+      },
+      "Token": {
+        "properties": {
+          "bearer_token": {
+            "type": "string",
+            "title": "Bearer Token"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "type": "object",
+        "required": [
+          "bearer_token",
+          "user"
+        ],
+        "title": "Token"
+      },
+      "Trade": {
+        "properties": {
+          "buyer": {
+            "$ref": "#/components/schemas/PublicUser"
+          },
+          "cfa_token": {
+            "type": "string",
+            "title": "Cfa Token"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Date"
+          },
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "price": {
+            "type": "number",
+            "title": "Price"
+          },
+          "seller": {
+            "$ref": "#/components/schemas/PublicUser"
+          }
+        },
+        "type": "object",
+        "required": [
+          "buyer",
+          "cfa_token",
+          "date",
+          "id",
+          "price",
+          "seller"
+        ],
+        "title": "Trade"
+      },
+      "TransactionsList": {
+        "properties": {
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/StatisticTransaction"
+            },
+            "type": "array",
+            "title": "History"
+          }
+        },
+        "type": "object",
+        "required": [
+          "count",
+          "history"
+        ],
+        "title": "TransactionsList"
+      },
+      "User": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "balance": {
+            "type": "number",
+            "title": "Balance"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "username",
+          "name",
+          "balance"
+        ],
+        "title": "User"
+      },
+      "UserCfa": {
+        "properties": {
+          "cfa_image": {
+            "$ref": "#/components/schemas/CfaImage"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "tokens": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tokens"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cfa_image",
+          "count",
+          "tokens"
+        ],
+        "title": "UserCfa"
+      },
+      "UserCreateRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password",
+          "username",
+          "name"
+        ],
+        "title": "UserCreateRequest"
+      },
+      "UserDepositRequest": {
+        "properties": {
+          "value": {
+            "type": "number",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "UserDepositRequest"
+      },
+      "UserLoginRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "UserLoginRequest"
+      },
+      "UserStatistic": {
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/PublicUser"
+          },
+          "statistic": {
+            "$ref": "#/components/schemas/Statistic"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user",
+          "statistic"
+        ],
+        "title": "UserStatistic"
+      },
+      "UserWithdrawRequest": {
+        "properties": {
+          "value": {
+            "type": "number",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "UserWithdrawRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

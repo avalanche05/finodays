@@ -1,0 +1,8 @@
+# Project exclude paths
+/venv/
+.idea
+**/__pycache__
+**/.pytest_cache
+.venv
+temp.json
+*.ipynb
