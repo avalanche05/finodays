@@ -13,6 +13,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
     "antd": "^5.8.4",
+    "antd-mobile": "^5.33.0",
     "axios": "^1.5.0",
     "mobx": "^6.10.0",
     "mobx-react-lite": "^4.0.4",
