@@ -142,7 +142,7 @@ const OwnCfaDetails = ({ ownCfaImage }: Props) => {
                     size='small'
                     bordered
                     dataSource={ownCfaImage.tokens.slice(0, 10)}
-                    renderItem={(item) => <List.Item>{item}</List.Item>}
+                    renderItem={(item) => <List.Item>{item.slice(0, 30)}</List.Item>}
                 />
             </Row>
         </>

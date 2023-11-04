@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Avatar, Button, Drawer, Space, Table } from 'antd';
+import { Button, Drawer, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { UserOutlined } from '@ant-design/icons';
 import { CfaImage, OwnCfaImage } from '../api/models';
 import OwnCfaDetails from './OwnCfaDetails';
 
@@ -25,13 +24,7 @@ const OwnCfaList = ({ cfas }: Props) => {
             dataIndex: 'issuer',
             key: 'issuer',
             render: (text) => {
-                return (
-                    <div>
-                        <Avatar style={{ backgroundColor: `#9bcff9` }} icon={<UserOutlined />} />
-
-                        <span style={{ marginLeft: 10 }}>{text}</span>
-                    </div>
-                );
+                return <span>{text}</span>;
             },
         },
         {
@@ -77,6 +70,7 @@ const OwnCfaList = ({ cfas }: Props) => {
                     issuer: row.cfa_image.user.name,
                     count: row.tokens.length,
                 }))}
+                onRow={(row) => ({ onClick: () => showDrawer(row.id) })}
             />
 
             <Drawer

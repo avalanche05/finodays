@@ -110,26 +110,21 @@ const Profile = observer(() => {
 
             <Card>
                 <Row gutter={16}>
-                    <Col span={12}>
-                        <Statistic title='Организация' value={profile.name} />
+                    <Col md={{ span: 12 }} span={24}>
+                        <Statistic title='Пользователь' value={profile.name} />
                     </Col>
-                    <Col span={12}>
+                    <Col md={{ span: 12 }} span={24}>
                         <Statistic title='Баланс ₽' value={profile.balance} precision={2} />
 
-                        <Button
-                            onClick={() => setOpenDepositModal(true)}
-                            style={{ marginTop: 16 }}
-                            type='primary'
-                        >
-                            Пополнить
-                        </Button>
-                        <Button
-                            onClick={() => setOpenWithdrawModal(true)}
-                            style={{ marginTop: 16, marginLeft: 16 }}
-                            type='default'
-                        >
-                            Вывести
-                        </Button>
+                        <Row style={{ marginTop: 16, gap: 15 }}>
+                            <Button onClick={() => setOpenDepositModal(true)} type='primary'>
+                                Пополнить
+                            </Button>
+
+                            <Button onClick={() => setOpenWithdrawModal(true)} type='default'>
+                                Вывести
+                            </Button>
+                        </Row>
                     </Col>
                 </Row>
             </Card>
