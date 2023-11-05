@@ -139,7 +139,7 @@ def get_ishimoku_info(high_data: list, low_data: list, close_data: list, check_l
                     info['why']['ru'] = 'Покупайте. Исходя из длинных дистанций'
                     last_marker = i
 
-    info['why']['en'] += f'{check_last - last_marker} periods ago was a marker'
-    info['why']['ru'] += f'{check_last - last_marker} периодов назад был маркер'
+    info['why']['en'] += f'. {check_last - last_marker} periods ago was a marker'
+    info['why']['ru'] += f'. {check_last - last_marker} периодов назад был маркер'
 
     return info
