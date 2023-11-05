@@ -6,9 +6,10 @@ import { CfaImage } from '../api/models';
 
 type Props = {
     cfas: CfaImage[];
+    loading: boolean;
 };
 
-const CfaList = ({ cfas }: Props) => {
+const CfaList = ({ cfas, loading }: Props) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [selectedRowId, setSelectedRowId] = useState<number>(0);
 
@@ -66,6 +67,7 @@ const CfaList = ({ cfas }: Props) => {
                 columns={columns}
                 dataSource={cfas.map((row) => ({ ...row, key: row.id, issuer: row.user.name }))}
                 onRow={(row) => ({ onClick: () => showDrawer(row.id) })}
+                loading={loading}
             />
 
             <Drawer

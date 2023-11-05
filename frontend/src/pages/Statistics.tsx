@@ -1,5 +1,5 @@
 import { ArrowUpOutlined } from '@ant-design/icons';
-import { Card, Col, Row, Statistic, Table, Typography } from 'antd';
+import { Card, Col, Row, Skeleton, Statistic, Table, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { IStatisctics, IUserStatistics } from '../api/models';
 import { useStores } from '../hooks/useStores';
@@ -8,9 +8,12 @@ const Statistics = () => {
     const { rootStore } = useStores();
     const [statistics, setStatistics] = useState<IStatisctics | null | void>(null);
     const [usersStatistics, setUsersStatistics] = useState<IUserStatistics[] | null | void>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchProfile() {
+            setIsLoading(true);
+
             const fetchedStatistics = await rootStore
                 .getStatistics()
                 .catch((error) => console.log(error));
@@ -21,6 +24,7 @@ const Statistics = () => {
 
             setStatistics(fetchedStatistics);
             setUsersStatistics(fetchedUsersStatistics);
+            setIsLoading(false);
         }
         fetchProfile();
     }, [rootStore]);
@@ -34,30 +38,42 @@ const Statistics = () => {
             <Row gutter={[16, 16]}>
                 <Col md={{ span: 8 }} span={24}>
                     <Card bordered={false}>
-                        <Statistic
-                            title='ЦФА выпущено'
-                            value={statistics?.created_cfa_count}
-                            precision={0}
-                        />
+                        {isLoading ? (
+                            <Skeleton active paragraph={{ rows: 2 }} />
+                        ) : (
+                            <Statistic
+                                title='ЦФА выпущено'
+                                value={statistics?.created_cfa_count}
+                                precision={0}
+                            />
+                        )}
                     </Card>
                 </Col>
                 <Col md={{ span: 8 }} span={24}>
                     <Card bordered={false}>
-                        <Statistic
-                            title='Количество операций'
-                            value={statistics?.transactions_count}
-                            precision={0}
-                        />
+                        {isLoading ? (
+                            <Skeleton active paragraph={{ rows: 2 }} />
+                        ) : (
+                            <Statistic
+                                title='Количество операций'
+                                value={statistics?.transactions_count}
+                                precision={0}
+                            />
+                        )}
                     </Card>
                 </Col>
                 <Col md={{ span: 8 }} span={24}>
                     <Card bordered={false}>
-                        <Statistic
-                            title='Оборот'
-                            value={statistics?.turn}
-                            precision={0}
-                            suffix='₽'
-                        />
+                        {isLoading ? (
+                            <Skeleton active paragraph={{ rows: 2 }} />
+                        ) : (
+                            <Statistic
+                                title='Оборот'
+                                value={statistics?.turn}
+                                precision={0}
+                                suffix='₽'
+                            />
+                        )}
                     </Card>
                 </Col>
             </Row>
@@ -66,39 +82,51 @@ const Statistics = () => {
                 <Col md={{ span: 8 }} span={24}>
                     {statistics?.created_cfa_count_increment ? (
                         <Card bordered={false}>
-                            <Statistic
-                                title='ЦФА выпущено за последний час'
-                                value={statistics?.created_cfa_count_increment}
-                                precision={2}
-                                valueStyle={{ color: '#cf1322' }}
-                                prefix={<ArrowUpOutlined />}
-                            />
+                            {isLoading ? (
+                                <Skeleton active paragraph={{ rows: 2 }} />
+                            ) : (
+                                <Statistic
+                                    title='ЦФА выпущено за последний час'
+                                    value={statistics?.created_cfa_count_increment}
+                                    precision={2}
+                                    valueStyle={{ color: '#cf1322' }}
+                                    prefix={<ArrowUpOutlined />}
+                                />
+                            )}
                         </Card>
                     ) : null}
                 </Col>
                 <Col md={{ span: 8 }} span={24}>
                     {statistics?.transactions_count_increment ? (
                         <Card bordered={false}>
-                            <Statistic
-                                title='ЦФА выпущено за последний час'
-                                value={statistics?.transactions_count_increment}
-                                precision={2}
-                                valueStyle={{ color: '#cf1322' }}
-                                prefix={<ArrowUpOutlined />}
-                            />
+                            {isLoading ? (
+                                <Skeleton active paragraph={{ rows: 2 }} />
+                            ) : (
+                                <Statistic
+                                    title='ЦФА выпущено за последний час'
+                                    value={statistics?.transactions_count_increment}
+                                    precision={2}
+                                    valueStyle={{ color: '#cf1322' }}
+                                    prefix={<ArrowUpOutlined />}
+                                />
+                            )}
                         </Card>
                     ) : null}
                 </Col>
                 <Col md={{ span: 8 }} span={24}>
                     {statistics?.turn_increment ? (
                         <Card bordered={false}>
-                            <Statistic
-                                title='ЦФА выпущено за последний час'
-                                value={statistics?.turn_increment}
-                                precision={2}
-                                valueStyle={{ color: '#cf1322' }}
-                                prefix={<ArrowUpOutlined />}
-                            />
+                            {isLoading ? (
+                                <Skeleton active paragraph={{ rows: 2 }} />
+                            ) : (
+                                <Statistic
+                                    title='ЦФА выпущено за последний час'
+                                    value={statistics?.turn_increment}
+                                    precision={2}
+                                    valueStyle={{ color: '#cf1322' }}
+                                    prefix={<ArrowUpOutlined />}
+                                />
+                            )}
                         </Card>
                     ) : null}
                 </Col>
@@ -132,6 +160,7 @@ const Statistics = () => {
                         { title: 'Оборот в ₽', dataIndex: 'buy_value', key: 'buy_value' },
                     ]}
                     pagination={false}
+                    loading={isLoading}
                 />
             </Row>
 
@@ -157,6 +186,7 @@ const Statistics = () => {
                         { title: 'Количество операций', dataIndex: 'buy_count', key: 'buy_count' },
                     ]}
                     pagination={false}
+                    loading={isLoading}
                 />
             </Row>
         </>

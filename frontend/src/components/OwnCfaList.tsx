@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import { Button, Drawer, Space, Table } from 'antd';
+import { Button, ConfigProvider, Drawer, Empty, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { CfaImage, OwnCfaImage } from '../api/models';
 import OwnCfaDetails from './OwnCfaDetails';
 
 type Props = {
     cfas: OwnCfaImage[];
+    loading: boolean;
 };
 
-const OwnCfaList = ({ cfas }: Props) => {
+const OwnCfaList = ({ cfas, loading }: Props) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [selectedRowId, setSelectedRowId] = useState<number>(0);
 
@@ -62,16 +63,19 @@ const OwnCfaList = ({ cfas }: Props) => {
 
     return (
         <>
-            <Table
-                columns={columns}
-                dataSource={cfas.map((row) => ({
-                    ...row.cfa_image,
-                    key: row.cfa_image.id,
-                    issuer: row.cfa_image.user.name,
-                    count: row.tokens.length,
-                }))}
-                onRow={(row) => ({ onClick: () => showDrawer(row.id) })}
-            />
+            <ConfigProvider renderEmpty={() => <Empty description='Нет еще ни одного актива' />}>
+                <Table
+                    columns={columns}
+                    dataSource={cfas.map((row) => ({
+                        ...row.cfa_image,
+                        key: row.cfa_image.id,
+                        issuer: row.cfa_image.user.name,
+                        count: row.tokens.length,
+                    }))}
+                    onRow={(row) => ({ onClick: () => showDrawer(row.id) })}
+                    loading={loading}
+                />
+            </ConfigProvider>
 
             <Drawer
                 title='Подробнее про ЦФА'

@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import { Button, Modal, Space, Table, message } from 'antd';
+import { Button, ConfigProvider, Empty, Modal, Space, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Offer } from '../api/models';
 import { useStores } from '../hooks/useStores';
 
 type Props = {
     offers: Offer[];
+    loading: boolean;
 };
 
-const OwnOffersList = ({ offers }: Props) => {
+const OwnOffersList = ({ offers, loading }: Props) => {
     const { rootStore } = useStores();
     const [messageApi, contextHolder] = message.useMessage();
     const [open, setOpen] = useState(false);
@@ -78,15 +79,18 @@ const OwnOffersList = ({ offers }: Props) => {
     return (
         <>
             {contextHolder}
-            <Table
-                columns={columns}
-                dataSource={offers.map((row) => ({
-                    ...row,
-                    key: row.id,
-                    sellerName: row.seller.name,
-                    cfaImageTitle: row.cfa_image.title,
-                }))}
-            />
+            <ConfigProvider renderEmpty={() => <Empty description='Нет еще ни одного оффера' />}>
+                <Table
+                    columns={columns}
+                    dataSource={offers.map((row) => ({
+                        ...row,
+                        key: row.id,
+                        sellerName: row.seller.name,
+                        cfaImageTitle: row.cfa_image.title,
+                    }))}
+                    loading={loading}
+                />
+            </ConfigProvider>
 
             <Modal
                 title='Подтверждение удаления оффера'

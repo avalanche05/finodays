@@ -8,11 +8,15 @@ import { observer } from 'mobx-react-lite';
 const CfaMarket = observer(() => {
     const { rootStore } = useStores();
     const [cfas, setCfas] = useState<CfaImage[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchCfas() {
+            setLoading(true);
+
             const cfas = await rootStore.getCfaImages();
             setCfas(cfas);
+            setLoading(false);
         }
         fetchCfas();
     }, [rootStore, rootStore.trigger]);
@@ -21,7 +25,7 @@ const CfaMarket = observer(() => {
         {
             key: '1',
             label: 'Все ЦФА',
-            children: <CfaList cfas={cfas} />,
+            children: <CfaList cfas={cfas} loading={loading} />,
         },
     ];
 

@@ -1,11 +1,11 @@
 import {
-    Alert,
     Button,
     Card,
     Col,
     InputNumber,
     Modal,
     Row,
+    Skeleton,
     Statistic,
     Typography,
     message,
@@ -38,9 +38,12 @@ const Profile = observer(() => {
     const [cfas, setCfas] = useState<OwnCfaImage[]>([]);
     const [offers, setOffers] = useState<Offer[]>([]);
     const [desires, setDesires] = useState<Desire[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchProfile() {
+            setLoading(true);
+
             const profile = await rootStore.getProfileInfo();
             const userCfas = await rootStore.getUserCfas(profile.id).catch(() => []);
             const userOffers = await rootStore.getOffersByUser(profile.id).catch(() => []);
@@ -50,6 +53,7 @@ const Profile = observer(() => {
             setCfas(userCfas);
             setOffers(userOffers);
             setDesires(userDesires);
+            setLoading(false);
         }
         fetchProfile();
     }, [rootStore, rootStore.trigger]);
@@ -110,29 +114,41 @@ const Profile = observer(() => {
 
             <Card>
                 <Row gutter={16}>
-                    <Col md={{ span: 12 }} span={24}>
-                        <Statistic title='Пользователь' value={profile.name} />
-                    </Col>
-                    <Col md={{ span: 12 }} span={24}>
-                        <Statistic title='Баланс ₽' value={profile.balance} precision={2} />
+                    {loading ? (
+                        <Skeleton active paragraph={{ rows: 3 }} />
+                    ) : (
+                        <>
+                            <Col md={{ span: 12 }} span={24}>
+                                <Statistic title='Пользователь' value={profile.name} />
+                            </Col>
+                            <Col md={{ span: 12 }} span={24}>
+                                <Statistic title='Баланс ₽' value={profile.balance} precision={2} />
 
-                        <Row style={{ marginTop: 16, gap: 15 }}>
-                            <Button onClick={() => setOpenDepositModal(true)} type='primary'>
-                                Пополнить
-                            </Button>
+                                <Row style={{ marginTop: 16, gap: 15 }}>
+                                    <Button
+                                        onClick={() => setOpenDepositModal(true)}
+                                        type='primary'
+                                    >
+                                        Пополнить
+                                    </Button>
 
-                            <Button onClick={() => setOpenWithdrawModal(true)} type='default'>
-                                Вывести
-                            </Button>
-                        </Row>
-                    </Col>
+                                    <Button
+                                        onClick={() => setOpenWithdrawModal(true)}
+                                        type='default'
+                                    >
+                                        Вывести
+                                    </Button>
+                                </Row>
+                            </Col>
+                        </>
+                    )}
                 </Row>
             </Card>
 
             <Typography.Title level={3} style={{ marginTop: 16 }}>
                 Мои ЦФА
             </Typography.Title>
-            <OwnCfaList cfas={cfas} />
+            <OwnCfaList cfas={cfas} loading={loading} />
 
             <Typography.Title level={3} style={{ marginTop: 16 }}>
                 Мои офферы
@@ -143,7 +159,7 @@ const Profile = observer(() => {
                 любое из них.
             </Typography.Paragraph>
 
-            <OwnOffersList offers={offers} />
+            <OwnOffersList offers={offers} loading={loading} />
 
             <Typography.Title level={3} style={{ marginTop: 16 }}>
                 Мои заявки
@@ -154,16 +170,11 @@ const Profile = observer(() => {
                 создаст оффер с ЦФА по вашей цене, они будут автоматически исполнены.
             </Typography.Paragraph>
 
-            <OwnDesiresList desires={desires} />
+            <OwnDesiresList desires={desires} loading={loading} />
 
             <Typography.Title level={3} style={{ marginTop: 16 }}>
                 Мои сделки
             </Typography.Title>
-
-            <Alert
-                message='В данный момент в ui реализован только просмотр и отклонение сделок. Полный функционал для работы со сделками доступен в API'
-                type='warning'
-            />
 
             <Typography.Paragraph>
                 В этой таблице представлены все ваши сделки - входящие и исходящие. Сделки - это
