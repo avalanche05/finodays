@@ -6,6 +6,7 @@ import {
     LogoutOutlined,
     PlusCircleOutlined,
     ShoppingOutlined,
+    FundOutlined,
 } from '@ant-design/icons';
 
 import MediaQuery from 'react-responsive';
@@ -37,6 +38,11 @@ const menuItems = [
         key: '/dashboard/cfa-market',
         label: 'Витрина ЦФА',
         icon: <ShoppingOutlined />,
+    },
+    {
+        key: '/dashboard/statistics',
+        label: 'Статистика',
+        icon: <FundOutlined />,
     },
 ];
 

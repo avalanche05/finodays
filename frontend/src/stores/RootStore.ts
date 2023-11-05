@@ -7,6 +7,7 @@ import { ProfileApiServiceInstanse } from '../api/ProfileApiService';
 import { DesiresApiServiceInstanse } from '../api/DesiresApiService';
 import { PredictionApiServiceInstanse } from '../api/PredictionApiService';
 import { DealApiServiceInstanse } from '../api/DealApiService';
+import { StatisticsApiServiceInstanse } from '../api/StatisticsApiService';
 
 export class RootStore {
     public trigger: boolean = false;
@@ -123,5 +124,13 @@ export class RootStore {
 
     public async getCfaPriceHistory(cfaImageId: number) {
         return await CfaApiServiceInstanse.getCfaPriceHistory(cfaImageId);
+    }
+
+    public async getStatistics() {
+        return await StatisticsApiServiceInstanse.fetchStatistics();
+    }
+
+    public async getUsersStatistics() {
+        return await StatisticsApiServiceInstanse.fetchUsersStatistics();
     }
 }
