@@ -1,8 +1,15 @@
+import datetime
 from typing import List
 
 from sqlalchemy.orm import Session
 
 from app import schemas, models
+
+
+def get_all_cfa(db: Session) -> List[models.Cfa]:
+    cfas = db.query(models.Cfa).all()
+
+    return cfas
 
 
 def get_all_cfa_by_cfa_image(db: Session, cfa_image_id: int) -> List[models.Cfa]:

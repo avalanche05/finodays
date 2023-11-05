@@ -1,3 +1,4 @@
+import datetime
 import itertools
 from typing import List
 
@@ -16,13 +17,25 @@ statistic_router = APIRouter(
 @statistic_router.get(path="/")
 def statistic(db: Session = Depends(get_db)) -> schemas.CountStatistic:
     trades = crud.get_grouped_trades(db)
+    cfas = crud.get_all_cfa(db)
 
     trades = itertools.groupby(trades, lambda x: x[1])
 
+    current_time = datetime.datetime.now()
+    fix_timezone = datetime.timedelta(hours=3)
+    one_hour = datetime.timedelta(hours=1)
+
+    new_cfas = [cfa for cfa in cfas if cfa.created_at + fix_timezone + one_hour >= current_time]
+
     result = schemas.CountStatistic(
         transactions_count=0,
+        transactions_count_increment=0,
         deals_count=0,
-        turn=0.0
+        deals_count_increment=0,
+        turn=0.0,
+        turn_increment=0.0,
+        created_cfa_count=len(cfas),
+        created_cfa_count_increment=len(new_cfas)
     )
 
     for date, grouped_trades in trades:
@@ -30,8 +43,13 @@ def statistic(db: Session = Depends(get_db)) -> schemas.CountStatistic:
         trade = grouped_trades[0]
         if trade.price == 0:
             result.deals_count += 1
+            if date + one_hour >= current_time:
+                result.deals_count_increment += 1
         else:
             result.transactions_count += 1
             result.turn += trade.price * len(grouped_trades)
+            if date + one_hour >= current_time:
+                result.transactions_count_increment += 1
+                result.turn_increment += trade.price * len(grouped_trades)
 
     return result
