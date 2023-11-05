@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 import { useStores } from '../hooks/useStores';
 import DesiresList from './DesiresList';
 import { observer } from 'mobx-react-lite';
-import CfaPricePredictionBlock from './CfaPricePredictionBlock';
+import PricePlot from './PricePlot';
 
 type Props = {
     cfaImage: CfaImage;
@@ -105,37 +105,39 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
     return (
         <>
             {contextHolder}
-            <Row>
-                <Typography.Title level={2}>{cfaImage.title}</Typography.Title>
-            </Row>
+            <div style={{ paddingBottom: 100 }}>
+                <Row>
+                    <Typography.Title level={2}>{cfaImage.title}</Typography.Title>
+                </Row>
 
-            <Row>
-                <Typography.Paragraph>{cfaImage.description}</Typography.Paragraph>
-            </Row>
+                <Row>
+                    <Typography.Paragraph>{cfaImage.description}</Typography.Paragraph>
+                </Row>
 
-            <Row>
-                <Tabs
-                    style={{ width: '100%' }}
-                    defaultActiveKey='1'
-                    items={items}
-                    tabBarExtraContent={<Button onClick={createDesire}>Создать заявку</Button>}
-                />
-            </Row>
+                <Row>
+                    <Tabs
+                        style={{ width: '100%' }}
+                        defaultActiveKey='1'
+                        items={items}
+                        tabBarExtraContent={<Button onClick={createDesire}>Создать заявку</Button>}
+                    />
+                </Row>
 
-            <Row>
-                <Typography.Title level={3}>Прогноз цены</Typography.Title>
-            </Row>
+                <Row>
+                    <Typography.Title level={3}>История цены</Typography.Title>
+                </Row>
 
-            <Row>
-                <Typography.Paragraph>
-                    Прогноз цены ЦФА на основе предыдущих сделок. По горизонтали - 3 ближайших дня,
-                    по вертикали - цена в рублях.
-                </Typography.Paragraph>
-            </Row>
+                <Row>
+                    <Typography.Paragraph>
+                        Историй цены ЦФА на основе предыдущих сделок. По горизонтали - 3 последних
+                        дня, по вертикали - цена в рублях.
+                    </Typography.Paragraph>
+                </Row>
 
-            <Row>
-                <CfaPricePredictionBlock cfaImageId={cfaImage.id} />
-            </Row>
+                <Row>
+                    <PricePlot cfaImageId={cfaImage.id} cfaTitle={cfaImage.title} />
+                </Row>
+            </div>
 
             <Modal
                 title='Купить ЦФА'
@@ -158,7 +160,7 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Пожалуйста, введите количество ЦФА',
+                                        message: 'Пожалуйста, введите цену ЦФА',
                                     },
                                 ]}
                                 label='Цена покупки'

@@ -3,6 +3,7 @@ import { OwnCfaImage } from '../api/models';
 import { useStores } from '../hooks/useStores';
 import { useState } from 'react';
 import { valueType } from 'antd/es/statistic/utils';
+import PricePlot from './PricePlot';
 
 type Props = {
     ownCfaImage: OwnCfaImage;
@@ -73,7 +74,7 @@ const OwnCfaDetails = ({ ownCfaImage }: Props) => {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Пожалуйста, введите количество ЦФА',
+                                        message: 'Пожалуйста, введите цену ЦФА',
                                     },
                                 ]}
                                 label='Цена размещения'
@@ -132,6 +133,17 @@ const OwnCfaDetails = ({ ownCfaImage }: Props) => {
                         </Form.Item>
                     </Row>
                 </Form>
+            </Row>
+
+            <Row>
+                <Typography.Title level={3}>История цены</Typography.Title>
+            </Row>
+
+            <Row>
+                <PricePlot
+                    cfaImageId={ownCfaImage.cfa_image.id}
+                    cfaTitle={ownCfaImage.cfa_image.title}
+                />
             </Row>
 
             <Row>

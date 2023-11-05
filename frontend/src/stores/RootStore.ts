@@ -120,4 +120,8 @@ export class RootStore {
     public async cancelDeal(dealId: number) {
         return await DealApiServiceInstanse.cancelDeal(dealId);
     }
+
+    public async getCfaPriceHistory(cfaImageId: number) {
+        return await CfaApiServiceInstanse.getCfaPriceHistory(cfaImageId);
+    }
 }
