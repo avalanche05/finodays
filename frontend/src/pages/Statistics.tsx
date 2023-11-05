@@ -129,7 +129,7 @@ const Statistics = () => {
                         }))}
                     columns={[
                         { title: 'Пользователь', dataIndex: 'name', key: 'name' },
-                        { title: 'Оборот в Р', dataIndex: 'buy_value', key: 'buy_value' },
+                        { title: 'Оборот в ₽', dataIndex: 'buy_value', key: 'buy_value' },
                     ]}
                     pagination={false}
                 />
@@ -154,7 +154,7 @@ const Statistics = () => {
                         }))}
                     columns={[
                         { title: 'Пользователь', dataIndex: 'name', key: 'name' },
-                        { title: 'Оборот в Р', dataIndex: 'buy_count', key: 'buy_count' },
+                        { title: 'Количество операций', dataIndex: 'buy_count', key: 'buy_count' },
                     ]}
                     pagination={false}
                 />

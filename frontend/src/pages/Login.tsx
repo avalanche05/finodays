@@ -10,6 +10,7 @@ import { LoginBody } from '../api/models';
 const Login = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const [loading, setLoading] = useState(false);
+    const [testLoading, setTestLoading] = useState(false);
 
     const onFinish = (loginForm: LoginBody) => {
         setLoading(true);
@@ -29,6 +30,23 @@ const Login = () => {
             .finally(() => setLoading(false));
     };
 
+    const onTestUserLogin = () => {
+        setTestLoading(true);
+
+        AuthService.login({ email: '1', password: '1' })
+            .then(() => {
+                messageApi.success('Вы успешно авторизовались');
+
+                setTimeout(() => {
+                    window.location.href = '/dashboard/profile';
+                }, 100);
+            })
+            .catch(() => {
+                messageApi.error('Ошибка авторизации');
+            })
+            .finally(() => setTestLoading(false));
+    };
+
     return (
         <>
             {contextHolder}
@@ -41,7 +59,7 @@ const Login = () => {
                         Начните работу с ЦФА вместе с нами!
                     </Typography.Paragraph>
                     <Alert
-                        message=' Тестовый пользователь для входа. Login: 1, Password: 1'
+                        message=' Тестовый пользователь для входа. Login: 1, Password: 1. Чтобы продолжить без авторизации, нажмите на кнопку "Продолжить без авторизации".'
                         type='info'
                     />
 
@@ -86,16 +104,34 @@ const Login = () => {
                         </Form.Item>
 
                         <Form.Item>
-                            <Button
-                                block
-                                type='primary'
-                                htmlType='submit'
-                                className='login-form-button'
-                                size='large'
-                                loading={loading}
-                            >
-                                Войти
-                            </Button>
+                            <Row gutter={[16, 16]}>
+                                <Col span={24}>
+                                    <Button
+                                        block
+                                        type='primary'
+                                        htmlType='submit'
+                                        className='login-form-button'
+                                        size='large'
+                                        loading={loading}
+                                    >
+                                        Войти
+                                    </Button>
+                                </Col>
+
+                                <Col span={24}>
+                                    <Button
+                                        block
+                                        type='default'
+                                        htmlType='button'
+                                        className='login-form-button'
+                                        size='large'
+                                        loading={testLoading}
+                                        onClick={onTestUserLogin}
+                                    >
+                                        Продолжить без авторизации
+                                    </Button>
+                                </Col>
+                            </Row>
                         </Form.Item>
                     </Form>
                 </Col>

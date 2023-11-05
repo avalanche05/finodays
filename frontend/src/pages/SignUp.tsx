@@ -2,7 +2,7 @@ import { Button, Checkbox, Col, Form, Input, message, Row, Typography } from 'an
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
+import { BankOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 
 import AuthService from '../api/AuthService';
 import { CreateUserBody } from '../api/models';
@@ -13,6 +13,8 @@ const SignUp = () => {
 
     const onFinish = async (createUserForm: CreateUserBody) => {
         setLoading(true);
+
+        createUserForm.email = createUserForm.username;
 
         await AuthService.register(createUserForm)
             .then(() => {
@@ -62,7 +64,7 @@ const SignUp = () => {
                                 placeholder='Имя пользователя'
                             />
                         </Form.Item>
-                        <Form.Item
+                        {/* <Form.Item
                             name='email'
                             rules={[
                                 {
@@ -77,7 +79,7 @@ const SignUp = () => {
                                 prefix={<MailOutlined className='site-form-item-icon' />}
                                 placeholder='Email'
                             />
-                        </Form.Item>
+                        </Form.Item> */}
                         <Form.Item
                             name='name'
                             rules={[
@@ -89,7 +91,7 @@ const SignUp = () => {
                         >
                             <Input
                                 size='large'
-                                prefix={<MailOutlined className='site-form-item-icon' />}
+                                prefix={<BankOutlined className='site-form-item-icon' />}
                                 placeholder='Название организации'
                             />
                         </Form.Item>
