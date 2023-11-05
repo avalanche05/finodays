@@ -67,7 +67,7 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
     }, [rootStore, cfaImage, rootStore.trigger]);
 
     const handleOk = () => {
-        setIsDesireCreating(true);
+        form.validateFields();
 
         const desire = {
             ...form.getFieldsValue(),
@@ -75,6 +75,8 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
         };
 
         if (desire && desire.count && desire.price) {
+            setIsDesireCreating(true);
+
             rootStore
                 .createDesire(desire.cfa_image.id, desire.count, desire.price)
                 .then(() => {
@@ -187,7 +189,12 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
                                 ]}
                                 label='Количество ЦФА'
                             >
-                                <InputNumber min={0} style={{ width: '100%' }} placeholder='100' />
+                                <InputNumber
+                                    min={0}
+                                    max={1000}
+                                    style={{ width: '100%' }}
+                                    placeholder='100'
+                                />
                             </Form.Item>
                         </Col>
                     </Row>
