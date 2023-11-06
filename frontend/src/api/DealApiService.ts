@@ -5,8 +5,6 @@ import { Deal } from './models';
 
 class DealApiService {
     public async fetchIncomingDeals() {
-        console.log('incoming');
-
         const response = await axios.get<Deal[]>(`${API_URL}/user/deal/in`, {
             headers: authHeader(),
         });

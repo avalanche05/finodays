@@ -62,8 +62,6 @@ const PricePlot = ({ cfaImageId, cfaTitle }: Props) => {
             return `${date.getDate()}.${date.getMonth() + 1} ${date.getHours()}:00`;
         });
 
-        console.log(labels);
-
         const datasets = [
             {
                 label: cfaTitle,

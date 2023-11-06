@@ -67,7 +67,6 @@ const OwnOffersList = ({ offers, loading }: Props) => {
     };
 
     const handleCancel = () => {
-        console.log('Clicked cancel button');
         setOpen(false);
     };
 

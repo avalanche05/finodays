@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, ConfigProvider, Drawer, Empty, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { CfaImage, OwnCfaImage } from '../api/models';
@@ -12,6 +12,12 @@ type Props = {
 const OwnCfaList = ({ cfas, loading }: Props) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [selectedRowId, setSelectedRowId] = useState<number>(0);
+
+    useEffect(() => {
+        if (!cfas.find((cfa) => cfa.cfa_image.id === selectedRowId)) {
+            setIsDrawerOpen(false);
+        }
+    }, [cfas, selectedRowId]);
 
     const columns: ColumnsType<CfaImage> = [
         {

@@ -77,7 +77,6 @@ const OffersList = ({ offers }: Props) => {
     };
 
     const handleCancel = () => {
-        console.log('Clicked cancel button');
         setOpen(false);
     };
 

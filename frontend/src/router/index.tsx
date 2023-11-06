@@ -10,6 +10,7 @@ import ProtectedRoute from './ProtectedRoute';
 import UnauthorizedOnlyRoute from './UnauthorizedOnlyRoute';
 import CfaMarket from '../pages/CfaMarket';
 import Statistics from '../pages/Statistics';
+import ProtectedRedirect from './ProtectedRedirect';
 
 export const router = createBrowserRouter([
     {
@@ -57,10 +58,6 @@ export const router = createBrowserRouter([
 
     {
         path: '*',
-        element: (
-            <ProtectedRoute isSignedIn={false}>
-                <DashboardLayout />
-            </ProtectedRoute>
-        ),
+        element: <ProtectedRedirect isSignedIn={AuthService.isAuthorized()}></ProtectedRedirect>,
     },
 ]);

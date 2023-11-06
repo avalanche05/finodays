@@ -67,7 +67,6 @@ const OwnDesiresList = ({ desires, loading }: Props) => {
     };
 
     const handleCancel = () => {
-        console.log('Clicked cancel button');
         setOpen(false);
     };
 

@@ -45,8 +45,6 @@ const OwnCfaDetails = ({ ownCfaImage }: Props) => {
                 messageApi.error('Ошибка создания оффера');
             })
             .finally(() => setIsLoading(false));
-
-        console.log('Success:', form);
     };
 
     const handlePriceChange = (price: valueType | null) => {

@@ -4,7 +4,7 @@ import { API_URL } from '../config';
 
 class StatisticsApiService {
     public async fetchStatistics(): Promise<IStatisctics> {
-        const response = await axios.get<IStatisctics>(`${API_URL}/statistic`);
+        const response = await axios.get<IStatisctics>(`${API_URL}/statistic/`);
 
         return response.data;
     }

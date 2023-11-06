@@ -14,7 +14,6 @@ const Login = () => {
 
     const onFinish = (loginForm: LoginBody) => {
         setLoading(true);
-        console.log('Success:', loginForm);
 
         AuthService.login(loginForm)
             .then(() => {
