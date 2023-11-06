@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, InputNumber, Modal, Space, Table, message } from 'antd';
+import { Button, ConfigProvider, Empty, InputNumber, Modal, Space, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Desire } from '../api/models';
 import { useStores } from '../hooks/useStores';
@@ -78,14 +78,18 @@ const DesiresList = ({ desires }: Props) => {
     return (
         <>
             {contextHolder}
-            <Table
-                columns={columns}
-                dataSource={desires.map((row) => ({
-                    ...row,
-                    key: row.id,
-                    buyerName: row.buyer?.name,
-                }))}
-            />
+            <ConfigProvider
+                renderEmpty={() => <Empty description='Нет еще ни одной заявки на покупку' />}
+            >
+                <Table
+                    columns={columns}
+                    dataSource={desires.map((row) => ({
+                        ...row,
+                        key: row.id,
+                        buyerName: row.buyer?.name,
+                    }))}
+                />
+            </ConfigProvider>
 
             <Modal
                 title='Продать ЦФА'

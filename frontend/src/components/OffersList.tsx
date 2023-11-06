@@ -1,5 +1,15 @@
 import { useState } from 'react';
-import { Button, InputNumber, Modal, Space, Table, Typography, message } from 'antd';
+import {
+    Button,
+    ConfigProvider,
+    Empty,
+    InputNumber,
+    Modal,
+    Space,
+    Table,
+    Typography,
+    message,
+} from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Offer } from '../api/models';
 import { useStores } from '../hooks/useStores';
@@ -79,14 +89,16 @@ const OffersList = ({ offers }: Props) => {
     return (
         <>
             {contextHolder}
-            <Table
-                columns={columns}
-                dataSource={offers.map((row) => ({
-                    ...row,
-                    key: row.id,
-                    sellerName: row.seller.name,
-                }))}
-            />
+            <ConfigProvider renderEmpty={() => <Empty description='Нет еще ни одного оффера' />}>
+                <Table
+                    columns={columns}
+                    dataSource={offers.map((row) => ({
+                        ...row,
+                        key: row.id,
+                        sellerName: row.seller.name,
+                    }))}
+                />
+            </ConfigProvider>
 
             <Modal
                 title='Купить ЦФА'

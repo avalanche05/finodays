@@ -35,7 +35,9 @@
     border-top: 1px solid #eee;
 }
 
-// media query for mobile screen size
+.tour-step {
+    max-width: calc(100% - 2rem);
+}
 
 @media (max-width: 1024px) {
     .content {

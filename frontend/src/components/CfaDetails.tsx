@@ -8,12 +8,14 @@ import {
     Tabs,
     TabsProps,
     Tag,
+    Tour,
+    TourProps,
     Typography,
     message,
 } from 'antd';
 import { CfaImage, Desire, Offer } from '../api/models';
 import OffersList from './OffersList';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useStores } from '../hooks/useStores';
 import DesiresList from './DesiresList';
 import { observer } from 'mobx-react-lite';
@@ -32,15 +34,21 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm();
 
+    const [tourOpen, setTourOpen] = useState<boolean>(false);
+    const refOffers = useRef(null);
+    const refDesires = useRef(null);
+    const refCreateDesire = useRef(null);
+    const refPricePlot = useRef(null);
+
     const items: TabsProps['items'] = [
         {
             key: '1',
-            label: 'Заявки на продажу',
+            label: <div ref={refOffers}>Заявки на продажу</div>,
             children: <OffersList offers={offers} />,
         },
         {
             key: '2',
-            label: 'Заявки на покупку',
+            label: <div ref={refDesires}>Заявки на покупку</div>,
             children: <DesiresList desires={desires} />,
         },
         {
@@ -104,12 +112,56 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
         setOpen(true);
     };
 
+    const steps: TourProps['steps'] = [
+        {
+            title: 'Предложения на продажу',
+            description:
+                'В этом списке представлены все заявки на продажу ЦФА. Чтобы купить ЦФА, нажмите кнопку "Купить".',
+            target: () => refOffers.current,
+            nextButtonProps: { children: 'Далее' },
+            className: 'tour-step',
+        },
+        {
+            title: 'Предложения на покупку',
+            description:
+                'В этом списке представлены все заявки на покупку ЦФА. Чтобы продать ЦФА, нажмите кнопку "Продать".',
+            target: () => refDesires.current,
+            nextButtonProps: { children: 'Далее' },
+            prevButtonProps: { children: 'Назад' },
+            className: 'tour-step',
+        },
+        {
+            title: 'Создать заяку на покупку',
+            description:
+                'Чтобы создать заявку на покупку, нажмите кнопку "Создать заявку" и введите цену и количество ЦФА.',
+            target: () => refCreateDesire.current,
+            nextButtonProps: { children: 'Далее' },
+            prevButtonProps: { children: 'Назад' },
+            className: 'tour-step',
+        },
+        {
+            title: 'График цены',
+            description:
+                'На графике представлена история цены ЦФА. Чтобы увидеть подробную информацию о цене в определенный момент времени, наведите курсор на нужную точку.',
+            target: () => refPricePlot.current,
+            prevButtonProps: { children: 'Назад' },
+            nextButtonProps: { children: 'Завершить' },
+            className: 'tour-step',
+        },
+    ];
+
     return (
         <>
             {contextHolder}
             <div style={{ paddingBottom: 100 }}>
-                <Row>
-                    <Typography.Title level={2}>{cfaImage.title}</Typography.Title>
+                <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 16 }}>
+                    <Typography.Title level={2} style={{ marginBottom: 0 }}>
+                        {cfaImage.title}
+                    </Typography.Title>
+
+                    <Button type='default' onClick={() => setTourOpen(true)}>
+                        Обучение
+                    </Button>
                 </Row>
 
                 <Row>
@@ -121,7 +173,11 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
                         style={{ width: '100%' }}
                         defaultActiveKey='1'
                         items={items}
-                        tabBarExtraContent={<Button onClick={createDesire}>Создать заявку</Button>}
+                        tabBarExtraContent={
+                            <Button ref={refCreateDesire} onClick={createDesire}>
+                                Создать заявку
+                            </Button>
+                        }
                     />
                 </Row>
 
@@ -136,7 +192,7 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
                     </Typography.Paragraph>
                 </Row>
 
-                <Row>
+                <Row ref={refPricePlot}>
                     <PricePlot cfaImageId={cfaImage.id} cfaTitle={cfaImage.title} />
                 </Row>
             </div>
@@ -152,8 +208,9 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
             >
                 <Typography.Paragraph>
                     Вы можете задать цену и количество ЦФА, которые вы хотите купить. Как только
-                    кто-то создаст оффер с ЦФА по вашей цене, они будут автоматически исполнены.
+                    кто-то создаст оффер с ЦФА по вашей цене, он будет автоматически исполнен.
                 </Typography.Paragraph>
+
                 <Form layout={'vertical'} form={form} style={{ width: '100%', maxWidth: 800 }}>
                     <Row gutter={[8, 24]}>
                         <Col span={12}>
@@ -200,6 +257,8 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
                     </Row>
                 </Form>
             </Modal>
+
+            <Tour open={tourOpen} onClose={() => setTourOpen(false)} steps={steps} />
         </>
     );
 });

@@ -7,10 +7,12 @@ import {
     Row,
     Skeleton,
     Statistic,
+    Tour,
+    TourProps,
     Typography,
     message,
 } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useStores } from '../hooks/useStores';
 import { valueType } from 'antd/es/statistic/utils';
 import { IProfile } from '../api/models/Profile';
@@ -39,6 +41,11 @@ const Profile = observer(() => {
     const [offers, setOffers] = useState<Offer[]>([]);
     const [desires, setDesires] = useState<Desire[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+
+    const refOwnCfas = useRef(null);
+    const refOwnOffers = useRef(null);
+    const refOwnDesires = useRef(null);
+    const [tourOpen, setTourOpen] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchProfile() {
@@ -107,10 +114,47 @@ const Profile = observer(() => {
         }
     };
 
+    const steps: TourProps['steps'] = [
+        {
+            title: 'Список ваших ЦФА',
+            description:
+                'В этом списке представлены все ваши ЦФА. Чтобы получить ЦФА, нужно либо купить их у других пользователей, либо создать новое размещение. Чтобы продать ЦФА, нужно создать оффер на продажу.',
+            target: () => refOwnCfas.current,
+            nextButtonProps: { children: 'Далее' },
+            className: 'tour-step',
+        },
+        {
+            title: 'Список ваших офферов',
+            description:
+                'В этом списке представлены все ваши офферы на продажу ЦФА. Создать оффер можно в разделе "Мои ЦФА"',
+            target: () => refOwnOffers.current,
+            nextButtonProps: { children: 'Далее' },
+            prevButtonProps: { children: 'Назад' },
+            className: 'tour-step',
+        },
+        {
+            title: 'Список ваших заявок на покупку',
+            description:
+                'В этом списке представлены все ваши заявки на покупку ЦФА. Создать заявку можно на витрине ЦФА. Как только появится оффер с ЦФА по вашей цене, заявка будет автоматически исполнена.',
+            target: () => refOwnDesires.current,
+            className: 'tour-step',
+            prevButtonProps: { children: 'Назад' },
+            nextButtonProps: { children: 'Завершить' },
+        },
+    ];
+
     return (
         <>
             {contextHolder}
-            <Typography.Title level={2}>Мой кабинет</Typography.Title>
+            <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20 }}>
+                <Typography.Title level={2} style={{ marginBottom: 0 }}>
+                    Мой кабинет
+                </Typography.Title>
+
+                <Button type='default' onClick={() => setTourOpen(true)}>
+                    Обучение
+                </Button>
+            </Row>
 
             <Card>
                 <Row gutter={16}>
@@ -145,32 +189,39 @@ const Profile = observer(() => {
                 </Row>
             </Card>
 
-            <Typography.Title level={3} style={{ marginTop: 16 }}>
-                Мои ЦФА
-            </Typography.Title>
-            <OwnCfaList cfas={cfas} loading={loading} />
+            <div ref={refOwnCfas}>
+                <Typography.Title level={3} style={{ marginTop: 16 }}>
+                    Мои ЦФА
+                </Typography.Title>
 
-            <Typography.Title level={3} style={{ marginTop: 16 }}>
-                Мои офферы
-            </Typography.Title>
+                <OwnCfaList cfas={cfas} loading={loading} />
+            </div>
 
-            <Typography.Paragraph>
-                В этой таблице представлены все ваши предложения на продажу ЦФА. Вы можете отменить
-                любое из них.
-            </Typography.Paragraph>
+            <div ref={refOwnOffers}>
+                <Typography.Title level={3} style={{ marginTop: 16 }}>
+                    Мои офферы
+                </Typography.Title>
 
-            <OwnOffersList offers={offers} loading={loading} />
+                <Typography.Paragraph>
+                    В этой таблице представлены все ваши предложения на продажу ЦФА. Вы можете
+                    отменить любое из них.
+                </Typography.Paragraph>
 
-            <Typography.Title level={3} style={{ marginTop: 16 }}>
-                Мои заявки
-            </Typography.Title>
+                <OwnOffersList offers={offers} loading={loading} />
+            </div>
 
-            <Typography.Paragraph>
-                В этой таблице представлены все ваши заявки на покупку ЦФА. Как только кто-то
-                создаст оффер с ЦФА по вашей цене, они будут автоматически исполнены.
-            </Typography.Paragraph>
+            <div ref={refOwnDesires}>
+                <Typography.Title level={3} style={{ marginTop: 16 }}>
+                    Мои заявки
+                </Typography.Title>
 
-            <OwnDesiresList desires={desires} loading={loading} />
+                <Typography.Paragraph>
+                    В этой таблице представлены все ваши заявки на покупку ЦФА. Как только кто-то
+                    создаст оффер с ЦФА по вашей цене, они будут автоматически исполнены.
+                </Typography.Paragraph>
+
+                <OwnDesiresList desires={desires} loading={loading} />
+            </div>
 
             <Typography.Title level={3} style={{ marginTop: 16 }}>
                 Мои сделки
@@ -218,6 +269,8 @@ const Profile = observer(() => {
                     min={0}
                 />
             </Modal>
+
+            <Tour open={tourOpen} onClose={() => setTourOpen(false)} steps={steps} />
         </>
     );
 });
