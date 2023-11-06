@@ -20,6 +20,7 @@ import { useStores } from '../hooks/useStores';
 import DesiresList from './DesiresList';
 import { observer } from 'mobx-react-lite';
 import PricePlot from './PricePlot';
+import { IBuyAdvice } from '../api/models/IBuyAdvice';
 
 type Props = {
     cfaImage: CfaImage;
@@ -30,6 +31,7 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
     const { rootStore } = useStores();
     const [offers, setOffers] = useState<Offer[]>([]);
     const [desires, setDesires] = useState<Desire[]>([]);
+    const [buyAdvice, setBuyAdvice] = useState<IBuyAdvice | null>(null);
     const [isDesireCreating, setIsDesireCreating] = useState<boolean>(false);
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm();
@@ -65,11 +67,17 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
 
     useEffect(() => {
         async function fetchOffers() {
-            const offers = await rootStore.getOffersByCfaImage(cfaImage.id);
-            const desires = await rootStore.getDesiresByCfaImage(cfaImage.id);
+            const offers = await rootStore
+                .getOffersByCfaImage(cfaImage.id)
+                .catch((error) => console.log(error));
+            const desires = await rootStore
+                .getDesiresByCfaImage(cfaImage.id)
+                .catch((error) => console.log(error));
+            const fetchedBuyAdvice = await rootStore.getBuyAdvice(cfaImage.id);
 
             setOffers(offers);
             setDesires(desires);
+            setBuyAdvice(fetchedBuyAdvice);
         }
         fetchOffers();
     }, [rootStore, cfaImage, rootStore.trigger]);
@@ -166,6 +174,14 @@ const CfaDetails = observer(({ cfaImage }: Props) => {
                 <Row>
                     <Typography.Paragraph>{cfaImage.description}</Typography.Paragraph>
                 </Row>
+
+                {buyAdvice && buyAdvice.why && buyAdvice.why.ru && (
+                    <Row>
+                        <Tag color={buyAdvice.is_buy ? 'success' : 'warning'}>
+                            {buyAdvice?.why.ru}
+                        </Tag>
+                    </Row>
+                )}
 
                 <Row>
                     <Tabs
