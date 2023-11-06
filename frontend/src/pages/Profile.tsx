@@ -6,11 +6,14 @@ import {
     InputNumber,
     Modal,
     Row,
+    Skeleton,
     Statistic,
+    Tour,
+    TourProps,
     Typography,
     message,
 } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useStores } from '../hooks/useStores';
 import { valueType } from 'antd/es/statistic/utils';
 import { IProfile } from '../api/models/Profile';
@@ -38,9 +41,17 @@ const Profile = observer(() => {
     const [cfas, setCfas] = useState<OwnCfaImage[]>([]);
     const [offers, setOffers] = useState<Offer[]>([]);
     const [desires, setDesires] = useState<Desire[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const refOwnCfas = useRef(null);
+    const refOwnOffers = useRef(null);
+    const refOwnDesires = useRef(null);
+    const [tourOpen, setTourOpen] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchProfile() {
+            setLoading(true);
+
             const profile = await rootStore.getProfileInfo();
             const userCfas = await rootStore.getUserCfas(profile.id).catch(() => []);
             const userOffers = await rootStore.getOffersByUser(profile.id).catch(() => []);
@@ -50,6 +61,7 @@ const Profile = observer(() => {
             setCfas(userCfas);
             setOffers(userOffers);
             setDesires(userDesires);
+            setLoading(false);
         }
         fetchProfile();
     }, [rootStore, rootStore.trigger]);
@@ -103,72 +115,118 @@ const Profile = observer(() => {
         }
     };
 
+    const steps: TourProps['steps'] = [
+        {
+            title: 'Список ваших ЦФА',
+            description:
+                'В этом списке представлены все ваши ЦФА. Чтобы получить ЦФА, нужно либо купить их у других пользователей, либо создать новое размещение. Чтобы продать ЦФА, нужно создать оффер на продажу.',
+            target: () => refOwnCfas.current,
+            nextButtonProps: { children: 'Далее' },
+            className: 'tour-step',
+        },
+        {
+            title: 'Список ваших офферов',
+            description:
+                'В этом списке представлены все ваши офферы на продажу ЦФА. Создать оффер можно в разделе "Мои ЦФА"',
+            target: () => refOwnOffers.current,
+            nextButtonProps: { children: 'Далее' },
+            prevButtonProps: { children: 'Назад' },
+            className: 'tour-step',
+        },
+        {
+            title: 'Список ваших заявок на покупку',
+            description:
+                'В этом списке представлены все ваши заявки на покупку ЦФА. Создать заявку можно на витрине ЦФА. Как только появится оффер с ЦФА по вашей цене, заявка будет автоматически исполнена.',
+            target: () => refOwnDesires.current,
+            className: 'tour-step',
+            prevButtonProps: { children: 'Назад' },
+            nextButtonProps: { children: 'Завершить' },
+        },
+    ];
+
     return (
         <>
             {contextHolder}
-            <Typography.Title level={2}>Мой кабинет</Typography.Title>
+            <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20 }}>
+                <Typography.Title level={2} style={{ marginBottom: 0 }}>
+                    Мой кабинет
+                </Typography.Title>
+
+                <Button type='default' onClick={() => setTourOpen(true)}>
+                    Обучение
+                </Button>
+            </Row>
 
             <Card>
                 <Row gutter={16}>
-                    <Col span={12}>
-                        <Statistic title='Организация' value={profile.name} />
-                    </Col>
-                    <Col span={12}>
-                        <Statistic title='Баланс ₽' value={profile.balance} precision={2} />
+                    {loading ? (
+                        <Skeleton active paragraph={{ rows: 3 }} />
+                    ) : (
+                        <>
+                            <Col md={{ span: 12 }} span={24}>
+                                <Statistic title='Пользователь' value={profile.name} />
+                            </Col>
+                            <Col md={{ span: 12 }} span={24}>
+                                <Statistic title='Баланс ₽' value={profile.balance} precision={2} />
 
-                        <Button
-                            onClick={() => setOpenDepositModal(true)}
-                            style={{ marginTop: 16 }}
-                            type='primary'
-                        >
-                            Пополнить
-                        </Button>
-                        <Button
-                            onClick={() => setOpenWithdrawModal(true)}
-                            style={{ marginTop: 16, marginLeft: 16 }}
-                            type='default'
-                        >
-                            Вывести
-                        </Button>
-                    </Col>
+                                <Row style={{ marginTop: 16, gap: 15 }}>
+                                    <Button
+                                        onClick={() => setOpenDepositModal(true)}
+                                        type='primary'
+                                    >
+                                        Пополнить
+                                    </Button>
+
+                                    <Button
+                                        onClick={() => setOpenWithdrawModal(true)}
+                                        type='default'
+                                    >
+                                        Вывести
+                                    </Button>
+                                </Row>
+                            </Col>
+                        </>
+                    )}
                 </Row>
             </Card>
 
-            <Typography.Title level={3} style={{ marginTop: 16 }}>
-                Мои ЦФА
-            </Typography.Title>
-            <OwnCfaList cfas={cfas} />
+            <div ref={refOwnCfas}>
+                <Typography.Title level={3} style={{ marginTop: 16 }}>
+                    Мои ЦФА
+                </Typography.Title>
 
-            <Typography.Title level={3} style={{ marginTop: 16 }}>
-                Мои офферы
-            </Typography.Title>
+                <OwnCfaList cfas={cfas} loading={loading} />
+            </div>
 
-            <Typography.Paragraph>
-                В этой таблице представлены все ваши предложения на продажу ЦФА. Вы можете отменить
-                любое из них.
-            </Typography.Paragraph>
+            <div ref={refOwnOffers}>
+                <Typography.Title level={3} style={{ marginTop: 16 }}>
+                    Мои офферы
+                </Typography.Title>
 
-            <OwnOffersList offers={offers} />
+                <Typography.Paragraph>
+                    В этой таблице представлены все ваши предложения на продажу ЦФА. Вы можете
+                    отменить любое из них.
+                </Typography.Paragraph>
 
-            <Typography.Title level={3} style={{ marginTop: 16 }}>
-                Мои заявки
-            </Typography.Title>
+                <OwnOffersList offers={offers} loading={loading} />
+            </div>
 
-            <Typography.Paragraph>
-                В этой таблице представлены все ваши заявки на покупку ЦФА. Как только кто-то
-                создаст оффер с ЦФА по вашей цене, они будут автоматически исполнены.
-            </Typography.Paragraph>
+            <div ref={refOwnDesires}>
+                <Typography.Title level={3} style={{ marginTop: 16 }}>
+                    Мои заявки
+                </Typography.Title>
 
-            <OwnDesiresList desires={desires} />
+                <Typography.Paragraph>
+                    В этой таблице представлены все ваши заявки на покупку ЦФА. Как только кто-то
+                    создаст оффер с ЦФА по вашей цене, они будут автоматически исполнены.
+                </Typography.Paragraph>
+
+                <OwnDesiresList desires={desires} loading={loading} />
+            </div>
 
             <Typography.Title level={3} style={{ marginTop: 16 }}>
                 Мои сделки
             </Typography.Title>
-
-            <Alert
-                message='В данный момент в ui реализован только просмотр и отклонение сделок. Полный функционал для работы со сделками доступен в API'
-                type='warning'
-            />
 
             <Typography.Paragraph>
                 В этой таблице представлены все ваши сделки - входящие и исходящие. Сделки - это
@@ -182,12 +240,23 @@ const Profile = observer(() => {
                 title='Пополнить баланс'
                 open={openDepositModal}
                 onOk={deposit}
+                okButtonProps={{
+                    disabled: JSON.parse(localStorage.getItem('user') as string)?.user?.email != 1,
+                }}
                 confirmLoading={confirmLoading}
                 onCancel={cancelDepositModal}
                 okText='Пополнить'
                 cancelText='Отмена'
             >
-                <Typography.Paragraph>Тестовое пополнение баланса на сумму:</Typography.Paragraph>
+                <Alert
+                    type='info'
+                    message='Пополнение баланса доступно только для тестового пользователя. Если вы хотите пополнить баланс, обратитесь на стенд команды MISIS Gis.'
+                />
+
+                <Typography.Paragraph style={{ marginTop: 16 }}>
+                    Тестовое пополнение баланса на сумму:
+                </Typography.Paragraph>
+
                 <InputNumber
                     onChange={onMoneyAmountChange}
                     style={{ width: '100%' }}
@@ -195,16 +264,27 @@ const Profile = observer(() => {
                     min={0}
                 />
             </Modal>
+
             <Modal
                 title='Вывести средства с баланса'
                 open={openWithdrawModal}
                 onOk={withdraw}
+                okButtonProps={{
+                    disabled: JSON.parse(localStorage.getItem('user') as string)?.user?.email != 1,
+                }}
                 confirmLoading={confirmLoading}
                 onCancel={cancelWithdrawModal}
                 okText='Вывысти'
                 cancelText='Отмена'
             >
-                <Typography.Paragraph>Тестовый вывод средств на сумму:</Typography.Paragraph>
+                <Alert
+                    type='info'
+                    message='Пополнение баланса доступно только для тестового пользователя. Если вы хотите пополнить баланс, обратитесь на стенд команды MISIS Gis.'
+                />
+
+                <Typography.Paragraph style={{ marginTop: 16 }}>
+                    Тестовый вывод средств на сумму:
+                </Typography.Paragraph>
                 <InputNumber
                     onChange={onMoneyAmountChange}
                     style={{ width: '100%' }}
@@ -212,6 +292,8 @@ const Profile = observer(() => {
                     min={0}
                 />
             </Modal>
+
+            <Tour open={tourOpen} onClose={() => setTourOpen(false)} steps={steps} />
         </>
     );
 });

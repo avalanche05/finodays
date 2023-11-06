@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { Avatar, Button, Drawer, Space, Table } from 'antd';
+import { Button, Drawer, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { UserOutlined } from '@ant-design/icons';
 import CfaDetails from './CfaDetails';
 import { CfaImage } from '../api/models';
 
 type Props = {
     cfas: CfaImage[];
+    loading: boolean;
 };
 
-const CfaList = ({ cfas }: Props) => {
+const CfaList = ({ cfas, loading }: Props) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [selectedRowId, setSelectedRowId] = useState<number>(0);
 
@@ -25,13 +25,7 @@ const CfaList = ({ cfas }: Props) => {
             dataIndex: 'issuer',
             key: 'issuer',
             render: (text) => {
-                return (
-                    <div>
-                        <Avatar style={{ backgroundColor: `#9bcff9` }} icon={<UserOutlined />} />
-
-                        <span style={{ marginLeft: 10 }}>{text}</span>
-                    </div>
-                );
+                return <span>{text}</span>;
             },
         },
         {
@@ -72,6 +66,8 @@ const CfaList = ({ cfas }: Props) => {
             <Table
                 columns={columns}
                 dataSource={cfas.map((row) => ({ ...row, key: row.id, issuer: row.user.name }))}
+                onRow={(row) => ({ onClick: () => showDrawer(row.id) })}
+                loading={loading}
             />
 
             <Drawer

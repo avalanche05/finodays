@@ -1,17 +1,23 @@
-import { useState } from 'react';
-import { Avatar, Button, Drawer, Space, Table } from 'antd';
+import { useEffect, useState } from 'react';
+import { Button, ConfigProvider, Drawer, Empty, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { UserOutlined } from '@ant-design/icons';
 import { CfaImage, OwnCfaImage } from '../api/models';
 import OwnCfaDetails from './OwnCfaDetails';
 
 type Props = {
     cfas: OwnCfaImage[];
+    loading: boolean;
 };
 
-const OwnCfaList = ({ cfas }: Props) => {
+const OwnCfaList = ({ cfas, loading }: Props) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [selectedRowId, setSelectedRowId] = useState<number>(0);
+
+    useEffect(() => {
+        if (!cfas.find((cfa) => cfa.cfa_image.id === selectedRowId)) {
+            setIsDrawerOpen(false);
+        }
+    }, [cfas, selectedRowId]);
 
     const columns: ColumnsType<CfaImage> = [
         {
@@ -25,13 +31,7 @@ const OwnCfaList = ({ cfas }: Props) => {
             dataIndex: 'issuer',
             key: 'issuer',
             render: (text) => {
-                return (
-                    <div>
-                        <Avatar style={{ backgroundColor: `#9bcff9` }} icon={<UserOutlined />} />
-
-                        <span style={{ marginLeft: 10 }}>{text}</span>
-                    </div>
-                );
+                return <span>{text}</span>;
             },
         },
         {
@@ -69,15 +69,19 @@ const OwnCfaList = ({ cfas }: Props) => {
 
     return (
         <>
-            <Table
-                columns={columns}
-                dataSource={cfas.map((row) => ({
-                    ...row.cfa_image,
-                    key: row.cfa_image.id,
-                    issuer: row.cfa_image.user.name,
-                    count: row.tokens.length,
-                }))}
-            />
+            <ConfigProvider renderEmpty={() => <Empty description='Нет еще ни одного актива' />}>
+                <Table
+                    columns={columns}
+                    dataSource={cfas.map((row) => ({
+                        ...row.cfa_image,
+                        key: row.cfa_image.id,
+                        issuer: row.cfa_image.user.name,
+                        count: row.tokens.length,
+                    }))}
+                    onRow={(row) => ({ onClick: () => showDrawer(row.id) })}
+                    loading={loading}
+                />
+            </ConfigProvider>
 
             <Drawer
                 title='Подробнее про ЦФА'

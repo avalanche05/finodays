@@ -7,7 +7,7 @@ type Props = {
 
 function UnauthorizedOnlyRoute({ isSignedIn, children }: Props): JSX.Element {
     if (isSignedIn) {
-        return <Navigate to='/dashboard' replace />;
+        return <Navigate to='/dashboard/profile' replace />;
     }
     return children as JSX.Element;
 }

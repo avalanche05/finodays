@@ -25,3 +25,23 @@
 .ant-table-content {
     overflow: overlay !important;
 }
+
+.mobile-menu {
+    position: fixed;
+    width: 100%;
+    background: #ffffff;
+    bottom: 0;
+    padding-top: 0.5rem;
+    border-top: 1px solid #eee;
+}
+
+.tour-step {
+    max-width: calc(100% - 2rem);
+}
+
+@media (max-width: 1024px) {
+    .content {
+        padding: 0 !important;
+        padding-bottom: 58px !important;
+    }
+}

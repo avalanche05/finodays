@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Modal, Space, Table, message } from 'antd';
+import { Button, ConfigProvider, Empty, Modal, Space, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Deal, DealItem } from '../api/models';
 import { useStores } from '../hooks/useStores';
@@ -88,20 +88,24 @@ const OwnDealsList = ({ deals }: Props) => {
     return (
         <>
             {contextHolder}
-            <Table
-                columns={columns}
-                dataSource={
-                    deals
-                        ? deals.map((row) => ({
-                              ...row,
-                              key: row.id,
-                              user: row.host.name,
-                              myCfa: row.initiator_items,
-                              userCfa: row.host_items,
-                          }))
-                        : []
-                }
-            />
+            <ConfigProvider
+                renderEmpty={() => <Empty description='Нет еще ни одного предложения обмена' />}
+            >
+                <Table
+                    columns={columns}
+                    dataSource={
+                        deals
+                            ? deals.map((row) => ({
+                                  ...row,
+                                  key: row.id,
+                                  user: row.host.name,
+                                  myCfa: row.initiator_items,
+                                  userCfa: row.host_items,
+                              }))
+                            : []
+                    }
+                />
+            </ConfigProvider>
 
             <Modal
                 title='Подтверждение удаления оффера'

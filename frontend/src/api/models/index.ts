@@ -8,3 +8,5 @@ export * from './Balance';
 export * from './OwnCfaImage';
 export * from './Desire';
 export * from './Deal';
+export * from './CfaPriceHistory';
+export * from './IStatisctics';

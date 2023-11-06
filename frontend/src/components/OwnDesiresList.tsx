@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import { Button, Modal, Space, Table, message } from 'antd';
+import { Button, ConfigProvider, Empty, Modal, Space, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Desire } from '../api/models';
 import { useStores } from '../hooks/useStores';
 
 type Props = {
     desires: Desire[];
+    loading: boolean;
 };
 
-const OwnDesiresList = ({ desires }: Props) => {
+const OwnDesiresList = ({ desires, loading }: Props) => {
     const { rootStore } = useStores();
     const [messageApi, contextHolder] = message.useMessage();
     const [open, setOpen] = useState(false);
@@ -66,7 +67,6 @@ const OwnDesiresList = ({ desires }: Props) => {
     };
 
     const handleCancel = () => {
-        console.log('Clicked cancel button');
         setOpen(false);
     };
 
@@ -78,14 +78,17 @@ const OwnDesiresList = ({ desires }: Props) => {
     return (
         <>
             {contextHolder}
-            <Table
-                columns={columns}
-                dataSource={desires.map((row) => ({
-                    ...row,
-                    key: row.id,
-                    cfaImageTitle: row.cfa_image.title,
-                }))}
-            />
+            <ConfigProvider renderEmpty={() => <Empty description='Нет еще ни одной заявки' />}>
+                <Table
+                    columns={columns}
+                    dataSource={desires.map((row) => ({
+                        ...row,
+                        key: row.id,
+                        cfaImageTitle: row.cfa_image.title,
+                    }))}
+                    loading={loading}
+                />
+            </ConfigProvider>
 
             <Modal
                 title='Подтверждение удаления заявки на покупку'

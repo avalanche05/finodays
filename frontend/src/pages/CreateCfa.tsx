@@ -37,8 +37,6 @@ const CreateCfa = () => {
                 messageApi.error('Ошибка создания ЦФА');
             })
             .finally(() => setIsCfaCreating(false));
-
-        console.log('Success:', createCfaForm);
     };
 
     const handlePriceChange = (price: valueType | null) => {
