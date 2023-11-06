@@ -1,4 +1,5 @@
 import {
+    Alert,
     Button,
     Card,
     Col,
@@ -239,12 +240,23 @@ const Profile = observer(() => {
                 title='Пополнить баланс'
                 open={openDepositModal}
                 onOk={deposit}
+                okButtonProps={{
+                    disabled: JSON.parse(localStorage.getItem('user') as string)?.user?.email != 1,
+                }}
                 confirmLoading={confirmLoading}
                 onCancel={cancelDepositModal}
                 okText='Пополнить'
                 cancelText='Отмена'
             >
-                <Typography.Paragraph>Тестовое пополнение баланса на сумму:</Typography.Paragraph>
+                <Alert
+                    type='info'
+                    message='Пополнение баланса доступно только для тестового пользователя. Если вы хотите пополнить баланс, обратитесь на стенд команды MISIS Gis.'
+                />
+
+                <Typography.Paragraph style={{ marginTop: 16 }}>
+                    Тестовое пополнение баланса на сумму:
+                </Typography.Paragraph>
+
                 <InputNumber
                     onChange={onMoneyAmountChange}
                     style={{ width: '100%' }}
@@ -252,16 +264,27 @@ const Profile = observer(() => {
                     min={0}
                 />
             </Modal>
+
             <Modal
                 title='Вывести средства с баланса'
                 open={openWithdrawModal}
                 onOk={withdraw}
+                okButtonProps={{
+                    disabled: JSON.parse(localStorage.getItem('user') as string)?.user?.email != 1,
+                }}
                 confirmLoading={confirmLoading}
                 onCancel={cancelWithdrawModal}
                 okText='Вывысти'
                 cancelText='Отмена'
             >
-                <Typography.Paragraph>Тестовый вывод средств на сумму:</Typography.Paragraph>
+                <Alert
+                    type='info'
+                    message='Пополнение баланса доступно только для тестового пользователя. Если вы хотите пополнить баланс, обратитесь на стенд команды MISIS Gis.'
+                />
+
+                <Typography.Paragraph style={{ marginTop: 16 }}>
+                    Тестовый вывод средств на сумму:
+                </Typography.Paragraph>
                 <InputNumber
                     onChange={onMoneyAmountChange}
                     style={{ width: '100%' }}
