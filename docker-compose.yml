@@ -3,8 +3,8 @@ services:
   app:
     build: ./frontend/
     ports:
-      - "46875:3000"
+      - "10002:3000"
   api:
-    build: ./server/
+    build: ./backend/
     ports:
-      - "46874:46874"
+      - "10001:8000"
