@@ -9,8 +9,12 @@ class StatisticsApiService {
         return response.data;
     }
 
-    public async fetchUsersStatistics(): Promise<IUserStatistics[]> {
-        const response = await axios.get<IUserStatistics[]>(`${API_URL}/statistic/score`);
+    public async fetchUsersStatistics(sortBy: string = 'count'): Promise<IUserStatistics[]> {
+        const response = await axios.get<IUserStatistics[]>(`${API_URL}/statistic/score`, {
+            params: {
+                sort_by: sortBy,
+            },
+        });
 
         return response.data;
     }
