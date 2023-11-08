@@ -110,7 +110,7 @@ const Statistics = () => {
                                 <Skeleton active paragraph={{ rows: 2 }} />
                             ) : (
                                 <Statistic
-                                    title='ЦФА выпущено за последний час'
+                                    title='Транзакций за последний час'
                                     value={statistics?.transactions_count_increment}
                                     precision={2}
                                     valueStyle={{ color: '#3f8600' }}
@@ -127,7 +127,7 @@ const Statistics = () => {
                                 <Skeleton active paragraph={{ rows: 2 }} />
                             ) : (
                                 <Statistic
-                                    title='ЦФА выпущено за последний час'
+                                    title='Оборот за последний час'
                                     value={statistics?.turn_increment}
                                     precision={2}
                                     valueStyle={{ color: '#3f8600' }}
