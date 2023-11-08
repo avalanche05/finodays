@@ -37,17 +37,17 @@ def get_cfa_image_price_history(db: Session, cfa_image_id: int, count: int) -> T
             if mins:
                 min_price_for_cur_time = mins[-1].price
             else:
-                min_price_for_cur_time = 1e9
+                min_price_for_cur_time = 0
         if max_price_for_cur_time == -1e18:
             if maxs:
                 max_price_for_cur_time = maxs[-1].price
             else:
-                max_price_for_cur_time = 1e9
+                max_price_for_cur_time = 0
         if price_of_latest_offer is None:
             if latest_prices:
                 price_of_latest_offer = latest_prices[-1].price
             else:
-                price_of_latest_offer = 1e9
+                price_of_latest_offer = 0
         mins.append(schemas.CfaImagePrice(
             price=min_price_for_cur_time
         ))
