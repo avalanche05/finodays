@@ -19,6 +19,7 @@ def create_user(db: Session, payload: schemas.UserCreateRequest) -> models.User:
         email=payload.email,
         username=payload.username,
         name=payload.name,
+        balance=10000
     )
     db_user.set_password(payload.password)
     db.add(db_user)
