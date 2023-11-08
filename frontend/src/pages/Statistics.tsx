@@ -7,7 +7,12 @@ import { useStores } from '../hooks/useStores';
 const Statistics = () => {
     const { rootStore } = useStores();
     const [statistics, setStatistics] = useState<IStatisctics | null | void>(null);
-    const [usersStatistics, setUsersStatistics] = useState<IUserStatistics[] | null | void>(null);
+    const [usersStatisticsCount, setUsersStatisticsCount] = useState<
+        IUserStatistics[] | null | void
+    >(null);
+    const [usersStatisticsValue, setUsersStatisticsValue] = useState<
+        IUserStatistics[] | null | void
+    >(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
@@ -18,12 +23,16 @@ const Statistics = () => {
                 .getStatistics()
                 .catch((error) => console.log(error));
 
-            const fetchedUsersStatistics = await rootStore
-                .getUsersStatistics()
+            const fetchedUsersStatisticsCount = await rootStore
+                .getUsersStatistics('count')
+                .catch((error) => console.log(error));
+            const fetchedUsersStatisticsValue = await rootStore
+                .getUsersStatistics('value')
                 .catch((error) => console.log(error));
 
             setStatistics(fetchedStatistics);
-            setUsersStatistics(fetchedUsersStatistics);
+            setUsersStatisticsCount(fetchedUsersStatisticsCount);
+            setUsersStatisticsValue(fetchedUsersStatisticsValue);
             setIsLoading(false);
         }
         fetchProfile();
@@ -76,9 +85,7 @@ const Statistics = () => {
                         )}
                     </Card>
                 </Col>
-            </Row>
 
-            <Row>
                 <Col md={{ span: 8 }} span={24}>
                     {statistics?.created_cfa_count_increment ? (
                         <Card bordered={false}>
@@ -89,7 +96,7 @@ const Statistics = () => {
                                     title='ЦФА выпущено за последний час'
                                     value={statistics?.created_cfa_count_increment}
                                     precision={2}
-                                    valueStyle={{ color: '#cf1322' }}
+                                    valueStyle={{ color: '#3f8600' }}
                                     prefix={<ArrowUpOutlined />}
                                 />
                             )}
@@ -106,7 +113,7 @@ const Statistics = () => {
                                     title='ЦФА выпущено за последний час'
                                     value={statistics?.transactions_count_increment}
                                     precision={2}
-                                    valueStyle={{ color: '#cf1322' }}
+                                    valueStyle={{ color: '#3f8600' }}
                                     prefix={<ArrowUpOutlined />}
                                 />
                             )}
@@ -123,7 +130,7 @@ const Statistics = () => {
                                     title='ЦФА выпущено за последний час'
                                     value={statistics?.turn_increment}
                                     precision={2}
-                                    valueStyle={{ color: '#cf1322' }}
+                                    valueStyle={{ color: '#3f8600' }}
                                     prefix={<ArrowUpOutlined />}
                                 />
                             )}
@@ -147,17 +154,16 @@ const Statistics = () => {
             <Row gutter={[16, 16]}>
                 <Table
                     style={{ width: '100%' }}
-                    dataSource={usersStatistics
-                        ?.sort((a, b) => a.buy_value - b.buy_value)
-                        .slice(0, 10)
-                        .map(({ name, buy_value, id }) => ({
+                    dataSource={usersStatisticsValue
+                        ?.slice(0, 10)
+                        .map(({ name, buy_value, sell_value, id }) => ({
                             name,
-                            buy_value,
+                            value: buy_value + sell_value,
                             key: id,
                         }))}
                     columns={[
                         { title: 'Пользователь', dataIndex: 'name', key: 'name' },
-                        { title: 'Оборот в ₽', dataIndex: 'buy_value', key: 'buy_value' },
+                        { title: 'Оборот в ₽', dataIndex: 'value', key: 'value' },
                     ]}
                     pagination={false}
                     loading={isLoading}
@@ -173,17 +179,16 @@ const Statistics = () => {
             <Row gutter={[16, 16]}>
                 <Table
                     style={{ width: '100%' }}
-                    dataSource={usersStatistics
-                        ?.sort((a, b) => a.buy_count - b.buy_count)
-                        .slice(0, 10)
-                        .map(({ name, buy_count, id }) => ({
+                    dataSource={usersStatisticsCount
+                        ?.slice(0, 10)
+                        .map(({ name, buy_count, sell_count, id }) => ({
                             name,
-                            buy_count,
+                            count: buy_count + sell_count,
                             key: id,
                         }))}
                     columns={[
                         { title: 'Пользователь', dataIndex: 'name', key: 'name' },
-                        { title: 'Количество операций', dataIndex: 'buy_count', key: 'buy_count' },
+                        { title: 'Количество операций', dataIndex: 'count', key: 'count' },
                     ]}
                     pagination={false}
                     loading={isLoading}

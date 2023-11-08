@@ -130,8 +130,8 @@ export class RootStore {
         return await StatisticsApiServiceInstanse.fetchStatistics();
     }
 
-    public async getUsersStatistics() {
-        return await StatisticsApiServiceInstanse.fetchUsersStatistics();
+    public async getUsersStatistics(sortBy: string = 'count') {
+        return await StatisticsApiServiceInstanse.fetchUsersStatistics(sortBy);
     }
 
     public async getBuyAdvice(cfaImageId: number) {
