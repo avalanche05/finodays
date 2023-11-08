@@ -32,8 +32,13 @@ class UserStatistic(BaseModel):
 
 class CountStatistic(BaseModel):
     transactions_count: int
+    transactions_count_increment: int
     deals_count: int
+    deals_count_increment: int
     turn: float
+    turn_increment: float
+    created_cfa_count: int
+    created_cfa_count_increment: int
 
 
 class AllStatistic(BaseModel):
