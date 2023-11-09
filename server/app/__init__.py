@@ -1,6 +1,8 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from pathlib import Path
 from app import db
 from app import routers
 
@@ -30,5 +32,16 @@ def create_app() -> FastAPI:
     _app.include_router(routers.deal.deal_router)
     _app.include_router(routers.statistic.statistic_router)
     _app.include_router(routers.trade.trade_router)
+
+
+    @_app.get("/info")
+    async def download_file():
+        file_path = "app/info.pdf"  # Укажи полный путь к файлу на сервере
+        file_path = Path(file_path)
+        
+        if not file_path.is_file():
+            return {"error": "Файл не найден"}
+
+        return FileResponse(path=file_path, filename=file_path.name)
 
     return _app
